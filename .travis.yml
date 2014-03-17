@@ -1,7 +1,12 @@
 language: node_js
 node_js:
-  - '0.8'
-  - '0.10'
+  - '0.10.26'
 before_script:
   - 'npm install -g bower grunt-cli'
   - 'bower install'
+notifications:
+  email:
+    recipients:
+      - todd@sparkfun.com
+    on_success: change
+    on_failure: change
