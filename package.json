@@ -1,6 +1,27 @@
 {
   "name": "phant-manager-http",
   "version": "0.0.1",
+  "main": "server.js",
+  "description": "angular + express web based manager for phant",
+  "homepage": "https://github.com/sparkfun/phant-manager-http",
+  "bugs": "https://github.com/sparkfun/phant-manager-http/issues",
+  "author": {
+    "name": "Todd Treece",
+    "email": "todd@uniontownlabs.org",
+    "url": "http://uniontownlabs.org"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/sparkfun/phant-manager-http"
+  },
+  "licenses": [
+    {
+      "type": "GPL v3"
+    }
+  ],
+  "keywords":[
+    "data"
+  ],
   "dependencies": {
     "express": "~3.4.3",
     "lodash": "~2.4.1"
@@ -55,7 +76,7 @@
     "open": "~0.0.4"
   },
   "engines": {
-    "node": ">=0.10.26"
+    "node": "^0.10.26"
   },
   "scripts": {
     "test": "grunt test"
