@@ -1,6 +1,6 @@
 # phant-manager-http [![Build Status](https://secure.travis-ci.org/sparkfun/phant-manager-http.png?branch=master)](http://travis-ci.org/sparkfun/phant-manager-http)
 
-never forget.
+angular + express manager module for phant
 
 ## Getting Started
 Install the module with: `npm install phant-manager-http`
