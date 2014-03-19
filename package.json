@@ -1,6 +1,6 @@
 {
   "name": "phant-manager-http",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": "app.js",
   "description": "angular + express web based manager for phant",
   "homepage": "https://github.com/sparkfun/phant-manager-http",
@@ -22,6 +22,9 @@
   "keywords": [
     "data"
   ],
+  "scripts": {
+    "postinstall": "./node_modules/bower/bin/bower install"
+  },
   "dependencies": {
     "express": "^3.4.8",
     "static-favicon": "^1.0.0",
