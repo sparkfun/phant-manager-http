@@ -13,7 +13,7 @@ var express = require('express'),
     logger = require('morgan'),
     methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
-    httpServer = require('../phant-http-server'),
+    httpServer = require('phant-http-server'),
     routes = require('./routes');
 
 /**** express init ****/
