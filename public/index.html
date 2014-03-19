@@ -1,0 +1,46 @@
+<!doctype html>
+
+<html lang="en" ng-app="phant">
+
+  <head>
+
+    <title>phant</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link href="/css/phant.css" rel="stylesheet">
+    <script src="/third_party/angular/angular.min.js"></script>
+    <script src="/third_party/angular-resource/angular-resource.min.js"></script>
+    <script src="/third_party/angular-route/angular-route.min.js"></script>
+    <script src="/js/lib/phant.js"></script>
+    <script src="/js/lib/controllers.js"></script>
+    <script src="/js/lib/services.js"></script>
+
+  </head>
+
+  <body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a href="/#/streams/make" type="button" style="color:#999" class="navbar-toggle">
+            New Feed
+          </a>
+          <a class="navbar-brand" href="/">phant</a>
+        </div>
+        <div class="navbar-collapse collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="/#/streams/make">New Feed</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <main class="container-fluid" ng-view></main>
+
+  </body>
+
+</html>
+
+
