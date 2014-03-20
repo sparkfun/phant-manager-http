@@ -1,0 +1,39 @@
+<div class="row">
+
+  <div class="col-md-10 col-md-offset-1">
+
+    <h1>{{stream.title}}</h1>
+    <p class="lead">{{stream.description}}</p>
+    <p><strong>Fields: </strong>{{> renderFields}}
+    <p><strong>Tags: </strong>{{> renderTags}}
+    <hr>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6 col-md-offset-1">
+
+    <h4>Public URL</h4>
+    <pre>{{server}}/streams/{{publicKey}}</pre>
+
+    <h4>Private Key</h4>
+    <pre>{{privateKey}}</pre>
+    <p>Keep this key secret, and in a safe place.&nbsp; <em>You will not be able to retrieve it.</em></p>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-10 col-md-offset-1">
+
+    <h4>Logging using query string params</h4>
+    <pre>{{server}}/streams/log/{{privateKey}}?{{sampleQueryString stream.fields}}</pre>
+
+  </div>
+
+</div>
