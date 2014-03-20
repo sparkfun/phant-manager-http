@@ -55,9 +55,7 @@ app.use(function(err, req, res) {
   });
 });
 
-/**** route everything to angular ****/
 app.get('/', routes.index);
-app.get('/index*', routes.index);
 
 /**** export configurable app ****/
 exports = module.exports = function(config) {
