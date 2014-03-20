@@ -1,0 +1,9 @@
+{{#if stream.tags.length}}
+
+  {{#each stream.tags}}
+    <span class="label label-primary">{{this}}</span>
+  {{/each}}
+
+{{else}}
+  <em>(No tags definied)</em>
+{{/if}}

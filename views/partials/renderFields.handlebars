@@ -1,0 +1,9 @@
+{{#if stream.fields.length}}
+
+  {{#each stream.fields}}
+    <span class="label label-success">{{this}}</span>
+  {{/each}}
+
+{{else}}
+  <em>(No field restrictions set)</em>
+{{/if}}
