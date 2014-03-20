@@ -12,23 +12,53 @@ var express = require('express'),
     favicon = require('static-favicon'),
     logger = require('morgan'),
     methodOverride = require('method-override'),
+    cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
+    exphbs = require('express3-handlebars'),
     httpServer = require('phant-http-server'),
-    routes = require('./routes');
+    flash = require('connect-flash');
+/**** helpers ****/
+var handlebars = require('./helpers/handlebars');
+
+/**** routes ****/
+var index = require('./routes'),
+    stream = require('./routes/stream');
 
 /**** express init ****/
 var app = express();
 
 /**** general middleware ****/
+app.engine('handlebars', exphbs({
+  layoutsDir:  __dirname + '/views/layouts',
+  partialsDir:  __dirname + '/views/partials',
+  defaultLayout: 'main',
+  helpers: handlebars
+}));
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
+if (app.get('env') === 'production') {
+  app.enable('view cache');
+}
 app.use(favicon(path.join(__dirname, 'public', 'img', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(express.compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(express.session());
+app.use(flash());
+app.use(function(req, res, next){
+  res.locals.messages = req.flash();
+  next();
+});
+app.use(function(req, res, next){
+  res.locals.server = req.protocol + '://' + req.get('host');
+  next();
+});
 
 app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
 /**** 404 handler ****/
 app.use(function(req, res, next) {
@@ -55,7 +85,9 @@ app.use(function(err, req, res) {
   });
 });
 
-app.get('/', routes.index);
+app.get('/', index.home);
+app.get('/streams/make', stream.make);
+
 
 /**** export configurable app ****/
 exports = module.exports = function(config) {
@@ -71,12 +103,8 @@ exports = module.exports = function(config) {
   if ('port'      in config) { port       = config.port;      }
 
   // config dependent routes
-  app.get('/streams', routes.list(storage));
-  app.get('/streams.json', routes.list(storage));
-  app.get('/streams/list.json', routes.list(storage));
-
-  app.post('/streams', routes.create(keychain, storage));
-  app.post('/streams.json', routes.create(keychain, storage));
+  app.get('/streams', stream.list(storage));
+  app.post('/streams', stream.create(keychain, storage));
 
   httpServer.listen(port);
   httpServer.use(app);
