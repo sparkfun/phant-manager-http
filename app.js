@@ -103,7 +103,8 @@ exports = module.exports = function(config) {
   if ('port'      in config) { port       = config.port;      }
 
   // config dependent routes
-  app.get('/streams', stream.list(storage));
+  app.get('/streams', stream.list(keychain, storage));
+  app.get('/streams/:publicKey', stream.view(keychain, storage));
   app.post('/streams', stream.create(keychain, storage));
 
   httpServer.listen(port);
