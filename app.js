@@ -45,7 +45,7 @@ app.use(express.compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
-app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(cookieParser(process.env.COOKIE_SECRET || 'secret'));
 app.use(express.session());
 app.use(flash());
 app.use(function(req, res, next){
