@@ -18,9 +18,6 @@ module.exports = function (grunt) {
       },
       app: {
         src: 'app.js'
-      },
-      angular: {
-        src: ['publicjs/lib/**/*.js']
       }
     },
     less: {
