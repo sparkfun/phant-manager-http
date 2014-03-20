@@ -17,6 +17,7 @@ var express = require('express'),
     exphbs = require('express3-handlebars'),
     httpServer = require('phant-http-server'),
     flash = require('connect-flash');
+
 /**** helpers ****/
 var handlebars = require('./helpers/handlebars');
 
@@ -29,13 +30,13 @@ var app = express();
 
 /**** general middleware ****/
 app.engine('handlebars', exphbs({
-  layoutsDir:  __dirname + '/views/layouts',
-  partialsDir:  __dirname + '/views/partials',
+  layoutsDir: path.join(__dirname, 'views', 'layouts'),
+  partialsDir:  path.join(__dirname,'views', 'partials'),
   defaultLayout: 'main',
   helpers: handlebars
 }));
 app.set('view engine', 'handlebars');
-app.set('views', __dirname + '/views');
+app.set('views', path.join(__dirname, 'views'));
 if (app.get('env') === 'production') {
   app.enable('view cache');
 }
