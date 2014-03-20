@@ -1,8 +1,8 @@
 {
   "name": "phant-manager-http",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "app.js",
-  "description": "angular + express web based manager for phant",
+  "description": "express web based manager for phant",
   "homepage": "https://github.com/sparkfun/phant-manager-http",
   "bugs": "https://github.com/sparkfun/phant-manager-http/issues",
   "author": {
@@ -52,7 +52,6 @@
     "grunt-contrib-watch": "^0.6.0",
     "time-grunt": "^0.2.10",
     "load-grunt-tasks": "^0.4.0",
-    "jshint-stylish": "^0.1.5",
-    "grunt-ngmin": "0.0.3"
+    "jshint-stylish": "^0.1.5"
   }
 }
