@@ -1,54 +1,20 @@
 <div class="row">
 
-  <div class="col-md-10 col-md-offset-1">
+  <div class="content">
 
     <h1>{{stream.title}}
       <span class="pull-right">
-        <a href="{{url}}.json"><img src="https://cdn.sparkfun.com/images/framework/json.png" alt="JSON/"></a>
-        <a href="{{url}}.csv"><img src="https://cdn.sparkfun.com/images/framework/icon_spreadsheet_black.png" alt="CSV/"></a>
+        <a href="/data/{{publicKey}}.json"><img src="https://cdn.sparkfun.com/images/framework/json.png" alt="JSON"></a>
+        <a href="/data/{{publicKey}}.csv"><img src="https://cdn.sparkfun.com/images/framework/icon_spreadsheet_black.png" alt="CSV"></a>
       </span>
     </h1>
 
-    <p class="lead">{{stream.description}}</p>
-    <p><strong>Fields: </strong>{{> renderFields}}
-    <p><strong>Tags: </strong>{{> renderTags}}
-    <br><br>
+    <p><strong>Fields:</strong> {{> renderFields stream}}</p>
+    <p><strong>Tags:</strong> {{> renderTags stream}}</p>
+
+    <p class="lead">{{{markdown stream.description}}}</p>
 
   </div>
 
 </div>
 
-<div class="row">
-
-  <div class="col-md-10 col-md-offset-1">
-
-    {{#if records.length}}
-      <div class="table-responsive">
-        <table class="table table-hover">
-
-          <thead>
-            <tr>
-              {{#eachKey records.[0]}}
-                <th>{{this}}</th>
-              {{/eachKey}}
-            </tr>
-          </thead>
-
-          {{#each records}}
-            <tr>
-              {{#eachValue this}}
-                <td>{{this}}</td>
-              {{/eachValue}}
-            </tr>
-          {{/each}}
-
-        </table>
-      </div>
-    {{else}}
-      <hr>
-      <p>No records found.</p>
-    {{/if}}
-
-  </div>
-
-</div>

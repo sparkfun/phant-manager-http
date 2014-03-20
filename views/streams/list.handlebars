@@ -1,0 +1,16 @@
+{{#each streams}}
+
+  <div class="row">
+    <div class="content">
+
+      <h3>
+        <a href="/streams/{{publicKey}}">{{title}}</a>
+        <span class="pull-right small">{{ago date}}</span>
+      </h3>
+
+      <p>{{> renderTags this}}</p>
+
+    </div>
+  </div>
+
+{{/each}}

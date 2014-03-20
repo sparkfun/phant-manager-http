@@ -1,11 +1,11 @@
 <div class="row">
 
-  <div class="col-md-10 col-md-offset-1">
+  <div class="content">
 
     <h1>{{stream.title}}</h1>
-    <p class="lead">{{stream.description}}</p>
-    <p><strong>Fields: </strong>{{> renderFields}}
-    <p><strong>Tags: </strong>{{> renderTags}}
+    <p><strong>Fields:</strong> {{> renderFields stream}}</p>
+    <p><strong>Tags:</strong> {{> renderTags stream}}</p>
+    <p class="lead">{{{markdown stream.description}}}</p>
     <hr>
 
   </div>
@@ -14,10 +14,10 @@
 
 <div class="row">
 
-  <div class="col-md-6 col-md-offset-1">
+  <div class="col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1">
 
     <h4>Public URL</h4>
-    <pre>{{server}}/streams/{{publicKey}}</pre>
+    <a href="/streams/{{publicKey}}"><pre>{{server}}/streams/{{publicKey}}</pre></a>
 
     <h4>Private Key</h4>
     <pre>{{privateKey}}</pre>
@@ -29,7 +29,7 @@
 
 <div class="row">
 
-  <div class="col-md-10 col-md-offset-1">
+  <div class="content">
 
     <h4>Logging using query string params</h4>
     <pre>{{server}}/streams/log/{{privateKey}}?{{sampleQueryString stream.fields}}</pre>
