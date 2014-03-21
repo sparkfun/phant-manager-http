@@ -19,6 +19,9 @@
     <h4>Public URL</h4>
     <a href="/streams/{{publicKey}}"><pre>{{server}}/streams/{{publicKey}}</pre></a>
 
+    <h4>Public Key</h4>
+    <pre>{{publicKey}}</pre>
+
     <h4>Private Key</h4>
     <pre>{{privateKey}}</pre>
     <p>Keep this key secret, and in a safe place.&nbsp; <em>You will not be able to retrieve it.</em></p>
@@ -32,7 +35,12 @@
   <div class="content">
 
     <h4>Logging using query string params</h4>
-    <pre>{{server}}/streams/log/{{privateKey}}?{{sampleQueryString stream.fields}}</pre>
+
+    <p>Format:</p>
+    <pre>{{server}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
+
+    <p>Example:</p>
+    <pre>{{server}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
 
   </div>
 

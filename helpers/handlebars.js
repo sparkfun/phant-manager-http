@@ -17,6 +17,23 @@ exports.dateShort = function(date) {
   return moment(date).format('l');
 };
 
+
+exports.sampleQueryFormat = function(fields) {
+
+  var params =[];
+
+  if(fields.length === 0) {
+    fields = ['sensor', 'other_sensor', 'random_sensor'];
+  }
+
+  for(var i=0; i < fields.length; i++) {
+    params.push(fields[i] + '=[value]';
+  }
+
+  return params.join('&');
+
+};
+
 exports.sampleQueryString = function(fields) {
 
   var params =[];

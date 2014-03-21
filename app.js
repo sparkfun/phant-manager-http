@@ -118,6 +118,9 @@ exports = module.exports = function(config) {
   app.get('/streams/:publicKey', stream.view(keychain, storage));
   app.post('/streams', stream.create(keychain, storage));
 
+  app.get('/input*', function(req, res) {});
+  app.get('/output*', function(req, res) {});
+
   return app;
 
 };
