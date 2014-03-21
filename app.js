@@ -63,8 +63,8 @@ app.use(function(req, res, next){
 });
 
 app.use(function (req, res, next) {
-  res.header("X-Powered-By", 'phant')
-  next()
+  res.header("X-Powered-By", 'phant');
+  next();
 });
 
 app.use(app.router);
@@ -118,8 +118,8 @@ exports = module.exports = function(config) {
   app.get('/streams/:publicKey', stream.view(keychain, storage));
   app.post('/streams', stream.create(keychain, storage));
 
-  app.get('/input*', function(req, res) {});
-  app.get('/output*', function(req, res) {});
+  app.get('/input*', function() {});
+  app.get('/output*', function() {});
 
   return app;
 
