@@ -58,7 +58,8 @@ exports.create = function(keychain, storage) {
 
   return function(req, res) {
 
-    var fields = [],
+    var blacklist = ['_id', 'private_key'],
+        fields = [],
         tags = [];
 
     if(req.param('tags').trim())
@@ -66,6 +67,15 @@ exports.create = function(keychain, storage) {
 
     if(req.param('fields').trim())
       fields = req.param('fields').trim().split(', ');
+
+    for(var i=0; i < fields.length; i++) {
+
+      if(blacklist.indexOf(fields[i]) !== -1) {
+        req.flash('danger', 'sorry, but ' + fields[i] + 'is an invalid field name.');
+        res.render('streams/make', { title: 'new stream' });
+      }
+
+    }
 
     storage.create({
       title: req.param('title'),
@@ -75,7 +85,7 @@ exports.create = function(keychain, storage) {
     }, function(err, stream) {
 
       if (err) {
-        req.flash('danger', 'creating your stream failed');
+        req.flash('danger', 'creating  stream failed: ' + err);
         res.render('streams/make', { title: 'new stream' });
       }
 
