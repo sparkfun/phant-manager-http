@@ -27,7 +27,7 @@ exports.sampleQueryFormat = function(fields) {
   }
 
   for(var i=0; i < fields.length; i++) {
-    params.push(fields[i] + '=[value]';
+    params.push(fields[i] + '=[value]');
   }
 
   return params.join('&');
