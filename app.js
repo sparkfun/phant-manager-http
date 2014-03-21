@@ -52,6 +52,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET || 'secret'));
 app.use(express.session());
 app.use(flash());
 
+app.disable('x-powered-by');
+
+app.use(function (req, res, next) {
+  res.header('X-Powered-By', 'phant');
+  next();
+});
+
 app.use(function(req, res, next){
   res.locals.messages = req.flash();
   next();
@@ -59,11 +66,6 @@ app.use(function(req, res, next){
 
 app.use(function(req, res, next){
   res.locals.server = req.protocol + '://' + req.get('host');
-  next();
-});
-
-app.use(function (req, res, next) {
-  res.header("X-Powered-By", 'phant');
   next();
 });
 
