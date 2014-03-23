@@ -37,18 +37,38 @@ module.exports = function (grunt) {
       }
     },
     watch: {
+      less: {
+        files: ['less/*.less'],
+        tasks: ['less']
+      },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
       lib: {
-        files: '<%= jshint.lib.src %>',
+        files: '<%= jshint.app.src %>',
         tasks: ['jshint:lib']
+      }
+    },
+    shell: {
+      serve: {
+        options: {
+          stdout: true
+        },
+        command: './.bin/dev'
+      }
+    },
+    concurrent: {
+      dev: {
+        tasks: ['watch', 'shell']
+      },
+      options: {
+        logConcurrentOutput: true
       }
     }
   });
 
-  // Default task.
   grunt.registerTask('default', ['jshint', 'less']);
+  grunt.registerTask('dev', ['concurrent:dev']);
 
 };
