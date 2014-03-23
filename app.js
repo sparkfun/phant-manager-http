@@ -83,22 +83,27 @@ app.use(function(req, res, next) {
   next(err);
 });
 
-/**** development error handler ****/
 if (app.get('env') === 'development') {
-  app.use(function(err, req, res) {
+
+  app.use(function(err, req, res, next) {
+
     res.render('error', {
       message: err.message,
       error: err
     });
+
   });
+
 }
 
 /**** production error handler ****/
-app.use(function(err, req, res) {
+app.use(function(err, req, res, next) {
+
   res.render('error', {
     message: err.message,
     error: {}
   });
+
 });
 
 app.get('/', index.home);
@@ -120,10 +125,26 @@ exports = module.exports = function(config) {
   app.get('/streams/:publicKey', stream.view(keychain, storage));
   app.post('/streams', stream.create(keychain, storage));
 
-  app.get('/input*', function() {});
-  app.get('/output*', function() {});
+  // create a responder
+  var responder = function(req, res, next) {
 
-  return app;
+    if(req.url.match(/^\/input\//)) {
+      return function(req, res, next) { return; };
+    }
+
+    if(req.url.match(/^\/output\//)) {
+      return function(req, res, next) { return; };
+    }
+
+    if(res.headerSent) {
+      return function(req, res, next) { return; };
+    }
+
+    return app.call(this, req, res, next);
+
+  };
+
+  return responder;
 
 };
 
