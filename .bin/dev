@@ -1,0 +1,28 @@
+#!/usr/bin/env node
+
+var httpServer = require('phant-http-server'),
+    HttpManager = require('../app'),
+    keychain = require('phant-keychain-hex'),
+    storage = require('phant-storage-mongodb');
+
+var keys = keychain({
+  publicSalt: process.env.PUBLIC_SALT || 'public salt',
+  privateSalt: process.env.PRIVATE_SALT || 'private salt'
+});
+
+var mongo = storage({
+  url: process.env.MONGO_URL || 'mongodb://localhost/phant',
+  cap: process.env.CAP || false
+});
+
+var httpManager = HttpManager({
+  storage: mongo,
+  keychain: keys
+});
+
+// start listening for connections
+httpServer.listen(process.env.PORT || 5000);
+
+// attach input to http server
+httpServer.use(httpManager);
+
