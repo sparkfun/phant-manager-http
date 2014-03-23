@@ -5775,6 +5775,10 @@ button.close {
 }
 body {
   padding-top: 70px;
+  padding-bottom: 50px;
+}
+.table th {
+  padding: 5px !important;
 }
 .content {
   position: relative;
