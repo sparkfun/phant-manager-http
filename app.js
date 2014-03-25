@@ -51,16 +51,15 @@ app.use(methodOverride());
 app.use(cookieParser(process.env.COOKIE_SECRET || 'secret'));
 app.use(express.session());
 app.use(flash());
+app.use(function(req, res, next){
+  res.locals.messages = req.flash();
+  next();
+});
 
 app.disable('x-powered-by');
 
 app.use(function (req, res, next) {
   res.header('X-Powered-By', 'phant');
-  next();
-});
-
-app.use(function(req, res, next){
-  res.locals.messages = req.flash();
   next();
 });
 
@@ -136,21 +135,21 @@ exports = module.exports = function(config) {
   app.post('/streams', stream.create(keychain, storage));
 
   // create a responder
-  var responder = function(req, res, next) {
+  var responder = function(req, res) {
+
+    if(res.headerSent) {
+      return function(req, res) { return; };
+    }
 
     if(req.url.match(/^\/input\//)) {
-      return function(req, res, next) { return; };
+      return function(req, res) { return; };
     }
 
     if(req.url.match(/^\/output\//)) {
-      return function(req, res, next) { return; };
+      return function(req, res) { return; };
     }
 
-    if(res.headerSent) {
-      return function(req, res, next) { return; };
-    }
-
-    return app.call(this, req, res, next);
+    return app.call(this, req, res);
 
   };
 

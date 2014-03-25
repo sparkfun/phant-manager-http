@@ -17,7 +17,7 @@
     <hr>
 
     <table class="table table-striped text-center table-hover table-bordered" id="data">
-      <thead></thead>
+      <thead><tr></tr></thead>
       <tbody></tbody>
     </table>
 
@@ -29,7 +29,7 @@
           delete r._id;
         });
 
-        var thead = d3.select('thead').selectAll('th')
+        var thead = d3.select('thead tr').selectAll('th')
                       .data(d3.keys(records[0]))
                       .enter().append('th').text(function(d){return d});
 

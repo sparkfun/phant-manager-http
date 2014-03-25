@@ -8,13 +8,14 @@ exports.list = function(keychain, storage) {
 
     storage.list(function(err, streams) {
 
-      if (err) {
+      if(err) {
         req.flash('danger', 'loading the stream list failed.');
-        res.render('streams/list', { title: 'public streams' });
+        res.redirect('/');
+        return;
       }
 
       streams = streams.map(function(stream) {
-        stream.publicKey = keychain.publicKey(stream._id);
+        stream.publicKey = keychain.publicKey(stream.id);
         return stream;
       });
 
@@ -37,9 +38,10 @@ exports.view = function(keychain, storage) {
 
     storage.get(id, function(err, stream) {
 
-      if (err) {
-        req.flash('danger', 'loading the stream failed.');
-        res.render('streams/list', { title: 'public streams' });
+      if(err) {
+        req.flash('danger', err);
+        res.redirect('/');
+        return;
       }
 
       res.render('streams/view', {
@@ -86,7 +88,8 @@ exports.create = function(keychain, storage) {
 
       if (err) {
         req.flash('danger', 'creating  stream failed: ' + err);
-        res.render('streams/make', { title: 'new stream' });
+        res.redirect('streams/make');
+        return;
       }
 
       res.render('streams/create', {

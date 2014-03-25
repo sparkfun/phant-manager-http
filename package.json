@@ -1,6 +1,6 @@
 {
   "name": "phant-manager-http",
-  "version": "0.0.23",
+  "version": "0.0.24",
   "main": "app.js",
   "description": "express web based manager for phant",
   "homepage": "https://github.com/sparkfun/phant-manager-http",
