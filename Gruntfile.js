@@ -20,26 +20,10 @@ module.exports = function (grunt) {
         src: 'app.js'
       }
     },
-    less: {
-      development: {
-        files: {
-          "public/css/phant.css": "less/phant.less"
-        }
-      },
-      production: {
-        options: {
-          cleancss: true,
-          sourceMap: true
-        },
-        files: {
-          "public/css/phant.min.css": "less/phant.less"
-        }
-      }
-    },
     watch: {
       less: {
         files: ['less/*.less'],
-        tasks: ['less']
+        tasks: ['shell:build']
       },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -56,11 +40,14 @@ module.exports = function (grunt) {
           stdout: true
         },
         command: './.bin/dev'
+      },
+      build: {
+        command: './.bin/build'
       }
     },
     concurrent: {
       dev: {
-        tasks: ['watch', 'shell']
+        tasks: ['watch', 'shell:serve']
       },
       options: {
         logConcurrentOutput: true
@@ -68,7 +55,7 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'less']);
+  grunt.registerTask('default', ['jshint', 'shell:build']);
   grunt.registerTask('dev', ['concurrent:dev']);
 
 };
