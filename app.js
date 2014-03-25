@@ -71,10 +71,20 @@ app.use(function(req, res, next){
 
 app.use(app.router);
 
-app.use(express.static(
-  path.join(__dirname, 'public'),
-  { maxAge: 604800000 }
-));
+if (app.get('env') === 'development') {
+
+  app.use(express.static(
+    path.join(__dirname, 'public')
+  ));
+
+} else {
+
+  app.use(express.static(
+    path.join(__dirname, 'public'),
+    { maxAge: 604800000 }
+  ));
+
+}
 
 /**** 404 handler ****/
 app.use(function(req, res, next) {
