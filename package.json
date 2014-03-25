@@ -1,6 +1,6 @@
 {
   "name": "phant-manager-http",
-  "version": "0.0.24",
+  "version": "0.0.25",
   "main": "app.js",
   "description": "express web based manager for phant",
   "homepage": "https://github.com/sparkfun/phant-manager-http",
@@ -54,7 +54,7 @@
     "jshint-stylish": "^0.1.5",
     "phant-http-server": "0.0.4",
     "phant-keychain-hex": "^0.1.1",
-    "phant-storage-mongodb": "0.0.9",
+    "phant-storage-test": "0.0.1",
     "grunt-shell": "^0.6.4",
     "grunt-concurrent": "^0.5.0"
   }
