@@ -2,11 +2,11 @@ exports.make = function(req, res) {
   res.render('streams/make', { title: 'new stream' });
 };
 
-exports.list = function(keychain, storage) {
+exports.list = function(keychain, metadata) {
 
   return function(req, res) {
 
-    storage.list(function(err, streams) {
+    metadata.list(function(err, streams) {
 
       if(err) {
         req.flash('danger', 'loading the stream list failed.');
@@ -30,13 +30,13 @@ exports.list = function(keychain, storage) {
 
 };
 
-exports.view = function(keychain, storage) {
+exports.view = function(keychain, metadata) {
 
   return function(req, res) {
 
     var id = keychain.getIdFromPublicKey(req.param('publicKey'));
 
-    storage.get(id, function(err, stream) {
+    metadata.get(id, function(err, stream) {
 
       if(err) {
         req.flash('danger', err);
@@ -56,7 +56,7 @@ exports.view = function(keychain, storage) {
 
 };
 
-exports.create = function(keychain, storage) {
+exports.create = function(keychain, metadata) {
 
   return function(req, res) {
 
@@ -79,7 +79,7 @@ exports.create = function(keychain, storage) {
 
     }
 
-    storage.create({
+    metadata.create({
       title: req.param('title'),
       description: req.param('description'),
       fields: fields,

@@ -121,18 +121,18 @@ app.get('/streams/make', stream.make);
 /**** export configurable app ****/
 exports = module.exports = function(config) {
 
-  var storage = false,
+  var metadata = false,
       keychain = false;
 
   config = config || {};
 
-  if ('storage'   in config) { storage    = config.storage;   }
+  if ('metadata'  in config) { metadata   = config.metadata;   }
   if ('keychain'  in config) { keychain   = config.keychain;  }
 
   // config dependent routes
-  app.get('/streams', stream.list(keychain, storage));
-  app.get('/streams/:publicKey', stream.view(keychain, storage));
-  app.post('/streams', stream.create(keychain, storage));
+  app.get('/streams', stream.list(keychain, metadata));
+  app.get('/streams/:publicKey', stream.view(keychain, metadata));
+  app.post('/streams', stream.create(keychain, metadata));
 
   // create a responder
   var responder = function(req, res) {
