@@ -1,23 +1,21 @@
 #!/usr/bin/env node
 
-var httpServer = require('phant-http-server'),
+var http = require('http'),
     HttpManager = require('../app'),
     keychain = require('phant-keychain-hex'),
-    storage = require('phant-storage-test');
+    Meta = require('phant-meta-test');
 
 var keys = keychain({
-  publicSalt: process.env.PUBLIC_SALT || 'public salt',
-  privateSalt: process.env.PRIVATE_SALT || 'private salt'
+  publicSalt: process.env.PHANT_PUBLIC_SALT || 'public salt',
+  privateSalt: process.env.PHANT_PRIVATE_SALT || 'private salt'
 });
 
 var httpManager = HttpManager({
-  storage: storage(),
+  metadata: Meta(),
   keychain: keys
 });
 
-// start listening for connections
-httpServer.listen(process.env.PORT || 5000);
+var server = http.createServer(httpManager);
 
-// attach input to http server
-httpServer.use(httpManager);
+server.listen(process.env.PHANT_PORT || 8080);
 

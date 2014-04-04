@@ -43,12 +43,15 @@ app.use(favicon(
   path.join(__dirname, 'public', 'img', 'favicon.ico'),
   { maxAge: 2592000000 } // 1 month
 ));
-app.use(logger('dev'));
+
+if (app.get('env') !== 'production') {
+  app.use(logger('dev'));
+}
 app.use(express.compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
-app.use(cookieParser(process.env.COOKIE_SECRET || 'secret'));
+app.use(cookieParser(process.env.PHANT_COOKIE_SECRET || 'secret'));
 app.use(express.session());
 app.use(flash());
 app.use(function(req, res, next){
