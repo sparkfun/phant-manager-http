@@ -23,10 +23,10 @@
 
     <script>
 
-      d3.json('/output/{{publicKey}}.json', function(error, records) {
+      d3.text('/output/{{publicKey}}.json?page=1', function(error, records) {
 
-        records.forEach(function(r) {
-          delete r._id;
+        records.split('\n').forEach(function(r) {
+          r = JSON.parse(r);
         });
 
         var thead = d3.select('thead tr').selectAll('th')
