@@ -23,11 +23,16 @@
 
     <script>
 
-      d3.text('/output/{{publicKey}}.json?page=1', function(error, records) {
+      d3.text('/output/{{publicKey}}.json?page=1', 'application/json', function(error, records) {
 
-        records.split('\n').forEach(function(r) {
-          r = JSON.parse(r);
-        });
+        records = records
+          .split('\n')
+          .filter(function(r) {
+            return r.trim();
+          })
+          .map(function(r) {
+            return JSON.parse(r);
+          });
 
         var thead = d3.select('thead tr').selectAll('th')
                       .data(d3.keys(records[0]))
