@@ -16,6 +16,8 @@
 
     <hr>
 
+    <div class="progress"></div>
+
     <table class="table table-striped text-center table-hover table-bordered" id="data">
       <thead><tr></tr></thead>
       <tbody></tbody>
@@ -48,6 +50,34 @@
 
       });
 
+      d3.json('/output/{{publicKey}}/stats', function(error, stats) {
+
+        var percent = Math.floor((stats.used / stats.cap) * 100);
+        var cls = 'success';
+
+        var usedMb = (stats.used / (1024 * 1024)).toFixed(2),
+            remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
+
+        percent = 100 - percent;
+
+        if(percent < 33 && percent > 10) {
+          cls = 'warning';
+        } else if(percent < 10) {
+          cls = 'danger';
+        }
+
+        // testing. ignore all of this
+        var html = '<div class="progress-bar progress-bar-' + cls;
+            html += '" role="progressbar" style="width: ' + percent;
+            html += '%">';
+            html += '<span class="text-center">';
+            html += usedMb + 'MB used / ';
+            html += remainingMb + 'MB remaining</span>'
+            html += '</div>';
+
+        d3.select('div.progress').html(html);
+
+      });
     </script>
 
   </div>
