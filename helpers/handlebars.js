@@ -17,7 +17,6 @@ exports.dateShort = function(date) {
   return moment(date).format('l');
 };
 
-
 exports.sampleQueryFormat = function(fields) {
 
   var params =[];

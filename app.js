@@ -12,10 +12,8 @@ var express = require('express'),
     favicon = require('static-favicon'),
     logger = require('morgan'),
     methodOverride = require('method-override'),
-    cookieParser = require('cookie-parser'),
     bodyParser = require('body-parser'),
-    exphbs = require('express3-handlebars'),
-    flash = require('connect-flash');
+    exphbs = require('express3-handlebars');
 
 /**** helpers ****/
 var handlebars = require('./helpers/handlebars');
@@ -51,13 +49,6 @@ app.use(express.compress());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded());
 app.use(methodOverride());
-app.use(cookieParser(process.env.PHANT_COOKIE_SECRET || 'secret'));
-app.use(express.session());
-app.use(flash());
-app.use(function(req, res, next){
-  res.locals.messages = req.flash();
-  next();
-});
 
 app.disable('x-powered-by');
 

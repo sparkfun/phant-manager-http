@@ -1,14 +1,10 @@
-var marked = require('marked'),
-    highlight = require('highlight.js');
+var marked = require('marked');
 
 marked.setOptions({
   gfm: true,
   tables: true,
   breaks: true,
-  sanitize: true,
-  highlight: function (code) {
-    return highlight.highlightAuto(code).value;
-  }
+  sanitize: true
 });
 
 module.exports = marked;
