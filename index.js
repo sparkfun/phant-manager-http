@@ -141,8 +141,10 @@ app.expressInit = function() {
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
 
-  exp.get('/streams', stream.list.bind(this));
+  exp.get('/streams/:publicKey/delete', stream.remove.bind(this));
+  exp.delete('/streams/:publicKey/delete', stream.remove.bind(this));
   exp.get('/streams/:publicKey', stream.view.bind(this));
+  exp.get('/streams', stream.list.bind(this));
   exp.post('/streams', stream.create.bind(this));
 
   return exp;

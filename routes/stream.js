@@ -97,7 +97,7 @@ exports.create = function(req, res, next) {
 
 exports.remove = function(req, res, next) {
 
-  var pub = req.param('public'),
+  var pub = req.param('publicKey'),
       prv = req.param('private_key'),
       id, err;
 
@@ -127,7 +127,7 @@ exports.remove = function(req, res, next) {
 
   id = this.keychain.getIdFromPublicKey(pub);
 
-  this.metadata.remove(id, function(err, stream) {
+  this.metadata.remove(id, function(err, success) {
 
     if(err) {
       err = new Error('deleting the stream failed');
@@ -136,7 +136,7 @@ exports.remove = function(req, res, next) {
       return;
     }
 
-    res.redirect('/');
+    res.redirect('streams');
 
   });
 
