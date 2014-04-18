@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 var http = require('http'),
-    HttpManager = require('../app'),
+    HttpManager = require('../index'),
     keychain = require('phant-keychain-hex'),
     Meta = require('phant-meta-test');
 

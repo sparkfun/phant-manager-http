@@ -49,7 +49,7 @@ function PhantManager(config) {
       return function(req, res) { return; };
     }
 
-    return app.call(this, req, res);
+    return responder.express.call(this, req, res);
 
   };
 
@@ -117,6 +117,8 @@ app.expressInit = function() {
 
   }
 
+  exp.use(exp.router);
+
   /**** 404 handler ****/
   exp.use(function(req, res, next) {
     var err = new Error('Not Found');
@@ -125,7 +127,7 @@ app.expressInit = function() {
   });
 
   /**** error handler ****/
-  app.use(function(err, req, res, next) {
+  exp.use(function(err, req, res, next) {
 
     var status = err.status || 200;
 
@@ -135,8 +137,6 @@ app.expressInit = function() {
     });
 
   });
-
-  exp.use(exp.router);
 
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
