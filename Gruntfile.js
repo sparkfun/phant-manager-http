@@ -17,21 +17,28 @@ module.exports = function (grunt) {
         src: 'Gruntfile.js'
       },
       app: {
-        src: 'app.js'
+        src: 'index.js'
+      },
+      routes: {
+        src: 'routes/*.js'
       }
     },
     watch: {
       less: {
-        files: ['less/*.less'],
+        files: 'less/*.less',
         tasks: ['shell:build']
       },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
         tasks: ['jshint:gruntfile']
       },
-      lib: {
+      app: {
         files: '<%= jshint.app.src %>',
-        tasks: ['jshint:lib']
+        tasks: ['jshint:app']
+      },
+      routes: {
+        files: 'routes/*.js',
+        tasks: ['jshint:routes']
       }
     },
     shell: {
