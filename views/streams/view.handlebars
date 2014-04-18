@@ -5,7 +5,7 @@
     <h1>{{stream.title}}
       <span class="pull-right">
         <a href="/output/{{publicKey}}.json"><img src="https://cdn.sparkfun.com/images/framework/json.png" alt="JSON"></a>
-        <!-- <a href="/output/{{publicKey}}.csv"><img src="https://cdn.sparkfun.com/images/framework/icon_spreadsheet_black.png" alt="CSV"></a> -->
+        <a href="/output/{{publicKey}}.csv"><img src="https://cdn.sparkfun.com/images/framework/icon_spreadsheet_black.png" alt="CSV"></a>
       </span>
     </h1>
 
@@ -19,43 +19,79 @@
     <div class="progress"></div>
 
     <table class="table table-striped text-center table-hover table-bordered" id="data">
-      <thead><tr></tr></thead>
+      <thead></thead>
       <tbody></tbody>
     </table>
 
+    <script id="header-template" type="text/x-handlebars-template">
+
+      <tr>
+
+        \{{#each this}}
+
+          <th>\{{this}}</th>
+
+        \{{/each}}
+
+      </tr>
+
+    </script>
+
+    <script id="row-template" type="text/x-handlebars-template">
+
+      \{{#each records}}
+
+        <tr>
+
+          \{{#each this}}
+
+            <td>\{{this}}</td>
+
+          \{{/each}}
+
+        </tr>
+
+      \{{/each}}
+
+    </script>
+
+    <script id="stats-template" type="text/x-handlebars-template">
+
+      <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%">
+        <span class="text-center">
+          \{{usedMb}} MB used / \{{remainingMb}} MB remaining
+        </span>
+      </div>
+
+    </script>
+
     <script>
 
-      d3.text('/output/{{publicKey}}.json?page=1', 'application/json', function(error, records) {
+      var row_tpl = Handlebars.compile($('#row-template').html()),
+          header_tpl = Handlebars.compile($('#header-template').html()),
+          stats_tpl = Handlebars.compile($('#stats-template').html());
 
-        records = records
-          .split('\n')
-          .filter(function(r) {
-            return r.trim();
-          })
-          .map(function(r) {
-            return JSON.parse(r);
-          });
 
-        var thead = d3.select('thead tr').selectAll('th')
-                      .data(d3.keys(records[0]))
-                      .enter().append('th').text(function(d){return d});
+      $.get('/output/{{publicKey}}.json?page=1', function(records) {
 
-        var tr = d3.select('tbody').selectAll('tr')
-                  .data(records).enter().append('tr');
+        var keys = [];
 
-        var td = tr.selectAll('td')
-                  .data(function(d){return d3.values(d)})
-                  .enter().append('td')
-                  .text(function(d) {return d});
+        for(var k in records[0]) {
+          if(records[0].hasOwnProperty(k)) {
+            keys.push(k);
+          }
+        }
+
+        $('table thead').append(header_tpl(keys));
+        $('table tbody').append(row_tpl({records: records}));
 
       });
 
-      d3.json('/output/{{publicKey}}/stats', function(error, stats) {
+      $.get('/output/{{publicKey}}/stats', function(stats) {
 
-        var percent = Math.floor((stats.used / stats.cap) * 100);
-        var cls = 'success';
-
-        var usedMb = (stats.used / (1024 * 1024)).toFixed(2),
+        var percent = Math.floor((stats.used / stats.cap) * 100),
+            cls = 'success',
+            usedMb = (stats.used / (1024 * 1024)).toFixed(2),
             remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
 
         percent = 100 - percent;
@@ -66,18 +102,17 @@
           cls = 'danger';
         }
 
-        // testing. ignore all of this
-        var html = '<div class="progress-bar progress-bar-' + cls;
-            html += '" role="progressbar" style="width: ' + percent;
-            html += '%">';
-            html += '<span class="text-center">';
-            html += usedMb + 'MB used / ';
-            html += remainingMb + 'MB remaining</span>'
-            html += '</div>';
-
-        d3.select('div.progress').html(html);
+        $('div.progress').html(
+          stats_tpl({
+            percent: percent,
+            cls: cls,
+            remainingMb: remainingMb,
+            usedMb: usedMb
+          })
+        );
 
       });
+
     </script>
 
   </div>
