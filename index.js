@@ -9,6 +9,8 @@
 /**** Module dependencies ****/
 var express = require('express'),
     path = require('path'),
+    util = require('util'),
+    events = require('events'),
     favicon = require('static-favicon'),
     logger = require('morgan'),
     methodOverride = require('method-override'),
@@ -61,7 +63,7 @@ function PhantManager(config) {
 
 }
 
-app.metadata = false,
+app.metadata = false;
 app.keychain = false;
 
 app.expressInit = function() {
