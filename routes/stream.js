@@ -99,6 +99,7 @@ exports.remove = function(req, res, next) {
 
   var pub = req.param('publicKey'),
       prv = req.param('private_key'),
+      self = this,
       id, err;
 
   // check for public key
@@ -135,6 +136,8 @@ exports.remove = function(req, res, next) {
       next(err);
       return;
     }
+
+    self.emit('clear', id);
 
     res.redirect('streams');
 
