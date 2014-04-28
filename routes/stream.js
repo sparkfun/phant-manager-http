@@ -58,6 +58,13 @@ exports.create = function(req, res, next) {
       tags = [],
       self = this;
 
+  if(req.param('check') !== '') {
+    err = new Error('Bot check failed');
+    err.status = 400;
+    next(err);
+    return;
+  }
+
   if(req.param('tags').trim()) {
     tags = req.param('tags').split(',').map(function(tag) {
       return tag.trim();
