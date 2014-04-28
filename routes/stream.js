@@ -56,7 +56,8 @@ exports.create = function(req, res, next) {
 
   var fields = [],
       tags = [],
-      self = this;
+      self = this,
+      err;
 
   if(req.param('check') !== '') {
     err = new Error('Bot check failed');
