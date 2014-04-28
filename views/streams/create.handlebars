@@ -22,6 +22,10 @@
     <h4>Public Key</h4>
     <pre>{{publicKey}}</pre>
 
+    <h4>Delete Key</h4>
+    <pre>{{deleteKey}}</pre>
+    <p>This key can only be used once.&nbsp; Keep this key secret, and in a safe place.&nbsp; <em>You will not be able to retrieve it.</em></p>
+
     <h4>Private Key</h4>
     <pre>{{privateKey}}</pre>
     <p>Keep this key secret, and in a safe place.&nbsp; <em>You will not be able to retrieve it.</em></p>
@@ -41,6 +45,10 @@
 
     <p>Example:</p>
     <pre>{{server}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
+
+    <h4>Deleting a stream</h4>
+
+    <a href="/streams/{{publicKey}}/delete?delete_key={{deleteKey}}"><pre>{{server}}/streams/{{publicKey}}/delete?delete_key={{deleteKey}}</pre></a>
 
   </div>
 
