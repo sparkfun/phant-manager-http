@@ -35,9 +35,9 @@ exports.view = function(req, res, next) {
 
   this.metadata.get(id, function(err, stream) {
 
-    if(err) {
-      err = new Error('loading the stream failed.');
-      err.status = 500;
+    if(! stream || err) {
+      err = new Error('stream not found');
+      err.status = 404;
       next(err);
       return;
     }
