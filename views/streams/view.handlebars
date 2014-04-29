@@ -57,11 +57,8 @@
 
     <script id="stats-template" type="text/x-handlebars-template">
 
-      <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%">
-        <span class="text-center">
-          \{{usedMb}} MB used / \{{remainingMb}} MB remaining
-        </span>
-      </div>
+      <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%"></div>
+      <div class="stats stats-\{{cls}}">\{{usedMb}} MB used / \{{remainingMb}} MB remaining</div>
 
     </script>
 
@@ -70,7 +67,6 @@
       var row_tpl = Handlebars.compile($('#row-template').html()),
           header_tpl = Handlebars.compile($('#header-template').html()),
           stats_tpl = Handlebars.compile($('#stats-template').html());
-
 
       $.get('/output/{{publicKey}}.json?page=1', function(records) {
 
@@ -94,11 +90,9 @@
             usedMb = (stats.used / (1024 * 1024)).toFixed(2),
             remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
 
-        percent = 100 - percent;
-
-        if(percent < 33 && percent > 10) {
+        if(percent > 66 && percent < 90) {
           cls = 'warning';
-        } else if(percent < 10) {
+        } else if(percent > 90) {
           cls = 'danger';
         }
 
