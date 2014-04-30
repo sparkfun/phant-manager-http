@@ -86,7 +86,7 @@ exports.create = function(req, res, next) {
   }, function(err, stream) {
 
     if(err) {
-      err = new Error('creating stream failed: ' + err);
+      err = new Error('creating stream failed');
       next(err);
       return;
     }
@@ -107,7 +107,7 @@ exports.create = function(req, res, next) {
 exports.remove = function(req, res, next) {
 
   var pub = req.param('publicKey'),
-      del = req.param('delete_key'),
+      del = req.param('deleteKey'),
       self = this,
       id, err;
 
@@ -148,7 +148,11 @@ exports.remove = function(req, res, next) {
 
     self.emit('clear', id);
 
-    res.redirect('streams');
+    req.url = '/streams';
+    res.locals.messages = {
+      'success': ['Deleted stream: ' + pub]
+    };
+    next();
 
   });
 
