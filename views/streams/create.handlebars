@@ -17,7 +17,7 @@
   <div class="col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1">
 
     <h4>Public URL</h4>
-    <a href="/streams/{{publicKey}}"><pre>{{server}}/streams/{{publicKey}}</pre></a>
+    <a href="/streams/{{publicKey}}" target="_blank"><pre>{{server}}/streams/{{publicKey}}</pre></a>
 
     <h4>Public Key</h4>
     <pre>{{publicKey}}</pre>
@@ -44,7 +44,9 @@
     <pre>{{server}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
 
     <p>Example:</p>
-    <pre>{{server}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
+    <a href="/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}" target="_blank">
+      <pre>{{server}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
+    </a>
 
     <h4>Deleting a stream</h4>
 
