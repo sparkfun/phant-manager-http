@@ -15,7 +15,48 @@ var httpManager = HttpManager({
   keychain: keys
 });
 
-var server = http.createServer(httpManager);
+var server = http.createServer(function(req, res) {
+
+  httpManager.call(this, req, res);
+
+  if(res.headerSent) {
+    return;
+  }
+
+  if(req.url.match(/^\/output\//)) {
+
+    res.writeHead(200, {
+      'Content-Type': 'application/json'
+    });
+
+    var data = [];
+
+    if(req.url.match(/stats$/)) {
+
+      return res.end(JSON.stringify({
+        used: 48 * 1024 * 1024,
+        remaining: 2 * 1024 * 1024,
+        cap: 50 * 1024 * 1024
+      }));
+
+    }
+
+    for(var i=0; i < 50; i++) {
+
+      data.push({
+        temp: 98.6,
+        wind: '30mph',
+        rain: '0.1 in',
+        timestamp: (new Date()).toISOString()
+      });
+
+    }
+
+    res.end(JSON.stringify(data));
+
+  }
+
+});
 
 server.listen(process.env.PHANT_PORT || 8080);
 
