@@ -1,4 +1,18 @@
-body { padding-top: 70px; padding-bottom: 50px; }
+// MIXINS
+.uppercase (@upper-font-weight:700) {
+  text-transform:uppercase;
+  font-weight:@upper-font-weight;
+  letter-spacing:1px;
+}
+
+h3 {
+  margin-bottom:0;
+  margin-top:@font-size-base*2;
+  font-weight:700;
+  color:@black;
+}
+
+body {padding-bottom: 50px; }
 
 .table th { .text-center; padding: 5px !important; }
 
@@ -24,4 +38,101 @@ body { padding-top: 70px; padding-bottom: 50px; }
     color: #FFF;
   }
 
+}
+
+
+div.navbar {margin:0;}
+
+// simple nav in the upper right
+ul.nav {
+  a {
+    padding:0.5rem;
+    font-size:16px;
+    color:@black;
+  }
+
+  a:hover {
+    color:@red;
+    background-color:white;
+  }
+  li.home a {.uppercase; font-size:14px;}
+}
+
+div.hero {
+  h1 {
+    font-size:76px;
+    font-weight:300;
+    color: @gray;
+    margin:0 0 20px 0;
+
+    span {color:@red}
+  }
+}
+
+.right-arrow(@arrow-color, @arrow-width) {
+  left: 100%;
+  top: 0;
+  border: solid transparent;
+  content: " ";
+  height: 0;
+  width: 0;
+  position: absolute;
+  pointer-events: none;
+  border-left-color: @arrow-color;
+  border-width: @arrow-width;
+  margin-top: @arrow-width;
+}
+
+
+@gap:20px;
+div.info-blocks {
+  margin-top:@gap*2;
+
+  div.info-block {
+    margin-bottom: 20px;
+    min-height:50px;
+    padding:@gap (@gap*2);
+    position:relative;
+
+    p {
+      color:white; margin:0;
+      font-weight:300;
+      font-size:@gap;
+      padding-right:(@gap*2);
+      line-height:1.1;
+    }
+
+    a {
+      float:right;
+      border:1px solid;
+      color:white;
+      .uppercase(400);
+      padding:(@gap/4) (@gap/2);
+      margin-left:@gap;
+
+      .border-top-radius(5px);
+      .border-right-radius(5px);
+      .border-bottom-radius(5px);
+      .border-left-radius(5px);
+    }
+
+    a:hover {
+      text-decoration:none;
+    }
+  }
+
+  div.block1 {background-color:@red;}
+  div.block1::after {.right-arrow(@red, @gap);}
+
+
+  div.block2 {background-color:@slate-dark;}
+  div.block3 {background-color:@slate-medium;}
+
+  div.block4 {
+    background-color:@slate-light;
+    p {color:@black;}
+    a {color:@black;}
+  }
+
+  div.block5 {background-color:@black;}
 }
