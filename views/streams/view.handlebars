@@ -1,24 +1,28 @@
-<div class="row">
+<div class="row stream-metadata">
 
-  <div class="col-md-12">
-
-    <h1>{{stream.title}}
-      <span class="pull-right">
-        <a href="/output/{{publicKey}}.json"><img src="https://cdn.sparkfun.com/images/framework/json.png" alt="JSON"></a>
-        <a href="/output/{{publicKey}}.csv"><img src="https://cdn.sparkfun.com/images/framework/icon_spreadsheet_black.png" alt="CSV"></a>
-      </span>
+  <div class="col-md-12 ">
+    <h1>{{stream.title}}<span class="small">{{stream.description}}</span>
     </h1>
+  </div>
 
-    <p><strong>Fields:</strong> {{> renderFields stream}}</p>
-    <p><strong>Tags:</strong> {{> renderTags stream}}</p>
+  <div class="col-md-3">
+    <div class="btn-group btn-group-sm">
+    <a class="btn btn-default" href="/output/{{publicKey}}.json">JSON</a>
+    <a class="btn btn-default" href="/output/{{publicKey}}.csv">CSV</a>
+  </div>
+  </div>
 
-    <p class="lead">{{{markdown stream.description}}}</p>
+  <div class="col-md-8 col-md-offset-1">
+    <div class="pull-right">{{> renderTags stream}}</div>
+  </div>
 
-    <hr>
+</div>
 
-    <div class="progress"></div>
+<div class="row">
+  <div class="progress-wrapper"></div>
+</div>
 
-    <table class="table table-striped text-center table-hover table-bordered" id="data">
+    <table class="table table-striped text-center table-hover" id="data">
       <thead></thead>
       <tbody></tbody>
     </table>
@@ -57,8 +61,10 @@
 
     <script id="stats-template" type="text/x-handlebars-template">
 
+      <div class="progress">
       <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%"></div>
-      <div class="stats stats-\{{cls}}">\{{usedMb}} MB used / \{{remainingMb}} MB remaining</div>
+      </div>
+      <p class="stats pull-right">\{{remainingPercent}}% (\{{remainingMb}} of \{{cap}} MB) remaining.</p>
 
     </script>
 
@@ -87,6 +93,7 @@
 
         var percent = Math.floor((stats.used / stats.cap) * 100),
             cls = 'success',
+            cap = (stats.cap / (1024 * 1024)).toFixed(0),
             usedMb = (stats.used / (1024 * 1024)).toFixed(2),
             remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
 
@@ -96,10 +103,12 @@
           cls = 'danger';
         }
 
-        $('div.progress').html(
+        $('div.progress-wrapper').html(
           stats_tpl({
             percent: percent,
+            remainingPercent: Math.round(100-percent),
             cls: cls,
+            cap: cap,
             remainingMb: remainingMb,
             usedMb: usedMb
           })
