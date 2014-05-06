@@ -6,7 +6,13 @@ exports.markdown = function(raw) {
 };
 
 exports.ago = function(date) {
+
+  if(! date) {
+    return '';
+  }
+
   return moment(date).fromNow();
+
 };
 
 exports.dateLong = function(date) {
