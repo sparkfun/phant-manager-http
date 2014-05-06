@@ -106,12 +106,16 @@ exports.create = function(req, res, next) {
     });
   }
 
+
   this.metadata.create({
     title: req.param('title'),
     description: req.param('description'),
     fields: fields,
-    tags: tags
+    tags: tags,
+    hidden: (req.param('hidden') === '1' ? true : false)
   }, function(err, stream) {
+
+    console.log(stream);
 
     if(err) {
       err = new Error('creating stream failed');
