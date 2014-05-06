@@ -18,7 +18,7 @@
     "things",
     "IoT"
   ],
-  "license": "GPL v3",
+  "license": "GPL-3.0",
   "homepage": "https://github.com/sparkfun/phant-manager-http",
   "private": true,
   "ignore": [
