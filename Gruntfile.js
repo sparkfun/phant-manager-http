@@ -49,6 +49,10 @@ module.exports = function (grunt) {
         command: './.bin/dev'
       },
       build: {
+        options: {
+          stdout: true,
+          failOnError: true
+        },
         command: './.bin/build'
       }
     },

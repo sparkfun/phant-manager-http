@@ -29,6 +29,34 @@ exports.list = function(req, res, next) {
 
 };
 
+exports.tag = function(req, res, next) {
+
+  var self = this,
+      tag = req.param('tag');
+
+  this.metadata.listByTag(tag, function(err, streams) {
+
+    if(err) {
+      err = new Error('loading the stream list failed.');
+      err.status = 500;
+      next(err);
+      return;
+    }
+
+    streams = streams.map(function(stream) {
+      stream.publicKey = self.keychain.publicKey(stream.id);
+      return stream;
+    });
+
+    res.render('streams/list', {
+      title: 'streams for tag ' + tag,
+      streams: streams
+    });
+
+  });
+
+};
+
 exports.view = function(req, res, next) {
 
   var id = this.keychain.getIdFromPublicKey(req.param('publicKey'));

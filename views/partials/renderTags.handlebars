@@ -1,7 +1,11 @@
 {{#if tags.length}}
 
   {{#each tags}}
-    <span class="label label-info">{{this}}</span>
+    <a href="/streams/tag/{{this}}">
+      <span class="tag">
+        {{this}}
+      </span>
+    </a>
   {{/each}}
 
 {{else}}

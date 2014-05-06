@@ -19,6 +19,11 @@ var parser = new Parser({
 
 parser.parse(source, function (err, tree) {
 
+  if(err) {
+    console.log(err);
+    process.exit(1);
+  }
+
   var css = tree.toCSS();
 
   fs.writeFileSync(path.join(css_dir, 'phant.css'), css, 'utf8');
