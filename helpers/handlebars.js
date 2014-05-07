@@ -8,7 +8,11 @@ exports.markdown = function(raw) {
 exports.ago = function(date) {
 
   if(! date) {
-    return '';
+    return 'never';
+  }
+
+  if(date instanceof Date && date.getTime() === 0) {
+    return 'never';
   }
 
   return moment(date).fromNow();
