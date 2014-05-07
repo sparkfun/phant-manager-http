@@ -152,3 +152,19 @@ app.expressInit = function() {
   return exp;
 
 };
+
+app.touch = function(id) {
+
+  if(! this.metadata) {
+    return;
+  }
+
+  this.metadata.touch(id, function(err) {
+
+    if(err) {
+      this.emit('error', err);
+    }
+
+  }.bind(this));
+
+};
