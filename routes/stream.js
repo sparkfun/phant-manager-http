@@ -115,8 +115,6 @@ exports.create = function(req, res, next) {
     hidden: (req.param('hidden') === '1' ? true : false)
   }, function(err, stream) {
 
-    console.log(stream);
-
     if(err) {
       err = new Error('creating stream failed');
       next(err);
