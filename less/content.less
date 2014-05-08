@@ -62,6 +62,11 @@ h3 {
     position: relative;
     margin:0;
   }
+
+  .progress-bar {
+    -webkit-box-shadow:none;
+    box-shadow:none;
+  }
 }
 
 
@@ -98,6 +103,7 @@ div.hero {
 
 
 
+// the colored calls to action on the homepage
 @gap:20px;
 div.info-blocks {
   margin-top:@gap*2;
@@ -151,11 +157,25 @@ div.info-blocks {
   div.block5 {background-color:@black;}
 }
 
+div.stream {
+  border-bottom:1px solid @gray-lighter;
+  padding:1em 0;
+  p {margin:0;}
+  p span {padding-right:1em;}
+}
 
+// header on stream/view
 div.stream-metadata {
   border-bottom:1px solid @gray-light;
   padding-bottom:14px;
   .bg-gradient(white, #f0f0f0);
+
+  .download-buttons {}
+
+  .little-label {
+    .uppercase(400);
+    font-size:10px;
+  }
 
   h1 {
     font-size:24px;
@@ -166,24 +186,29 @@ div.stream-metadata {
   }
   p {margin:0; color:@gray;}
 
-  span.label-info {
+
+}
+
+a.tag {
+
+  span {
+    .label;
+    .label-info;
     background:white;
-    color:@gray-light;
+    color:@gray;
     font-weight:400;
-    border:1px solid @gray-lighter;
+    border:2px solid @gray-lighter;
   }
 
-  span.label-info:hover {
+  span:hover {
     background:@red;
     color:white;
-    border:1px solid @red-dark;
+    border:2px solid @red-dark;
   }
-
 }
 
-.tag {
-  .label;
-  .label-info;
-  color: #fff;
-  margin-right: 2px;
+a.tag:hover {
+  text-decoration:none;
 }
+
+

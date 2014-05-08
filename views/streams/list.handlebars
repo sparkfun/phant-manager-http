@@ -1,14 +1,12 @@
 {{#each streams}}
 
-  <div class="row">
+  <div class="row stream">
     <div class="content">
+      <p>
+      <span class="stream-title"><a href="/streams/{{publicKey}}">{{title}}</a></span>
+      <span class="small">last push: {{ago last_push}}</span>
 
-      <h3>
-        <a href="/streams/{{publicKey}}">{{title}}</a>
-        <span class="pull-right small">last push: {{ago last_push}}</span>
-      </h3>
-
-      <p>{{> renderTags this}}</p>
+      {{> renderTags this}}</p>
 
     </div>
   </div>
