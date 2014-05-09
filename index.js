@@ -65,6 +65,7 @@ function PhantManager(config) {
 
 app.metadata = false;
 app.keychain = false;
+app.notifiers = [];
 
 app.expressInit = function() {
 
@@ -140,6 +141,7 @@ app.expressInit = function() {
 
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
+  exp.post('/streams/notify', stream.notify.bind(this));
 
   exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.delete('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
@@ -166,5 +168,43 @@ app.touch = function(id) {
     }
 
   }.bind(this));
+
+};
+
+app.notify = function(type, options, stream) {
+
+  var self = this;
+
+  this.notifiers.forEach(function(notify) {
+
+    var func = notify[type];
+
+    func.call(notify, options, stream, function(err) {
+
+      if(err) {
+        self.emit('error', 'notify error - ' + err);
+      }
+
+    });
+
+  });
+
+};
+
+app.getNotifiers = function(type) {
+
+  var list = [];
+
+  this.notifiers.forEach(function(notify) {
+
+    list.push({
+      name: notify.name,
+      type: type,
+      expect: notify.expect(type)
+    });
+
+  });
+
+  return list;
 
 };
