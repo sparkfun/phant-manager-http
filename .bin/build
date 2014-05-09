@@ -21,7 +21,7 @@ parser.parse(source, function (err, tree) {
 
   if(err) {
     console.log(err);
-    exit(1);
+    process.exit(1);
   }
 
   var css = tree.toCSS();
