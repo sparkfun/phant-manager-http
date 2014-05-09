@@ -126,7 +126,52 @@ exports.create = function(req, res, next) {
       publicKey: self.keychain.publicKey(stream.id),
       privateKey: self.keychain.privateKey(stream.id),
       deleteKey: self.keychain.deleteKey(stream.id),
-      notifiers: self.getNotifiers('clear')
+      notifiers: self.getNotifiers('create')
+    });
+
+  });
+
+};
+
+exports.notify = function(req, res, next) {
+
+  var self = this,
+      type = req.param('type'),
+      err;
+
+  if(! type) {
+    err = new Error('Missing notification type');
+    err.status = 400;
+    next(err);
+    return;
+  }
+
+  this.metadata.get(req.param('stream'), function(err, stream) {
+
+    if(err) {
+      err = new Error('unable to load stream');
+      next(err);
+      return;
+    }
+
+    self.notify(type, req.body, {
+      title: stream.title,
+      publicKey: self.keychain.publicKey(stream.id),
+      privateKey: self.keychain.privateKey(stream.id),
+      deleteKey: self.keychain.deleteKey(stream.id)
+    });
+
+    res.locals.messages = {
+      'success': ['Sent notification']
+    };
+
+    res.render('streams/create', {
+      title: 'stream ' + self.keychain.publicKey(stream.id),
+      stream: stream,
+      publicKey: self.keychain.publicKey(stream.id),
+      privateKey: self.keychain.privateKey(stream.id),
+      deleteKey: self.keychain.deleteKey(stream.id),
+      notifiers: self.getNotifiers('create')
     });
 
   });

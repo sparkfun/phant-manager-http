@@ -1,23 +1,32 @@
 {{#if notifiers.length}}
 
-  <h4>Send yourself a copy of your keys</h4>
+  <h1>Send yourself a copy of your keys</h1>
 
-  {{#each notify}}
+  {{#each notifiers}}
 
-    <h5>{{name}}></h5>
+    <h2>Via {{name}}</h2>
 
-    {{#each expect}}
+    <div class="well">
 
-      <form action="/streams/notify" method="POST">
+      <form role="form" action="/streams/notify" method="POST">
 
-        <div class="form-group">
-          <label>{{this}}</label>
-          <input type="text" name="{{@key}}" class="form-control">
-        </div>
+        <input type="hidden" name="stream" value="{{../../stream.id}}">
+        <input type="hidden" name="type" value="{{type}}">
+
+        {{#each expect}}
+
+          <div class="form-group">
+            <label>{{this}}</label>
+            <input type="text" name="{{@key}}" class="form-control">
+          </div>
+
+        {{/each}}
+
+        <button type="submit" class="btn btn-default">Send</button>
 
       </form>
 
-    {{/each}}
+    </div>
 
   {{/each}}
 

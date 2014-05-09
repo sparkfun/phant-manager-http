@@ -30,8 +30,6 @@
     <pre>{{privateKey}}</pre>
     <p>Keep this key secret, and in a safe place.&nbsp; <em>You will not be able to retrieve it.</em></p>
 
-    {{> renderNotifiers stream}}
-
   </div>
 
 </div>
@@ -53,6 +51,16 @@
     <h4>Deleting a stream</h4>
 
     <pre>{{server}}/streams/{{publicKey}}/delete/{{deleteKey}}</pre>
+
+  </div>
+
+</div>
+
+<div class="row">
+
+  <div class="col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1">
+
+    {{> renderNotifiers}}
 
   </div>
 

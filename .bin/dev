@@ -3,7 +3,20 @@
 var http = require('http'),
     HttpManager = require('../index'),
     keychain = require('phant-keychain-hex'),
-    Meta = require('phant-meta-test');
+    Meta = require('phant-meta-test'),
+    Mailer = require('phant-notify-email');
+
+// TODO: kill this
+var mailer = Mailer();
+
+mailer.useSMTP({
+  host: "mailtrap.io",
+  port: 2525,
+  auth: {
+    user: "20205073196204607",
+    pass: "4c566b63ca8481"
+  }
+});
 
 var keys = keychain({
   publicSalt: process.env.PHANT_PUBLIC_SALT || 'public salt',
@@ -12,7 +25,8 @@ var keys = keychain({
 
 var httpManager = HttpManager({
   metadata: Meta(),
-  keychain: keys
+  keychain: keys,
+  notifiers: [mailer]
 });
 
 var server = http.createServer(function(req, res) {
