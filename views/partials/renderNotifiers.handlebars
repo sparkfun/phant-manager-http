@@ -1,0 +1,24 @@
+{{#if notifiers.length}}
+
+  <h4>Send yourself a copy of your keys</h4>
+
+  {{#each notify}}
+
+    <h5>{{name}}></h5>
+
+    {{#each expect}}
+
+      <form action="/streams/notify" method="POST">
+
+        <div class="form-group">
+          <label>{{this}}</label>
+          <input type="text" name="{{@key}}" class="form-control">
+        </div>
+
+      </form>
+
+    {{/each}}
+
+  {{/each}}
+
+{{/if}}
