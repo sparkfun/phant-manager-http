@@ -65,6 +65,7 @@ function PhantManager(config) {
 
 app.metadata = false;
 app.keychain = false;
+app.notifiers = [];
 
 app.expressInit = function() {
 
@@ -166,5 +167,22 @@ app.touch = function(id) {
     }
 
   }.bind(this));
+
+};
+
+app.getNotifiers = function(type) {
+
+  var list = [];
+
+  this.notifiers.forEach(function(notify) {
+
+    list.push({
+      name: notify.name,
+      expect: notify.expect(type)
+    });
+
+  });
+
+  return list;
 
 };

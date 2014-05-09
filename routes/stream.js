@@ -106,7 +106,6 @@ exports.create = function(req, res, next) {
     });
   }
 
-
   this.metadata.create({
     title: req.param('title'),
     description: req.param('description'),
@@ -126,13 +125,13 @@ exports.create = function(req, res, next) {
       stream: stream,
       publicKey: self.keychain.publicKey(stream.id),
       privateKey: self.keychain.privateKey(stream.id),
-      deleteKey: self.keychain.deleteKey(stream.id)
+      deleteKey: self.keychain.deleteKey(stream.id),
+      notifiers: self.getNotifiers('clear')
     });
 
   });
 
 };
-
 
 exports.remove = function(req, res, next) {
 
