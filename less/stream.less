@@ -1,0 +1,57 @@
+div.stream {
+  border-bottom:1px solid @gray-lighter;
+  padding:1em 0;
+  p {margin:0;}
+  p span {padding-right:1em;}
+}
+
+.progress-wrapper {
+
+  p.stats {
+    color:@gray;
+    font-size:14px;
+    margin:6px;
+    padding-left:(@grid-gutter-width/2);
+  }
+
+  .progress {
+    height:8px;
+    border-radius:0;
+    box-shadow:none;
+    left:(0px - @grid-gutter-width/2);
+    background-color:white;
+    position: relative;
+    margin:0;
+  }
+
+  .progress-bar {
+    -webkit-box-shadow:none;
+    box-shadow:none;
+  }
+
+}
+
+div.stream-metadata {
+  border-bottom:1px solid @gray-light;
+  padding-bottom:14px;
+  .bg-gradient(white, #f0f0f0);
+
+  .download-buttons {}
+
+  .little-label {
+    .uppercase(400);
+    font-size:10px;
+  }
+
+  h1 {
+    font-size:24px;
+    color:@gray;
+    margin:0 0 12px 0;
+    font-weight:300;
+    span.small {padding-left:12px}
+  }
+  p {margin:0; color:@gray;}
+
+}
+
+.table th { .text-center; padding: 5px !important; }
