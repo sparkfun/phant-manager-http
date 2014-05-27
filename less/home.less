@@ -1,6 +1,30 @@
+div.hero {
+
+  h1 {
+
+    font-size: 76px;
+    font-weight: 300;
+    color: @gray;
+    margin: 0 0 20px 0;
+
+    @media (max-width: @screen-xs-max) { 
+      font-size: 50px;
+      margin: 0 0 10px 0;
+    }
+
+    span {
+      color: @red
+    }
+
+  }
+
+}
+
 div.info-blocks {
 
-  margin-top:@info-block-gap*2;
+  .hidden-xs;
+
+  margin-top: @info-block-gap*2;
 
   div.info-block {
 
