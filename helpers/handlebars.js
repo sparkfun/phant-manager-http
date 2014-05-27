@@ -1,9 +1,4 @@
-var markdown = require('./markdown'),
-    moment = require('moment');
-
-exports.markdown = function(raw) {
-  return markdown(raw);
-};
+var moment = require('moment');
 
 exports.ago = function(date) {
 
