@@ -1,4 +1,5 @@
 node_modules
 public/css
 public/third_party
+*.swo
 *.swp
