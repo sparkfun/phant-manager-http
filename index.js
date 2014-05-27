@@ -13,7 +13,6 @@ var express = require('express'),
     events = require('events'),
     favicon = require('static-favicon'),
     logger = require('morgan'),
-    methodOverride = require('method-override'),
     bodyParser = require('body-parser'),
     exphbs = require('express3-handlebars');
 
@@ -91,7 +90,6 @@ app.expressInit = function() {
   exp.use(express.compress());
   exp.use(bodyParser.json());
   exp.use(bodyParser.urlencoded());
-  exp.use(methodOverride());
 
   exp.use(function (req, res, next) {
     res.header('X-Powered-By', 'phant');
