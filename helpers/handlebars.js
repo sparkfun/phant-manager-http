@@ -58,3 +58,39 @@ exports.sampleQueryString = function(fields) {
 
 };
 
+exports.hasPreviousPage = function(options) {
+
+  if(! this.page || this.page < 2) {
+    return options.inverse(this);
+  }
+
+  return options.fn(this);
+
+};
+
+exports.hasNextPage = function(options) {
+
+  if(! this.streams.length || this.streams.length < 20) {
+    return options.inverse(this);
+  }
+
+  if(! this.page) {
+    this.page = 1;
+  }
+
+  return options.fn(this);
+
+};
+
+exports.previousPage = function() {
+
+  return parseInt(this.page) - 1;
+
+};
+
+exports.nextPage = function() {
+
+  return parseInt(this.page) + 1;
+
+};
+
