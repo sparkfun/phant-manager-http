@@ -10,6 +10,7 @@
 var express = require('express'),
     path = require('path'),
     util = require('util'),
+    url = require('url'),
     events = require('events'),
     favicon = require('static-favicon'),
     logger = require('morgan'),
@@ -92,9 +93,15 @@ app.expressInit = function() {
   exp.use(bodyParser.urlencoded());
 
   exp.use(function (req, res, next) {
+
     res.header('X-Powered-By', 'phant');
-    res.locals.server = req.protocol + '://' + req.get('host');
+
+    res.locals.url = url.parse(req.url);
+    res.locals.url.protocol = req.protocol;
+    res.locals.url.host = req.get('host');
+
     next();
+
   });
 
   if(exp.get('env') === 'development') {
