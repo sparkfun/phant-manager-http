@@ -22,7 +22,7 @@ exports.list = function(req, res, next) {
     });
 
     res.render('streams/list', {
-      title: 'public streams',
+      title: 'Public Streams',
       streams: streams,
       page: page
     });
@@ -52,7 +52,7 @@ exports.tag = function(req, res, next) {
     });
 
     res.render('streams/list', {
-      title: 'streams tagged: ' + tag,
+      title: 'Streams Tagged: ' + tag,
       streams: streams,
       page: page
     });
