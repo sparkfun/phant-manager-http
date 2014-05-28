@@ -4,7 +4,8 @@ exports.make = function(req, res) {
 
 exports.list = function(req, res, next) {
 
-  var self = this;
+  var self = this,
+      page = parseInt(req.param('page')) || 1;
 
   this.metadata.listByActivity(function(err, streams) {
 
@@ -22,10 +23,11 @@ exports.list = function(req, res, next) {
 
     res.render('streams/list', {
       title: 'public streams',
-      streams: streams
+      streams: streams,
+      page: page
     });
 
-  });
+  }, 20 * (page - 1), 20);
 
 };
 
