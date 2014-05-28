@@ -1,16 +1,24 @@
-{{#each streams}}
+{{#if streams}}
 
-  <div class="row stream">
-    <div class="content">
-      <p>
-      <span class="stream-title"><a href="/streams/{{publicKey}}">{{title}}</a></span>
-      <span class="small">last push: {{ago last_push}}</span>
+  {{#each streams}}
 
-      {{> renderTags this}}</p>
+    <div class="row stream">
+      <div class="content">
+        <p>
+        <span class="stream-title"><a href="/streams/{{publicKey}}">{{title}}</a></span>
+        <span class="small">last push: {{ago last_push}}</span>
 
+        {{> renderTags this}}</p>
+
+      </div>
     </div>
-  </div>
 
-{{/each}}
+  {{/each}}
+
+{{else}}
+
+  <h2>No streams found. Would you like to <a href="/streams/make">create a stream</a>?</h2>
+
+{{/if}}
 
 {{>pager this}}
