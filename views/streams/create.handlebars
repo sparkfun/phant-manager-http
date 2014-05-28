@@ -41,16 +41,16 @@
     <h4>Logging using query string params</h4>
 
     <p>Format:</p>
-    <pre>{{server}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
+    <pre>{{url.protocol}}//{{url.host}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
 
     <p>Example:</p>
     <a href="/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}" target="_blank">
-      <pre>{{server}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
+      <pre>{{url}}{{url.protocol}}//{{url.host}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
     </a>
 
     <h4>Deleting a stream</h4>
 
-    <pre>{{server}}/streams/{{publicKey}}/delete/{{deleteKey}}</pre>
+    <pre>{{url.protocol}}//{{url.host}}/streams/{{publicKey}}/delete/{{deleteKey}}</pre>
 
   </div>
 
