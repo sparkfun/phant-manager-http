@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
-var Parser = require('less').Parser,
+var LessParser = require('less').Parser,
+    compressor = require('node-minify'),
     path = require('path'),
     fs = require('fs');
 
@@ -13,11 +14,11 @@ if (! fs.existsSync(css_dir)) {
 
 var source = fs.readFileSync(path.join(__dirname, '..', 'less', 'phant.less'), 'utf8');
 
-var parser = new Parser({
+var less_parser = new LessParser({
   paths: [path.join(__dirname, '..', 'less')]
 });
 
-parser.parse(source, function (err, tree) {
+less_parser.parse(source, function(err, tree) {
 
   if(err) {
     console.log(err);
@@ -34,4 +35,38 @@ parser.parse(source, function (err, tree) {
 
   fs.writeFileSync(path.join(css_dir, 'phant.min.css'), min, 'utf8');
 
+});
+
+var min = new compressor.minify({
+    type: 'gcc',
+    fileIn: [
+      path.join(__dirname, '..', 'public', 'third_party', 'jquery', 'dist', 'jquery.min.js'),
+      path.join(__dirname, '..', 'public', 'third_party', 'bootstrap', 'dist', 'js', 'bootstrap.min.js'),
+      path.join(__dirname, '..', 'public', 'third_party', 'handlebars', 'handlebars.min.js'),
+      path.join(__dirname, '..', 'public', 'js', 'src', 'stream.js')
+    ],
+    fileOut: path.join(__dirname, '..', 'public', 'js', 'phant-manager.min.js'),
+    callback: function(err) {
+      if (err) {
+        console.log(err);
+        process.exit(1);
+      }
+    }
+});
+
+var concat = new compressor.minify({
+    type: 'no-compress',
+    fileIn: [
+      path.join(__dirname, '..', 'public', 'third_party', 'jquery', 'dist', 'jquery.js'),
+      path.join(__dirname, '..', 'public', 'third_party', 'bootstrap', 'dist', 'js', 'bootstrap.js'),
+      path.join(__dirname, '..', 'public', 'third_party', 'handlebars', 'handlebars.js'),
+      path.join(__dirname, '..', 'public', 'js', 'src', 'stream.js')
+    ],
+    fileOut: path.join(__dirname, '..', 'public', 'js', 'phant-manager.js'),
+    callback: function(err) {
+      if (err) {
+        console.log(err);
+        process.exit(1);
+      }
+    }
 });
