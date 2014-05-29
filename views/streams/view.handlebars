@@ -1,19 +1,24 @@
 <div class="row stream-metadata">
 
-  <div class="col-md-12 ">
-    <h1>{{stream.title}}<span class="small">{{stream.description}}</span>
+  <div class="col-md-12">
+    <h1>
+      {{stream.title}}
+      <span class="small">{{stream.description}}</span>
     </h1>
   </div>
 
-  <div class="col-md-3">
+  <div class="formats">
     <div class="download-buttons btn-group btn-group-sm">
-    <a class="btn btn-default" href="/output/{{publicKey}}.json">JSON</a>
-    <a class="btn btn-default" href="/output/{{publicKey}}.csv"> CSV</a>
-  </div>
+      <a class="btn btn-default" href="/output/{{publicKey}}.json">JSON</a>
+      <a class="btn btn-default" href="/output/{{publicKey}}.csv"> CSV</a>
+    </div>
   </div>
 
-  <div class="col-md-8 col-md-offset-1">
-    <div class="pull-right"><span class="little-label">Tags</span>{{> renderTags stream}}</div>
+  <div class="tags">
+    <div>
+      <span class="little-label">Tags</span>
+      {{> renderTags stream}}
+    </div>
   </div>
 
 </div>
@@ -22,103 +27,107 @@
   <div class="progress-wrapper"></div>
 </div>
 
-    <table class="table table-striped text-center table-hover" id="data">
+<div class="row stream-data">
+
+  <div class="col-md-12">
+
+    <table class="table table-striped text-center table-hover">
       <thead></thead>
       <tbody></tbody>
     </table>
-
-    <script id="header-template" type="text/x-handlebars-template">
-
-      <tr>
-
-        \{{#each this}}
-
-          <th>\{{this}}</th>
-
-        \{{/each}}
-
-      </tr>
-
-    </script>
-
-    <script id="row-template" type="text/x-handlebars-template">
-
-      \{{#each records}}
-
-        <tr>
-
-          \{{#each this}}
-
-            <td>\{{this}}</td>
-
-          \{{/each}}
-
-        </tr>
-
-      \{{/each}}
-
-    </script>
-
-    <script id="stats-template" type="text/x-handlebars-template">
-
-      <div class="progress">
-      <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%"></div>
-      </div>
-      <p class="stats pull-right">\{{remainingPercent}}% (\{{remainingMb}} of \{{cap}} MB) remaining.</p>
-
-    </script>
-
-    <script>
-
-      var row_tpl = Handlebars.compile($('#row-template').html()),
-          header_tpl = Handlebars.compile($('#header-template').html()),
-          stats_tpl = Handlebars.compile($('#stats-template').html());
-
-      $.get('/output/{{publicKey}}.json?page=1', function(records) {
-
-        var keys = [];
-
-        for(var k in records[0]) {
-          if(records[0].hasOwnProperty(k)) {
-            keys.push(k);
-          }
-        }
-
-        $('table thead').append(header_tpl(keys));
-        $('table tbody').append(row_tpl({records: records}));
-
-      });
-
-      $.get('/output/{{publicKey}}/stats', function(stats) {
-
-        var percent = Math.floor((stats.used / stats.cap) * 100),
-            cls = 'success',
-            cap = (stats.cap / (1024 * 1024)).toFixed(0),
-            usedMb = (stats.used / (1024 * 1024)).toFixed(2),
-            remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
-
-        if(percent > 66 && percent < 90) {
-          cls = 'warning';
-        } else if(percent > 90) {
-          cls = 'danger';
-        }
-
-        $('div.progress-wrapper').html(
-          stats_tpl({
-            percent: percent,
-            remainingPercent: Math.round(100-percent),
-            cls: cls,
-            cap: cap,
-            remainingMb: remainingMb,
-            usedMb: usedMb
-          })
-        );
-
-      });
-
-    </script>
 
   </div>
 
 </div>
 
+<script id="header-template" type="text/x-handlebars-template">
+
+  <tr>
+
+    \{{#each this}}
+
+      <th>\{{this}}</th>
+
+    \{{/each}}
+
+  </tr>
+
+</script>
+
+<script id="row-template" type="text/x-handlebars-template">
+
+  \{{#each records}}
+
+    <tr>
+
+      \{{#each this}}
+
+        <td>\{{this}}</td>
+
+      \{{/each}}
+
+    </tr>
+
+  \{{/each}}
+
+</script>
+
+<script id="stats-template" type="text/x-handlebars-template">
+
+  <div class="progress">
+    <div class="progress-bar progress-bar-\{{cls}}" role="progressbar" style="width: \{{percent}}%"></div>
+  </div>
+
+  <p class="stats pull-right">\{{remainingPercent}}% (\{{remainingMb}} of \{{cap}} MB) remaining.</p>
+
+</script>
+
+<script>
+
+  var row_tpl = Handlebars.compile($('#row-template').html()),
+      header_tpl = Handlebars.compile($('#header-template').html()),
+      stats_tpl = Handlebars.compile($('#stats-template').html());
+
+  $.get('/output/{{publicKey}}.json?page=1', function(records) {
+
+    var keys = [];
+
+    for(var k in records[0]) {
+      if(records[0].hasOwnProperty(k)) {
+        keys.push(k);
+      }
+    }
+
+    $('table thead').append(header_tpl(keys));
+    $('table tbody').append(row_tpl({records: records}));
+
+  });
+
+  $.get('/output/{{publicKey}}/stats', function(stats) {
+
+    var percent = Math.floor((stats.used / stats.cap) * 100),
+        cls = 'success',
+        cap = (stats.cap / (1024 * 1024)).toFixed(0),
+        usedMb = (stats.used / (1024 * 1024)).toFixed(2),
+        remainingMb = (stats.remaining / (1024 * 1024)).toFixed(2);
+
+    if(percent > 66 && percent < 90) {
+      cls = 'warning';
+    } else if(percent > 90) {
+      cls = 'danger';
+    }
+
+    $('div.progress-wrapper').html(
+      stats_tpl({
+        percent: percent,
+        remainingPercent: Math.round(100-percent),
+        cls: cls,
+        cap: cap,
+        remainingMb: remainingMb,
+        usedMb: usedMb
+      })
+    );
+
+  });
+
+</script>
