@@ -3,9 +3,9 @@
   <div class="content">
 
     <h1>{{stream.title}}</h1>
+    <p class="lead">{{{stream.description}}}</p>
     <p><strong>Fields:</strong> {{> renderFields stream}}</p>
     <p><strong>Tags:</strong> {{> renderTags stream}}</p>
-    <p class="lead">{{{stream.description}}}</p>
     <hr>
 
   </div>
@@ -17,7 +17,7 @@
   <div class="col-md-6 col-md-offset-1 col-sm-6 col-sm-offset-1">
 
     <h4>Public URL</h4>
-    <a href="/streams/{{publicKey}}" target="_blank"><pre>{{server}}/streams/{{publicKey}}</pre></a>
+    <a href="/streams/{{publicKey}}" target="_blank"><pre>{{url.protocol}}://{{url.host}}/streams/{{publicKey}}</pre></a>
 
     <h4>Public Key</h4>
     <pre>{{publicKey}}</pre>
@@ -38,14 +38,14 @@
 
   <div class="content">
 
-    <h4>Logging using query string params</h4>
+    <h4>Logging using query string parameters</h4>
 
     <p>Format:</p>
-    <pre>{{url.protocol}}//{{url.host}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
+    <pre>{{url.protocol}}://{{url.host}}/input/[publicKey]?private_key=[privateKey]&{{sampleQueryFormat stream.fields}}</pre>
 
     <p>Example:</p>
     <a href="/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}" target="_blank">
-      <pre>{{url}}{{url.protocol}}//{{url.host}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
+      <pre>{{url.protocol}}://{{url.host}}/input/{{publicKey}}?private_key={{privateKey}}&{{sampleQueryString stream.fields}}</pre>
     </a>
 
     <h4>Deleting a stream</h4>
