@@ -50,7 +50,8 @@ var server = http.createServer(function(req, res) {
       return res.end(JSON.stringify({
         used: 48 * 1024 * 1024,
         remaining: 2 * 1024 * 1024,
-        cap: 50 * 1024 * 1024
+        cap: 50 * 1024 * 1024,
+        pageCount: 5
       }));
 
     }
