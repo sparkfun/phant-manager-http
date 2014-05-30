@@ -38,7 +38,7 @@ less_parser.parse(source, function(err, tree) {
 });
 
 var min = new compressor.minify({
-    type: 'gcc',
+    type: 'uglifyjs',
     fileIn: [
       path.join(__dirname, '..', 'public', 'third_party', 'jquery', 'dist', 'jquery.min.js'),
       path.join(__dirname, '..', 'public', 'third_party', 'bootstrap', 'dist', 'js', 'bootstrap.min.js'),
