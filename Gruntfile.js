@@ -39,6 +39,10 @@ module.exports = function (grunt) {
       routes: {
         files: 'routes/*.js',
         tasks: ['jshint:routes']
+      },
+      publicjs: {
+        files: 'public/js/src/**/*.js',
+        tasks: ['shell:build']
       }
     },
     shell: {
