@@ -86,51 +86,63 @@ exports.view = function(req, res, next) {
 
 exports.create = function(req, res, next) {
 
-  var fields = [],
-      tags = [],
-      self = this,
+  var self = this,
+      stream = {},
       err;
 
   if(req.param('check') !== '') {
     err = new Error('Bot check failed');
     err.status = 400;
-    next(err);
-    return;
+    return next(err);
   }
 
   if(req.param('tags').trim()) {
-    tags = req.param('tags').split(',').map(function(tag) {
+    stream.tags = req.param('tags').split(',').map(function(tag) {
       return tag.trim();
     });
   }
 
   if(req.param('fields').trim()) {
-    fields = req.param('fields').split(',').map(function(field) {
+    stream.fields = req.param('fields').split(',').map(function(field) {
       return field.trim();
     });
   }
 
-  this.metadata.create({
-    title: req.param('title'),
-    description: req.param('description'),
-    fields: fields,
-    tags: tags,
-    hidden: (req.param('hidden') === '1' ? true : false)
-  }, function(err, stream) {
+  stream.title = req.param('title');
+  stream.description = req.param('description');
+  stream.hidden = (req.param('hidden') === '1' ? true : false);
+
+  this.validator.create(stream, function(err) {
 
     if(err) {
-      err = new Error('creating stream failed');
-      next(err);
-      return;
+      req.url = '/streams/make';
+      req.method = 'GET';
+      res.locals.messages = {
+        'danger': ['creating stream failed - ' + err]
+      };
+      return next();
     }
 
-    res.render('streams/create', {
-      title: 'stream ' + self.keychain.publicKey(stream.id),
-      stream: stream,
-      publicKey: self.keychain.publicKey(stream.id),
-      privateKey: self.keychain.privateKey(stream.id),
-      deleteKey: self.keychain.deleteKey(stream.id),
-      notifiers: self.getNotifiers('create')
+    self.metadata.create(stream, function(err, stream) {
+
+      if(err) {
+        req.url = '/streams/make';
+        req.method = 'GET';
+        res.locals.messages = {
+          'danger': ['saving stream failed']
+        };
+        return next();
+      }
+
+      res.render('streams/create', {
+        title: 'stream ' + self.keychain.publicKey(stream.id),
+        stream: stream,
+        publicKey: self.keychain.publicKey(stream.id),
+        privateKey: self.keychain.privateKey(stream.id),
+        deleteKey: self.keychain.deleteKey(stream.id),
+        notifiers: self.getNotifiers('create')
+      });
+
     });
 
   });

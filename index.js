@@ -65,6 +65,7 @@ function PhantManager(config) {
 
 app.metadata = false;
 app.keychain = false;
+app.validator = false;
 app.notifiers = [];
 
 app.expressInit = function() {
@@ -144,6 +145,7 @@ app.expressInit = function() {
 
   });
 
+  exp.post('/streams', stream.create.bind(this));
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
   exp.post('/streams/notify', stream.notify.bind(this));
@@ -154,7 +156,6 @@ app.expressInit = function() {
   exp.get('/streams/tag/:tag', stream.tag.bind(this));
   exp.get('/streams/:publicKey', stream.view.bind(this));
   exp.get('/streams', stream.list.bind(this));
-  exp.post('/streams', stream.create.bind(this));
 
   return exp;
 
