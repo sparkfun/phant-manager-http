@@ -13,7 +13,6 @@ var express = require('express'),
     url = require('url'),
     events = require('events'),
     favicon = require('static-favicon'),
-    logger = require('morgan'),
     bodyParser = require('body-parser'),
     exphbs = require('express3-handlebars');
 
@@ -107,7 +106,7 @@ app.expressInit = function() {
 
   if(exp.get('env') === 'development') {
 
-    exp.use(logger('dev'));
+    exp.use(require('morgan')('dev'));
 
     exp.use(express.static(
       path.join(__dirname, 'public')
