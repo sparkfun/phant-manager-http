@@ -22,7 +22,7 @@ exports.list = {
 
   'html': function(test) {
 
-    var url = 'http://localhost:8080/streams';
+    var url = 'http://localhost:8080/streams/tag/test';
 
     test.expect(4);
 
@@ -46,7 +46,7 @@ exports.list = {
 
   'json': function(test) {
 
-    var url = 'http://localhost:8080/streams.json';
+    var url = 'http://localhost:8080/streams/tag/weather.json';
 
     test.expect(5);
 
@@ -62,8 +62,8 @@ exports.list = {
 
       test.ok(/^application\/json/.test(res.headers['content-type']), 'content type should be application/json');
       test.equal(res.statusCode, 200, 'status should be 200');
-      test.ok(body.streams.length === 2, 'should return two rows');
-      test.equal(body.streams[1].id, '111aaa', 'should return stream with ID of 111aaa');
+      test.ok(body.streams.length === 1, 'should return one row');
+      test.equal(body.streams[0].id, '111aaa', 'should return stream with ID of 111aaa');
 
       test.done();
 
