@@ -1,5 +1,3 @@
-
-
 exports.make = function(req, res) {
   res.render('streams/make', { title: 'New Stream' });
 };
@@ -9,7 +7,7 @@ exports.list = function(req, res, next) {
   var self = this,
       per_page = parseInt(req.param('per_page')) || 20,
       page = parseInt(req.param('page')) || 1,
-      error = error.bind(this, next);
+      error = Err.bind(this, next);
 
   this.metadata.listByActivity(function(err, streams) {
 
@@ -49,7 +47,7 @@ exports.tag = function(req, res, next) {
       page = parseInt(req.param('page')) || 1,
       per_page = parseInt(req.param('per_page')) || 20,
       tag = req.param('tag'),
-      error = error.bind(this, next);
+      error = Err.bind(this, next);
 
   this.metadata.listByTag(tag, function(err, streams) {
 
@@ -86,7 +84,7 @@ exports.tag = function(req, res, next) {
 exports.view = function(req, res, next) {
 
   var id = this.keychain.getIdFromPublicKey(req.param('publicKey')),
-      error = error.bind(this, next);
+      error = Err.bind(this, next);
 
   this.metadata.get(id, function(err, stream) {
 
@@ -119,7 +117,7 @@ exports.create = function(req, res, next) {
 
   var self = this,
       stream = {},
-      passMessage = passMessage.bind(this, req, res, next);
+      passMessage = PassMessage.bind(this, req, res, next);
 
   if(req.param('check') !== '') {
     return passMessage(400, 'Are you a human? Bot check failed.', '/streams/make');
@@ -184,7 +182,7 @@ exports.notify = function(req, res, next) {
 
   var self = this,
       type = req.param('type'),
-      error = error.bind(this, next);
+      error = Err.bind(this, next);
 
   if(! type) {
     return error(400, 'Missing notification type');
@@ -231,8 +229,8 @@ exports.remove = function(req, res, next) {
 
   var pub = req.param('publicKey'),
       del = req.param('deleteKey'),
-      error = error.bind(this, next),
-      passMessage = passMessage.bind(this, req, res, next),
+      error = Err.bind(this, next),
+      passMessage = PassMessage.bind(this, req, res, next),
       self = this;
 
   // check for public key
@@ -266,8 +264,8 @@ exports.remove = function(req, res, next) {
 
 };
 
-/* exported passMessage */
-function passMessage(req, res, next, status, message, path) {
+/* exported PassMessage */
+function PassMessage(req, res, next, status, message, path) {
 
   res.statusCode = status;
 
@@ -295,8 +293,8 @@ function passMessage(req, res, next, status, message, path) {
 
 }
 
-/* exported error */
-function error(next, status, message) {
+/* exported Err */
+function Err(next, status, message) {
 
   var err = new Error(message);
   err.status = status;
