@@ -3,7 +3,6 @@
 var spawn = require('child_process').spawn,
   path = require('path'),
   request = require('request'),
-  rimraf = require('rimraf'),
   server;
 
 exports.start = function(test) {
@@ -74,8 +73,6 @@ exports.list = {
 };
 
 exports.cleanup = function(test) {
-
-  rimraf.sync(path.join(__dirname, 'tmp'));
 
   server.on('exit', function() {
     test.done();
