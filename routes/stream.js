@@ -32,7 +32,7 @@ exports.list = function(req, res, next) {
         });
       },
       json: function() {
-        res.render({
+        res.json({
           success: true,
           streams: streams
         });
@@ -72,7 +72,7 @@ exports.tag = function(req, res, next) {
         });
       },
       json: function() {
-        res.render({
+        res.json({
           success: true,
           streams: streams
         });
@@ -103,7 +103,7 @@ exports.view = function(req, res, next) {
         });
       },
       json: function() {
-        res.render({
+        res.json({
           success: true,
           stream: stream,
           publicKey: req.param('publicKey')
@@ -165,7 +165,7 @@ exports.create = function(req, res, next) {
           });
         },
         json: function() {
-          res.render({
+          res.json({
             stream: stream,
             publicKey: self.keychain.publicKey(stream.id),
             privateKey: self.keychain.privateKey(stream.id),
@@ -218,7 +218,7 @@ exports.notify = function(req, res, next) {
         });
       },
       json: function() {
-        res.render({
+        res.json({
           success: true,
           message: 'Sent notifications.'
         });
@@ -287,7 +287,7 @@ function PassMessage(req, res, next, status, message, path) {
     },
     json: function() {
 
-      res.send(status, {
+      res.json(status, {
         success: (status >= 200 && status < 300 ? true : false),
         message: message
       });
