@@ -220,7 +220,7 @@ exports.notify = function(req, res, next) {
       json: function() {
         res.json({
           success: true,
-          message: 'Sent notifications.'
+          message: 'Sent notification'
         });
       }
     });
@@ -278,6 +278,7 @@ function PassMessage(req, res, next, status, message, path) {
 
       var cls = (status >= 200 && status < 300 ? 'success' : 'danger');
 
+      req.method = 'GET';
       req.url = path;
       res.locals.messages = {};
       res.locals.messages[cls] = message;
