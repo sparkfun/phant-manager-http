@@ -5,6 +5,7 @@ exports.make = function(req, res) {
 exports.list = function(req, res, next) {
 
   var self = this,
+      per_page = parseInt(req.param('per_page')) || 20,
       page = parseInt(req.param('page')) || 1;
 
   this.metadata.listByActivity(function(err, streams) {
@@ -24,10 +25,11 @@ exports.list = function(req, res, next) {
     res.render('streams/list', {
       title: 'Public Streams',
       streams: streams,
-      page: page
+      page: page,
+      per_page: per_page
     });
 
-  }, 20 * (page - 1), 20);
+  }, per_page * (page - 1), per_page);
 
 };
 
@@ -35,6 +37,7 @@ exports.tag = function(req, res, next) {
 
   var self = this,
       page = parseInt(req.param('page')) || 1,
+      per_page = parseInt(req.param('per_page')) || 20,
       tag = req.param('tag');
 
   this.metadata.listByTag(tag, function(err, streams) {
@@ -54,10 +57,11 @@ exports.tag = function(req, res, next) {
     res.render('streams/list', {
       title: 'Streams Tagged: ' + tag,
       streams: streams,
-      page: page
+      page: page,
+      per_page: per_page
     });
 
-  }, 20 * (page - 1), 20);
+  }, per_page * (page - 1), per_page);
 
 };
 
@@ -70,8 +74,7 @@ exports.view = function(req, res, next) {
     if(! stream || err) {
       err = new Error('stream not found');
       err.status = 404;
-      next(err);
-      return;
+      return next(err);
     }
 
     res.render('streams/view', {
@@ -158,16 +161,14 @@ exports.notify = function(req, res, next) {
   if(! type) {
     err = new Error('Missing notification type');
     err.status = 400;
-    next(err);
-    return;
+    return next(err);
   }
 
   this.metadata.get(req.param('stream'), function(err, stream) {
 
     if(err) {
       err = new Error('unable to load stream');
-      next(err);
-      return;
+      return next(err);
     }
 
     self.notify(type, req.body, {
@@ -238,11 +239,6 @@ exports.remove = function(req, res, next) {
 
     self.emit('clear', id);
 
-    req.url = '/streams';
-    res.locals.messages = {
-      'success': ['Deleted stream: ' + pub]
-    };
-    next();
 
   });
 

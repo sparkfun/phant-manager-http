@@ -70,7 +70,7 @@ exports.hasPreviousPage = function(options) {
 
 exports.hasNextPage = function(options) {
 
-  if(! this.streams.length || this.streams.length < 20) {
+  if(! this.streams.length || this.streams.length < this.per_page) {
     return options.inverse(this);
   }
 
