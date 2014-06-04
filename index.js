@@ -36,7 +36,7 @@ function PhantManager(config) {
   // create a responder
   var responder = function(req, res) {
 
-    if (res.headerSent) {
+    if (res.headersSent) {
       return function(req, res) {
         return;
       };
@@ -98,6 +98,7 @@ app.expressInit = function() {
   exp.use(express.compress());
   exp.use(bodyParser.json());
   exp.use(bodyParser.urlencoded());
+  exp.use(this.responseType);
 
   exp.use(function(req, res, next) {
 
@@ -153,7 +154,7 @@ app.expressInit = function() {
         });
       },
       json: function() {
-        res.send(status, {
+        res.json(status, {
           success: (status === 200 ? true : false),
           message: err.message
         });
@@ -162,19 +163,41 @@ app.expressInit = function() {
 
   });
 
+  exp.post('/streams.:ext', stream.create.bind(this));
   exp.post('/streams', stream.create.bind(this));
+  exp.post('/streams/notify.:ext', stream.notify.bind(this));
   exp.post('/streams/notify', stream.notify.bind(this));
+
+  exp.delete('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
   exp.delete('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
+  exp.delete('/streams/:publicKey/delete.:ext', stream.remove.bind(this));
   exp.delete('/streams/:publicKey/delete', stream.remove.bind(this));
 
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
+  exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
+  exp.get('/streams/tag/:tag.:ext', stream.tag.bind(this));
   exp.get('/streams/tag/:tag', stream.tag.bind(this));
+  exp.get('/streams/:publicKey.:ext', stream.view.bind(this));
   exp.get('/streams/:publicKey', stream.view.bind(this));
+  exp.get('/streams.:ext', stream.list.bind(this));
   exp.get('/streams', stream.list.bind(this));
 
   return exp;
+
+};
+
+
+app.responseType = function(req, res, next) {
+
+  if (url.parse(req.url).pathname.match(/\.json$/)) {
+    req.headers.accept = 'application/json';
+  } else if (url.parse(req.url).pathname.match(/\.txt$/)) {
+    req.headers.accept = 'text/plain';
+  }
+
+  next();
 
 };
 
