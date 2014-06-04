@@ -8,20 +8,20 @@
 
 /**** Module dependencies ****/
 var express = require('express'),
-    path = require('path'),
-    util = require('util'),
-    url = require('url'),
-    events = require('events'),
-    favicon = require('static-favicon'),
-    bodyParser = require('body-parser'),
-    exphbs = require('express3-handlebars');
+  path = require('path'),
+  util = require('util'),
+  url = require('url'),
+  events = require('events'),
+  favicon = require('static-favicon'),
+  bodyParser = require('body-parser'),
+  exphbs = require('express3-handlebars');
 
 /**** helpers ****/
 var handlebars = require('./helpers/handlebars');
 
 /**** routes ****/
 var index = require('./routes'),
-    stream = require('./routes/stream');
+  stream = require('./routes/stream');
 
 var app = {};
 
@@ -36,16 +36,22 @@ function PhantManager(config) {
   // create a responder
   var responder = function(req, res) {
 
-    if(res.headerSent) {
-      return function(req, res) { return; };
+    if (res.headerSent) {
+      return function(req, res) {
+        return;
+      };
     }
 
-    if(req.url.match(/^\/input\//)) {
-      return function(req, res) { return; };
+    if (req.url.match(/^\/input\//)) {
+      return function(req, res) {
+        return;
+      };
     }
 
-    if(req.url.match(/^\/output\//)) {
-      return function(req, res) { return; };
+    if (req.url.match(/^\/output\//)) {
+      return function(req, res) {
+        return;
+      };
     }
 
     return responder.express.call(this, req, res);
@@ -73,7 +79,7 @@ app.expressInit = function() {
 
   exp.engine('handlebars', exphbs({
     layoutsDir: path.join(__dirname, 'views', 'layouts'),
-    partialsDir:  path.join(__dirname,'views', 'partials'),
+    partialsDir: path.join(__dirname, 'views', 'partials'),
     defaultLayout: 'main',
     helpers: handlebars
   }));
@@ -83,8 +89,9 @@ app.expressInit = function() {
 
   exp.use(
     favicon(
-      path.join(__dirname, 'public', 'img', 'favicon.ico'),
-      { maxAge: 2592000000 } // 1 month
+      path.join(__dirname, 'public', 'img', 'favicon.ico'), {
+        maxAge: 2592000000
+      } // 1 month
     )
   );
 
@@ -92,7 +99,7 @@ app.expressInit = function() {
   exp.use(bodyParser.json());
   exp.use(bodyParser.urlencoded());
 
-  exp.use(function (req, res, next) {
+  exp.use(function(req, res, next) {
 
     res.header('X-Powered-By', 'phant');
 
@@ -104,7 +111,7 @@ app.expressInit = function() {
 
   });
 
-  if(exp.get('env') === 'development') {
+  if (exp.get('env') === 'development') {
 
     exp.use(require('morgan')('dev'));
 
@@ -117,8 +124,9 @@ app.expressInit = function() {
     exp.enable('view cache');
 
     exp.use(express.static(
-      path.join(__dirname, 'public'),
-      { maxAge: 604800000 }
+      path.join(__dirname, 'public'), {
+        maxAge: 604800000
+      }
     ));
 
   }
@@ -172,13 +180,13 @@ app.expressInit = function() {
 
 app.touch = function(id) {
 
-  if(! this.metadata) {
+  if (!this.metadata) {
     return;
   }
 
   this.metadata.touch(id, function(err) {
 
-    if(err) {
+    if (err) {
       this.emit('error', err);
     }
 
@@ -196,7 +204,7 @@ app.notify = function(type, options, stream) {
 
     func.call(notify, options, stream, function(err) {
 
-      if(err) {
+      if (err) {
         self.emit('error', 'notify error - ' + err);
       }
 

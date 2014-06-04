@@ -1,17 +1,19 @@
 exports.make = function(req, res) {
-  res.render('streams/make', { title: 'New Stream' });
+  res.render('streams/make', {
+    title: 'New Stream'
+  });
 };
 
 exports.list = function(req, res, next) {
 
   var self = this,
-      per_page = parseInt(req.param('per_page')) || 20,
-      page = parseInt(req.param('page')) || 1,
-      error = Err.bind(this, next);
+    per_page = parseInt(req.param('per_page')) || 20,
+    page = parseInt(req.param('page')) || 1,
+    error = Err.bind(this, next);
 
   this.metadata.listByActivity(function(err, streams) {
 
-    if(err) {
+    if (err) {
       return error(500, 'Loading the stream list failed.');
     }
 
@@ -44,14 +46,14 @@ exports.list = function(req, res, next) {
 exports.tag = function(req, res, next) {
 
   var self = this,
-      page = parseInt(req.param('page')) || 1,
-      per_page = parseInt(req.param('per_page')) || 20,
-      tag = req.param('tag'),
-      error = Err.bind(this, next);
+    page = parseInt(req.param('page')) || 1,
+    per_page = parseInt(req.param('per_page')) || 20,
+    tag = req.param('tag'),
+    error = Err.bind(this, next);
 
   this.metadata.listByTag(tag, function(err, streams) {
 
-    if(err) {
+    if (err) {
       return error(500, 'Loading the stream list failed.');
     }
 
@@ -84,11 +86,11 @@ exports.tag = function(req, res, next) {
 exports.view = function(req, res, next) {
 
   var id = this.keychain.getIdFromPublicKey(req.param('publicKey')),
-      error = Err.bind(this, next);
+    error = Err.bind(this, next);
 
   this.metadata.get(id, function(err, stream) {
 
-    if(! stream || err) {
+    if (!stream || err) {
       return error(404, 'Stream not found.');
     }
 
@@ -116,20 +118,20 @@ exports.view = function(req, res, next) {
 exports.create = function(req, res, next) {
 
   var self = this,
-      stream = {},
-      passMessage = PassMessage.bind(this, req, res, next);
+    stream = {},
+    passMessage = PassMessage.bind(this, req, res, next);
 
-  if(req.param('check') !== '') {
+  if (req.param('check') !== '') {
     return passMessage(400, 'Are you a human? Bot check failed.', '/streams/make');
   }
 
-  if(req.param('tags').trim()) {
+  if (req.param('tags').trim()) {
     stream.tags = req.param('tags').split(',').map(function(tag) {
       return tag.trim();
     });
   }
 
-  if(req.param('fields').trim()) {
+  if (req.param('fields').trim()) {
     stream.fields = req.param('fields').split(',').map(function(field) {
       return field.trim();
     });
@@ -141,13 +143,13 @@ exports.create = function(req, res, next) {
 
   this.validator.create(stream, function(err) {
 
-    if(err) {
+    if (err) {
       return passMessage(400, 'Creating stream failed - ' + err, '/streams/make');
     }
 
     self.metadata.create(stream, function(err, stream) {
 
-      if(err) {
+      if (err) {
         return passMessage(500, 'Saving the stream failed.', '/streams/make');
       }
 
@@ -181,16 +183,16 @@ exports.create = function(req, res, next) {
 exports.notify = function(req, res, next) {
 
   var self = this,
-      type = req.param('type'),
-      error = Err.bind(this, next);
+    type = req.param('type'),
+    error = Err.bind(this, next);
 
-  if(! type) {
+  if (!type) {
     return error(400, 'Missing notification type');
   }
 
   this.metadata.get(req.param('stream'), function(err, stream) {
 
-    if(! stream || err) {
+    if (!stream || err) {
       return error(500, 'Unable to load stream');
     }
 
@@ -202,24 +204,26 @@ exports.notify = function(req, res, next) {
     });
 
     res.format({
-        html: function() {
-          res.render('streams/create', {
-            title: 'Stream ' + self.keychain.publicKey(stream.id),
-            stream: stream,
-            publicKey: self.keychain.publicKey(stream.id),
-            privateKey: self.keychain.privateKey(stream.id),
-            deleteKey: self.keychain.deleteKey(stream.id),
-            notifiers: self.getNotifiers('create'),
-            messages: { 'success': ['Sent notification'] }
-          });
-        },
-        json: function() {
-          res.render({
-            success: true,
-            message: 'Sent notifications.'
-          });
-        }
-      });
+      html: function() {
+        res.render('streams/create', {
+          title: 'Stream ' + self.keychain.publicKey(stream.id),
+          stream: stream,
+          publicKey: self.keychain.publicKey(stream.id),
+          privateKey: self.keychain.privateKey(stream.id),
+          deleteKey: self.keychain.deleteKey(stream.id),
+          notifiers: self.getNotifiers('create'),
+          messages: {
+            'success': ['Sent notification']
+          }
+        });
+      },
+      json: function() {
+        res.render({
+          success: true,
+          message: 'Sent notifications.'
+        });
+      }
+    });
 
   });
 
@@ -228,23 +232,23 @@ exports.notify = function(req, res, next) {
 exports.remove = function(req, res, next) {
 
   var pub = req.param('publicKey'),
-      del = req.param('deleteKey'),
-      error = Err.bind(this, next),
-      passMessage = PassMessage.bind(this, req, res, next),
-      self = this;
+    del = req.param('deleteKey'),
+    error = Err.bind(this, next),
+    passMessage = PassMessage.bind(this, req, res, next),
+    self = this;
 
   // check for public key
-  if(! pub) {
+  if (!pub) {
     return error(404, 'Not Found');
   }
 
   // check for private key
-  if(! del) {
+  if (!del) {
     return error(403, 'Forbidden: missing private key');
   }
 
   // validate keys
-  if(! this.keychain.validateDeleteKey(pub, del)) {
+  if (!this.keychain.validateDeleteKey(pub, del)) {
     return error(401, 'Forbidden: invalid delete key');
   }
 
@@ -252,7 +256,7 @@ exports.remove = function(req, res, next) {
 
   this.metadata.remove(id, function(err, success) {
 
-    if(err) {
+    if (err) {
       return error(500, 'Deleting stream failed');
     }
 

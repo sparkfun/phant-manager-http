@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
   // Show elapsed time at the end
   require('time-grunt')(grunt);
   // Load all grunt tasks
@@ -8,6 +8,9 @@ module.exports = function (grunt) {
 
   // Project configuration.
   grunt.initConfig({
+    nodeunit: {
+      files: ['test/**/*_test.js']
+    },
     jshint: {
       options: {
         jshintrc: '.jshintrc',
@@ -34,11 +37,11 @@ module.exports = function (grunt) {
       },
       app: {
         files: '<%= jshint.app.src %>',
-        tasks: ['jshint:app']
+        tasks: ['nodeunit', 'jshint:app']
       },
       routes: {
         files: 'routes/*.js',
-        tasks: ['jshint:routes']
+        tasks: ['nodeunit', 'jshint:routes']
       },
       publicjs: {
         files: 'public/js/src/**/*.js',
@@ -67,10 +70,24 @@ module.exports = function (grunt) {
       options: {
         logConcurrentOutput: true
       }
+    },
+    jsbeautifier: {
+      files: [
+        'Gruntfile.js',
+        'index.js',
+        'routes/*.js',
+        'test/*.js'
+      ],
+      options: {
+        js: {
+          indentChar: ' ',
+          indentSize: 2
+        }
+      },
     }
   });
 
-  grunt.registerTask('default', ['jshint', 'shell:build']);
+  grunt.registerTask('default', ['jsbeautifier', 'nodeunit', 'jshint', 'shell:build']);
   grunt.registerTask('dev', ['concurrent:dev']);
 
 };
