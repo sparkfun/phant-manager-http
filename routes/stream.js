@@ -1,7 +1,7 @@
 
 
 exports.make = function(req, res) {
-  res.render('streams/make', { title: 'new stream' });
+  res.render('streams/make', { title: 'New Stream' });
 };
 
 exports.list = function(req, res, next) {
@@ -22,11 +22,21 @@ exports.list = function(req, res, next) {
       return stream;
     });
 
-    res.render('streams/list', {
-      title: 'Public Streams',
-      streams: streams,
-      page: page,
-      per_page: per_page
+    res.format({
+      html: function() {
+        res.render('streams/list', {
+          title: 'Public Streams',
+          streams: streams,
+          page: page,
+          per_page: per_page
+        });
+      },
+      json: function() {
+        res.render({
+          success: true,
+          streams: streams
+        });
+      }
     });
 
   }, per_page * (page - 1), per_page);
@@ -52,11 +62,21 @@ exports.tag = function(req, res, next) {
       return stream;
     });
 
-    res.render('streams/list', {
-      title: 'Streams Tagged: ' + tag,
-      streams: streams,
-      page: page,
-      per_page: per_page
+    res.format({
+      html: function() {
+        res.render('streams/list', {
+          title: 'Streams Tagged: ' + tag,
+          streams: streams,
+          page: page,
+          per_page: per_page
+        });
+      },
+      json: function() {
+        res.render({
+          success: true,
+          streams: streams
+        });
+      }
     });
 
   }, per_page * (page - 1), per_page);
@@ -74,10 +94,21 @@ exports.view = function(req, res, next) {
       return error(404, 'Stream not found.');
     }
 
-    res.render('streams/view', {
-      title: 'stream ' + req.param('publicKey'),
-      publicKey: req.param('publicKey'),
-      stream: stream
+    res.format({
+      html: function() {
+        res.render('streams/view', {
+          title: 'Stream ' + req.param('publicKey'),
+          publicKey: req.param('publicKey'),
+          stream: stream
+        });
+      },
+      json: function() {
+        res.render({
+          success: true,
+          stream: stream,
+          publicKey: req.param('publicKey')
+        });
+      }
     });
 
   });
@@ -122,13 +153,25 @@ exports.create = function(req, res, next) {
         return passMessage(500, 'Saving the stream failed.', '/streams/make');
       }
 
-      res.render('streams/create', {
-        title: 'stream ' + self.keychain.publicKey(stream.id),
-        stream: stream,
-        publicKey: self.keychain.publicKey(stream.id),
-        privateKey: self.keychain.privateKey(stream.id),
-        deleteKey: self.keychain.deleteKey(stream.id),
-        notifiers: self.getNotifiers('create')
+      res.format({
+        html: function() {
+          res.render('streams/create', {
+            title: 'Stream ' + self.keychain.publicKey(stream.id),
+            stream: stream,
+            publicKey: self.keychain.publicKey(stream.id),
+            privateKey: self.keychain.privateKey(stream.id),
+            deleteKey: self.keychain.deleteKey(stream.id),
+            notifiers: self.getNotifiers('create')
+          });
+        },
+        json: function() {
+          res.render({
+            stream: stream,
+            publicKey: self.keychain.publicKey(stream.id),
+            privateKey: self.keychain.privateKey(stream.id),
+            deleteKey: self.keychain.deleteKey(stream.id)
+          });
+        }
       });
 
     });
@@ -160,15 +203,25 @@ exports.notify = function(req, res, next) {
       deleteKey: self.keychain.deleteKey(stream.id)
     });
 
-    res.render('streams/create', {
-      title: 'stream ' + self.keychain.publicKey(stream.id),
-      stream: stream,
-      publicKey: self.keychain.publicKey(stream.id),
-      privateKey: self.keychain.privateKey(stream.id),
-      deleteKey: self.keychain.deleteKey(stream.id),
-      notifiers: self.getNotifiers('create'),
-      messages: { 'success': ['Sent notification'] }
-    });
+    res.format({
+        html: function() {
+          res.render('streams/create', {
+            title: 'Stream ' + self.keychain.publicKey(stream.id),
+            stream: stream,
+            publicKey: self.keychain.publicKey(stream.id),
+            privateKey: self.keychain.privateKey(stream.id),
+            deleteKey: self.keychain.deleteKey(stream.id),
+            notifiers: self.getNotifiers('create'),
+            messages: { 'success': ['Sent notification'] }
+          });
+        },
+        json: function() {
+          res.render({
+            success: true,
+            message: 'Sent notifications.'
+          });
+        }
+      });
 
   });
 
