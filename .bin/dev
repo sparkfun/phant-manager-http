@@ -25,7 +25,7 @@ var server = http.createServer(function(req, res) {
 
   httpManager.call(this, req, res);
 
-  if(res.headerSent) {
+  if(res.headersSent) {
     return;
   }
 
@@ -70,4 +70,8 @@ var server = http.createServer(function(req, res) {
 });
 
 server.listen(process.env.PHANT_PORT || 8080);
+console.log('dev server started on port ' + (process.env.PHANT_PORT || 8080));
 
+process.on('exit', function() {
+  server.close();
+});
