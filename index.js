@@ -137,9 +137,19 @@ app.expressInit = function() {
 
     var status = err.status || 200;
 
-    res.status(status).render('error', {
-      message: err.message,
-      error: {}
+    res.format({
+      html: function() {
+        res.status(status).render('error', {
+          message: err.message,
+          error: {}
+        });
+      },
+      json: function() {
+        res.send(status, {
+          success: (status === 200 ? true : false),
+          message: err.message
+        });
+      }
     });
 
   });
