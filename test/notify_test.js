@@ -52,7 +52,39 @@ exports.create = {
 
     });
 
+  },
+
+  'json': function(test) {
+
+    test.expect(4);
+
+    var options = {
+      url: 'http://localhost:8080/streams/' + keys.publicKey('111aaa') + '/notify/create.json',
+      method: 'POST',
+      headers: {
+        'Phant-Private-Key': keys.privateKey('111aaa')
+      },
+      form: {
+        to: 'todd@sparkfun.com',
+        name: 'Todd'
+      }
+    };
+
+    request(options, function(err, res, body) {
+
+      body = JSON.parse(body);
+
+      test.ok(!err, 'should not error');
+      test.ok(/^application\/json/.test(res.headers['content-type']), 'content type should be application/json');
+      test.equal(res.statusCode, 200, 'status should be 200');
+      test.ok(body.success, 'should return a success message');
+
+      test.done();
+
+    });
+
   }
+
 
 };
 
