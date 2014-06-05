@@ -108,6 +108,10 @@ app.expressInit = function() {
     res.locals.url.protocol = req.protocol;
     res.locals.url.host = req.get('host');
 
+    if (req.headers['phant-private-key']) {
+      req.query.privateKey = req.headers['phant-private-key'];
+    }
+
     if (req.headers['phant-delete-key']) {
       req.query.deleteKey = req.headers['phant-delete-key'];
     }
