@@ -8,12 +8,12 @@ var spawn = require('child_process').spawn,
 
 var test_stream = {
   title: 'create test',
-  description: 'testingggg',
+  description: 'testing manager creation',
   fields: 'test1, test2',
   tags: 'create',
-  hidden: '0'
+  hidden: '0',
+  check: ''
 };
-
 
 exports.start = function(test) {
 
@@ -45,7 +45,7 @@ exports.create = {
       test.ok(!err, 'txt should not error');
       test.ok(/^text\/html/.test(res.headers['content-type']), 'content type should be text/html');
       test.equal(res.statusCode, 200, 'status should be 200');
-      test.ok(/created/.test(body), 'should return a created message');
+      test.ok(/New Stream:/.test(body), 'should return a created message');
 
       test.done();
 
