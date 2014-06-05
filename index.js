@@ -165,8 +165,6 @@ app.expressInit = function() {
 
   exp.post('/streams.:ext', stream.create.bind(this));
   exp.post('/streams', stream.create.bind(this));
-  exp.post('/streams/notify.:ext', stream.notify.bind(this));
-  exp.post('/streams/notify', stream.notify.bind(this));
 
   exp.delete('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
   exp.delete('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
@@ -175,10 +173,10 @@ app.expressInit = function() {
 
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
-  exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
-  exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.get('/streams/tag/:tag.:ext', stream.tag.bind(this));
   exp.get('/streams/tag/:tag', stream.tag.bind(this));
+  exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
+  exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.get('/streams/:publicKey.:ext', stream.view.bind(this));
   exp.get('/streams/:publicKey', stream.view.bind(this));
   exp.get('/streams.:ext', stream.list.bind(this));

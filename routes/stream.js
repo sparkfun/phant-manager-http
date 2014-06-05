@@ -281,9 +281,12 @@ function PassMessage(req, res, next, status, message, path) {
       req.method = 'GET';
       req.url = path;
       res.locals.messages = {};
-      res.locals.messages[cls] = message;
+      res.locals.messages[cls] = [message];
 
-      return next();
+      // start from top
+      req._route_index = 0;
+
+      return next('route');
 
     },
     json: function() {
