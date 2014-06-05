@@ -245,7 +245,7 @@ exports.remove = function(req, res, next) {
 
   // check for private key
   if (!del) {
-    return error(403, 'Forbidden: missing private key');
+    return error(403, 'Forbidden: missing del key');
   }
 
   // validate keys
@@ -263,7 +263,7 @@ exports.remove = function(req, res, next) {
 
     self.emit('clear', id);
 
-    passMessage(200, 'Deleted Stream: ' + pub, '/streams');
+    passMessage(202, 'Deleted Stream: ' + pub, '/streams');
 
   });
 

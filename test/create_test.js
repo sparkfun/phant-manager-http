@@ -3,7 +3,6 @@
 var spawn = require('child_process').spawn,
   path = require('path'),
   request = require('request'),
-  Keychain = require('phant-keychain-hex'),
   server;
 
 var test_stream = {

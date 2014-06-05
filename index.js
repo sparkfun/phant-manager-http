@@ -108,6 +108,10 @@ app.expressInit = function() {
     res.locals.url.protocol = req.protocol;
     res.locals.url.host = req.get('host');
 
+    if (req.headers['phant-delete-key']) {
+      req.query.deleteKey = req.headers['phant-delete-key'];
+    }
+
     next();
 
   });
@@ -166,10 +170,8 @@ app.expressInit = function() {
   exp.post('/streams.:ext', stream.create.bind(this));
   exp.post('/streams', stream.create.bind(this));
 
-  exp.delete('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
-  exp.delete('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
-  exp.delete('/streams/:publicKey/delete.:ext', stream.remove.bind(this));
-  exp.delete('/streams/:publicKey/delete', stream.remove.bind(this));
+  exp.delete('/streams/:publicKey.:ext', stream.remove.bind(this));
+  exp.delete('/streams/:publicKey', stream.remove.bind(this));
 
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
