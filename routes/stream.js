@@ -184,14 +184,33 @@ exports.create = function(req, res, next) {
 exports.notify = function(req, res, next) {
 
   var self = this,
+    pub = req.param('publicKey'),
+    prv = req.param('privateKey'),
+    id = this.keychain.getIdFromPublicKey(pub),
     type = req.param('type'),
     error = Err.bind(this, next);
 
+  // make sure type was sent
   if (!type) {
     return error(400, 'Missing notification type');
   }
 
-  this.metadata.get(req.param('stream'), function(err, stream) {
+  // check for public key
+  if (!pub) {
+    return this.error(res, 404, 'Stream not found');
+  }
+
+  // check for private key
+  if (!prv) {
+    return error(403, 'Forbidden: Missing private key');
+  }
+
+  // validate keys
+  if (!this.keychain.validate(pub, prv)) {
+    return this.error(res, 401, 'Forbidden: Invalid keys');
+  }
+
+  this.metadata.get(id, function(err, stream) {
 
     if (!stream || err) {
       return error(500, 'Unable to load stream');
@@ -212,7 +231,7 @@ exports.notify = function(req, res, next) {
           publicKey: self.keychain.publicKey(stream.id),
           privateKey: self.keychain.privateKey(stream.id),
           deleteKey: self.keychain.deleteKey(stream.id),
-          notifiers: self.getNotifiers('create'),
+          notifiers: self.getNotifiers(type),
           messages: {
             'success': ['Sent notification']
           }

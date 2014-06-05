@@ -8,10 +8,9 @@
 
     <div class="well">
 
-      <form role="form" action="/streams/notify" method="POST">
+      <form role="form" action="/streams/{{../../publicKey}}/notify/{{type}}" method="POST">
 
-        <input type="hidden" name="stream" value="{{../../stream.id}}">
-        <input type="hidden" name="type" value="{{type}}">
+        <input type="hidden" name="privateKey" value="{{../../privateKey}}">
 
         {{#each expect}}
 

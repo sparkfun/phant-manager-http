@@ -169,6 +169,8 @@ app.expressInit = function() {
 
   exp.post('/streams.:ext', stream.create.bind(this));
   exp.post('/streams', stream.create.bind(this));
+  exp.post('/streams/:publicKey/notify/:type.:ext', stream.notify.bind(this));
+  exp.post('/streams/:publicKey/notify/:type', stream.notify.bind(this));
 
   exp.delete('/streams/:publicKey.:ext', stream.remove.bind(this));
   exp.delete('/streams/:publicKey', stream.remove.bind(this));

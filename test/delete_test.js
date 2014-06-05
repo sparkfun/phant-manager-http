@@ -6,7 +6,6 @@ var spawn = require('child_process').spawn,
   Keychain = require('phant-keychain-hex'),
   server;
 
-
 var keys = Keychain({
   publicSalt: process.env.PHANT_PUBLIC_SALT || 'public salt',
   privateSalt: process.env.PHANT_PRIVATE_SALT || 'private salt'
