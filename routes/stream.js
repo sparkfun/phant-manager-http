@@ -166,7 +166,11 @@ exports.create = function(req, res, next) {
         },
         json: function() {
           res.json({
-            success: true
+            success: true,
+            stream: stream,
+            publicKey: self.keychain.publicKey(stream.id),
+            privateKey: self.keychain.privateKey(stream.id),
+            deleteKey: self.keychain.deleteKey(stream.id)
           });
         }
       });
