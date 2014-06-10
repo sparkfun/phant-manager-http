@@ -122,8 +122,6 @@ app.expressInit = function() {
 
   if (exp.get('env') === 'development') {
 
-    exp.use(require('morgan')('dev'));
-
     exp.use(express.static(
       path.join(__dirname, 'public')
     ));
