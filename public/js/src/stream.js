@@ -28,20 +28,36 @@
     $.get('/output/' + el.data('key') + '.json?page=' + page, function(records) {
 
       var keys = [],
+          values = [],
           head = el.find('table thead'),
           body = el.find('table tbody');
 
-      for(var k in records[0]) {
-        if(records[0].hasOwnProperty(k)) {
-          keys.push(k);
-        }
+      head.html('');
+      body.html('');
+
+      if(! Array.isArray(records)) {
+        return;
       }
 
+      // sort keys alphabetically
+      keys = Object.keys(records[0]).sort();
 
-      body.html('');
-      head.html('');
+      records.forEach(function(r) {
+
+        var rec = [];
+
+        // loop through sorted keys, and
+        // push sorted values to new array
+        keys.forEach(function(k) {
+          rec.push(r[k]);
+        });
+
+        values.push(rec);
+
+      });
+
       head.append(templates.header(keys));
-      body.append(templates.row({records: records}));
+      body.append(templates.row({records: values}));
       el.find('.pager').show();
 
     });
@@ -50,7 +66,7 @@
 
   stream.loadStats = function(el) {
 
-    $.get('/output/' + el.data('key') + '/stats', function(stats) {
+    $.get('/output/' + el.data('key') + '/stats.json', function(stats) {
 
       var percent = Math.floor((stats.used / stats.cap) * 100),
           cls = 'success',

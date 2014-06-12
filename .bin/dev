@@ -60,7 +60,7 @@ var server = http.createServer(function(req, res) {
 
     var data = [];
 
-    if(req.url.match(/stats$/)) {
+    if(req.url.match(/stats.json$/)) {
 
       return res.end(JSON.stringify({
         used: 48 * 1024 * 1024,
