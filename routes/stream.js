@@ -118,21 +118,28 @@ exports.view = function(req, res, next) {
 exports.create = function(req, res, next) {
 
   var self = this,
-    stream = {},
     passMessage = PassMessage.bind(this, req, res, next);
+
+  var stream = {
+    title: '',
+    description: '',
+    tags: [],
+    fields: [],
+    hidden: false
+  };
 
   if (req.param('check') !== '') {
     return passMessage(400, 'Are you a human? Bot check failed.', '/streams/make');
   }
 
   if (req.param('tags').trim()) {
-    stream.tags = req.param('tags').split(',').map(function(tag) {
+    stream.tags = req.param('tags').trim().split(',').map(function(tag) {
       return tag.trim();
     });
   }
 
   if (req.param('fields').trim()) {
-    stream.fields = req.param('fields').split(',').map(function(field) {
+    stream.fields = req.param('fields').trim().split(',').map(function(field) {
       return field.trim();
     });
   }
