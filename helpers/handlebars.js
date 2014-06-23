@@ -82,6 +82,16 @@ exports.hasNextPage = function(options) {
 
 };
 
+exports.isHidden = function(options) {
+
+  if(this.post.hidden != true) {
+    return options.inverse(this);
+  }
+
+  return options.fn(this);
+
+};
+
 exports.previousPage = function() {
 
   return parseInt(this.page) - 1;

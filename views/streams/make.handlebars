@@ -2,18 +2,18 @@
 
   <div class="col-md-4 col-md-offset-1">
 
-    <h1>Create a Stream</h1>
+    <h1>Create a Data Stream</h1>
 
     <form role="form" action="/streams" method="POST">
 
       <div class="form-group">
         <label>Title</label>
-        <input type="text" name="title" class="form-control" placeholder="My Data Feed" required>
+        <input type="text" name="title" class="form-control" value="{{post.title}}" placeholder="My Data Stream" required>
       </div>
 
       <div class="form-group">
         <label>Description</label>
-        <textarea name="description" class="form-control" rows="6" placeholder="Weather sensor at 3332 Uniontown Rd..." required></textarea>
+        <textarea name="description" class="form-control" rows="6" placeholder="A SEN-08257 humidity and temp sensor located at NIST in Boulder, CO" required>{{post.description}}</textarea>
       </div>
 
       <div class="form-group">
@@ -23,11 +23,11 @@
         <div>
 
           <label class="radio-inline">
-            <input type="radio" name="hidden" value="0" checked> Visible
+            <input type="radio" name="hidden" value="0" {{#isHidden}}{{else}}checked{{/isHidden}}> Visible
           </label>
 
           <label class="radio-inline">
-            <input type="radio" name="hidden" value="1"> Hidden
+            <input type="radio" name="hidden" value="1" {{#isHidden}}checked{{/isHidden}}> Hidden
           </label>
 
         </div>
@@ -36,13 +36,13 @@
 
       <div class="form-group">
         <label>Fields</label>
-        <input type="text" name="fields" class="form-control" placeholder="wind, humidity, temp, rain" required>
+        <input type="text" name="fields" value="{{post.fields}}" class="form-control" placeholder="humidity, temp" required>
         <p class="help-block">comma separated.</p>
       </div>
 
       <div class="form-group">
         <label>Tags</label>
-        <input type="text" name="tags" class="form-control" placeholder="weather, sensor, maryland">
+        <input type="text" name="tags" value="{{post.tags}}" class="form-control" placeholder="temp, boulder, nist">
         <p class="help-block"><strong>not required.</strong>&nbsp; comma separated.</p>
       </div>
 
