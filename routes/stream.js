@@ -5,6 +5,12 @@ exports.make = function(req, res) {
   });
 };
 
+exports.delete = function(req, res) {
+  res.render('streams/delete', {
+    title: 'Delete Stream'
+  });
+};
+
 exports.list = function(req, res, next) {
 
   var self = this,
