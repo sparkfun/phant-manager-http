@@ -11,6 +11,12 @@ exports.delete = function(req, res) {
   });
 };
 
+exports.clear = function(req, res) {
+  res.render('streams/clear', {
+    title: 'Clear Stream'
+  });
+};
+
 exports.list = function(req, res, next) {
 
   var self = this,

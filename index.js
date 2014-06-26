@@ -180,6 +180,7 @@ app.expressInit = function() {
   exp.get('/', index.home);
   exp.get('/streams/make', stream.make);
   exp.get('/streams/delete', stream.delete);
+  exp.get('/streams/clear', stream.clear);
   exp.get('/streams/tag/:tag.:ext', stream.tag.bind(this));
   exp.get('/streams/tag/:tag', stream.tag.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
