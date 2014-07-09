@@ -22,9 +22,17 @@ exports.list = function(req, res, next) {
   var self = this,
     per_page = parseInt(req.param('per_page')) || 20,
     page = parseInt(req.param('page')) || 1,
-    error = Err.bind(this, next);
+    error = Err.bind(this, next),
+    query = {
+      hidden: false,
+      flagged: false
+    },
+    sort = {
+      property: 'last_push',
+      direction: 'desc'
+    };
 
-  this.metadata.listByActivity(function(err, streams) {
+  this.metadata.list(function(err, streams) {
 
     if (err) {
       return error(500, 'Loading the stream list failed.');
@@ -52,7 +60,7 @@ exports.list = function(req, res, next) {
       }
     });
 
-  }, per_page * (page - 1), per_page);
+  }, query, per_page * (page - 1), per_page, sort);
 
 };
 
@@ -62,9 +70,18 @@ exports.tag = function(req, res, next) {
     page = parseInt(req.param('page')) || 1,
     per_page = parseInt(req.param('per_page')) || 20,
     tag = req.param('tag'),
-    error = Err.bind(this, next);
+    error = Err.bind(this, next),
+    query = {
+      hidden: false,
+      flagged: false,
+      tags: tag
+    },
+    sort = {
+      property: 'date',
+      direction: 'desc'
+    };
 
-  this.metadata.listByTag(tag, function(err, streams) {
+  this.metadata.list(function(err, streams) {
 
     if (err) {
       return error(500, 'Loading the stream list failed.');
@@ -92,7 +109,7 @@ exports.tag = function(req, res, next) {
       }
     });
 
-  }, per_page * (page - 1), per_page);
+  }, query, per_page * (page - 1), per_page, sort);
 
 };
 
@@ -294,7 +311,7 @@ exports.remove = function(req, res, next) {
 
   var id = this.keychain.getIdFromPublicKey(pub);
 
-  this.metadata.remove(id, function(err, success) {
+  this.metadata.delete(id, function(err, success) {
 
     if (err) {
       return error(500, 'Deleting stream failed');
