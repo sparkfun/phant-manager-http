@@ -74,13 +74,13 @@ var server = http.createServer(function(req, res) {
     for(var i=0; i < 50; i++) {
 
       data.push({
+        areallylongfield: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
         temp: 98.6,
         wind: '30mph',
         rain: '0.1 in',
         humidity: '30%',
         high: 100.1,
         low: 20,
-        reallylongfield: 'yes this is a really long test field',
         timestamp: (new Date()).toISOString()
       });
 
