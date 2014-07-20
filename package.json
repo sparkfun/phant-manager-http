@@ -35,7 +35,7 @@
     "static-favicon": "^1.0.0"
   },
   "engines": {
-    "node": "^0.10.28"
+    "node": "^0.10.29"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
@@ -52,5 +52,35 @@
     "phant-meta-test": "^2.0.1",
     "request": "^2.36.0",
     "time-grunt": "^0.2.10"
+  },
+  "phantConfig": {
+    "name": "HTTP Manager",
+    "http": true,
+    "options": [
+      {
+        "label": "Metadata",
+        "name": "metadata",
+        "default": "phant-meta-nedb",
+        "type": "select",
+        "require": "meta",
+        "description": "The phant metadata module to use"
+      },
+      {
+        "label": "Keychain",
+        "name": "keychain",
+        "default": "phant-keychain-hex",
+        "type": "select",
+        "require": "keychain",
+        "description": "The phant keychain module to use"
+      },
+      {
+        "label": "Validator",
+        "name": "validator",
+        "default": "phant-validator-default",
+        "type": "select",
+        "require": "validator",
+        "description": "The phant validator module to use"
+      }
+    ]
   }
 }
