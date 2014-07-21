@@ -54,7 +54,7 @@
     "time-grunt": "^0.2.10"
   },
   "phantConfig": {
-    "name": "HTTP Manager",
+    "name": "HTTP",
     "http": true,
     "options": [
       {
