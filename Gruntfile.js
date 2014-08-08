@@ -60,7 +60,7 @@ module.exports = function(grunt) {
           stdout: true,
           failOnError: true
         },
-        command: './.bin/build'
+        command: './build'
       }
     },
     concurrent: {
