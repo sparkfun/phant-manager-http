@@ -14,7 +14,7 @@ var express = require('express'),
   events = require('events'),
   favicon = require('static-favicon'),
   bodyParser = require('body-parser'),
-  exphbs = require('express3-handlebars');
+  exphbs = require('express-handlebars');
 
 /**** helpers ****/
 var handlebars = require('./helpers/handlebars');
