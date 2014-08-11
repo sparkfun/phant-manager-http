@@ -158,10 +158,6 @@ exports.create = function(req, res, next) {
     hidden: false
   };
 
-  if (req.param('check') !== '') {
-    return passMessage(400, 'Are you a human? Bot check failed.', '/streams/make');
-  }
-
   if (req.param('tags').trim()) {
     stream.tags = req.param('tags').trim().split(',').map(function(tag) {
       return tag.trim();
