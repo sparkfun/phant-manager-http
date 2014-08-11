@@ -29,7 +29,7 @@ module.exports = function(grunt) {
     watch: {
       less: {
         files: 'less/*.less',
-        tasks: ['shell:build']
+        tasks: ['less']
       },
       gruntfile: {
         files: '<%= jshint.gruntfile.src %>',
@@ -45,7 +45,30 @@ module.exports = function(grunt) {
       },
       publicjs: {
         files: 'public/js/src/**/*.js',
-        tasks: ['shell:build']
+        tasks: ['concat', 'uglify']
+      }
+    },
+    bower: {
+      install: {
+        options: {
+          targetDir: './public/third_party'
+        }
+      }
+    },
+    less: {
+      development: {
+        files: {
+          "public/css/phant.css": "less/phant.less"
+        }
+      },
+      production: {
+        options: {
+          cleancss: true,
+          sourceMap: true
+        },
+        files: {
+          "public/css/phant.min.css": "less/phant.less"
+        }
       }
     },
     shell: {
@@ -54,18 +77,22 @@ module.exports = function(grunt) {
           stdout: true
         },
         command: './.bin/dev'
-      },
-      build: {
-        options: {
-          stdout: true,
-          failOnError: true
-        },
-        command: './build'
+      }
+    },
+    concat: {
+      dist: {
+        src: [
+          'public/third_party/jquery/dist/jquery.js',
+          'public/third_party/bootstrap/dist/js/bootstrap.js',
+          'public/third_party/handlebars/handlebars.js',
+          'public/js/src/stream.js'
+        ],
+        dest: 'public/js/phant-manager.js',
       }
     },
     concurrent: {
       dev: {
-        tasks: ['shell:build', 'watch', 'shell:serve']
+        tasks: ['less', 'concat', 'uglify', 'watch', 'shell:serve']
       },
       options: {
         logConcurrentOutput: true
@@ -84,10 +111,17 @@ module.exports = function(grunt) {
           indentSize: 2
         }
       },
+    },
+    uglify: {
+      dest: {
+        files: {
+          'public/js/phant-manager.min.js': '<%= concat.dist.src %>'
+        }
+      }
     }
   });
 
-  grunt.registerTask('default', ['jsbeautifier', 'nodeunit', 'jshint', 'shell:build']);
-  grunt.registerTask('dev', ['concurrent:dev']);
+  grunt.registerTask('default', ['jsbeautifier', 'bower', 'nodeunit', 'jshint', 'less', 'concat', 'uglify']);
+  grunt.registerTask('dev', ['bower', 'concurrent:dev']);
 
 };

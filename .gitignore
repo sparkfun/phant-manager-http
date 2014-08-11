@@ -1,7 +1,4 @@
 node_modules
-public/css
-public/js/phant-manager.js
-public/js/phant-manager.min.js
 public/third_party
 *.swo
 *.swp
