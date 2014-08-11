@@ -21,7 +21,7 @@
     "express"
   ],
   "scripts": {
-    "postinstall": "bower install && node build",
+    "postinstall": "./node_modules/bower/bin/bower install && node ./.bin/build",
     "test": "grunt"
   },
   "dependencies": {
