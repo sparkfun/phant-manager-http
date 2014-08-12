@@ -26,7 +26,7 @@
     "node_modules",
     "bower_components",
     "public/bower_components",
-    "public/third_party",
+    "third_party",
     "test",
     "tests"
   ],
