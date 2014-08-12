@@ -51,7 +51,7 @@ module.exports = function(grunt) {
     bower: {
       install: {
         options: {
-          targetDir: './public/third_party'
+          targetDir: './third_party'
         }
       }
     },
@@ -82,9 +82,9 @@ module.exports = function(grunt) {
     concat: {
       dist: {
         src: [
-          'public/third_party/jquery/dist/jquery.js',
-          'public/third_party/bootstrap/dist/js/bootstrap.js',
-          'public/third_party/handlebars/handlebars.js',
+          'third_party/jquery/dist/jquery.js',
+          'third_party/bootstrap/dist/js/bootstrap.js',
+          'third_party/handlebars/handlebars.js',
           'public/js/src/stream.js'
         ],
         dest: 'public/js/phant-manager.js',
