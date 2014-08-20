@@ -13915,7 +13915,9 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
   stream.loadData = function(el) {
 
-    $.get('/output/' + el.data('key') + '.json?page=' + page, function(records) {
+    var offset = (page - 1) * 100;
+
+    $.get('/output/' + el.data('key') + '.json?offset=' + offset + '&limit=100', function(records) {
 
       var keys = [],
           values = [],
@@ -13927,6 +13929,10 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
       if(! Array.isArray(records)) {
         return;
+      }
+
+      if(records.length < 100) {
+        el.find('ul.pager').find('li.next').addClass('disabled');
       }
 
       // sort keys alphabetically
@@ -14009,7 +14015,7 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
         return;
       }
 
-      if(requested < stream.stats.pageCount && requested > 0) {
+      if(requested > 0) {
         page = requested;
       } else {
         page = 1;
@@ -14019,10 +14025,6 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
       next.data('page', page + 1);
       previous.removeClass('disabled');
       previous.data('page', page - 1);
-
-      if(page + 1 >= stream.stats.pageCount) {
-        next.addClass('disabled');
-      }
 
       if(page - 1 < 1) {
         previous.addClass('disabled');

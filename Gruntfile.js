@@ -121,7 +121,7 @@ module.exports = function(grunt) {
     }
   });
 
-  grunt.registerTask('default', ['jsbeautifier', 'bower', 'nodeunit', 'jshint', 'less', 'concat', 'uglify']);
+  grunt.registerTask('default', ['jsbeautifier', 'bower', 'jshint', 'less', 'concat', 'uglify', 'nodeunit']);
   grunt.registerTask('dev', ['bower', 'concurrent:dev']);
 
 };
