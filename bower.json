@@ -33,6 +33,7 @@
   "dependencies": {
     "bootstrap": "~3.1.1",
     "handlebars": "~1.3.0",
-    "ubilabs-geocomplete": "~1.5.1"
+    "ubilabs-geocomplete": "~1.5.1",
+    "bootbox": "~4.3.0"
   }
 }
