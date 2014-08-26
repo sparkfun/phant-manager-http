@@ -89,6 +89,7 @@ module.exports = function(grunt) {
           'third_party/bootstrap/dist/js/bootstrap.js',
           'third_party/bootbox/bootbox.js',
           'third_party/handlebars/handlebars.js',
+          'public/js/src/make.js',
           'public/js/src/stream.js'
         ],
         dest: 'public/js/phant-manager.js',
