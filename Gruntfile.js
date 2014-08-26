@@ -52,8 +52,8 @@ module.exports = function(grunt) {
       install: {
         options: {
           cleanTargetDir: true,
-          cleanBowerDir: true,
-          targetDir: './third_party'
+          install: true,
+          targetDir: './bower_components'
         }
       }
     },
