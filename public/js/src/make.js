@@ -6,7 +6,6 @@
         lat: result.geometry.location.lat(),
         lng: result.geometry.location.lng()
       });
-      console.log($('#geo_input').data());
     }
   };
 
@@ -17,7 +16,6 @@
     $('#geo_input').geocomplete().bind('geocode:result', make.selectLocation);
 
   };
-
 
 }(jQuery));
 
