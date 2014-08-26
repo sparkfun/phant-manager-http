@@ -51,6 +51,8 @@ module.exports = function(grunt) {
     bower: {
       install: {
         options: {
+          cleanTargetDir: true,
+          cleanBowerDir: true,
           targetDir: './third_party'
         }
       }
@@ -83,6 +85,7 @@ module.exports = function(grunt) {
       dist: {
         src: [
           'third_party/jquery/dist/jquery.js',
+          'third_party/ubilabs-geocomplete/jquery.geocomplete.js',
           'third_party/bootstrap/dist/js/bootstrap.js',
           'third_party/handlebars/handlebars.js',
           'public/js/src/stream.js'
