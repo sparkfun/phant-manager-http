@@ -183,6 +183,12 @@ app.expressInit = function() {
   exp.get('/streams/clear', stream.clear);
   exp.get('/streams/tag/:tag.:ext', stream.tag.bind(this));
   exp.get('/streams/tag/:tag', stream.tag.bind(this));
+  exp.get('/streams/city/:city.:ext', stream.city.bind(this));
+  exp.get('/streams/city/:city', stream.city.bind(this));
+  exp.get('/streams/state/:state.:ext', stream.state.bind(this));
+  exp.get('/streams/state/:state', stream.state.bind(this));
+  exp.get('/streams/country/:country.:ext', stream.country.bind(this));
+  exp.get('/streams/country/:country', stream.country.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.get('/streams/:publicKey.:ext', stream.view.bind(this));
