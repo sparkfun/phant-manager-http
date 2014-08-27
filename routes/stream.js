@@ -354,15 +354,14 @@ function listLocation(type, req, res, next) {
     error = Err.bind(this, next),
     query = {
       hidden: false,
-      flagged: false,
-      location: {}
+      flagged: false
     },
     sort = {
       property: 'last_push',
       direction: 'desc'
     };
 
-  query.location[type] = tag;
+  query['location.' + type] = tag;
 
   this.metadata.list(function(err, streams) {
 
