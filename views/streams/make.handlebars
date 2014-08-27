@@ -48,8 +48,13 @@
 
       <div class="form-group">
         <label>Location</label>
-        <input type="text" class="form-control" id="geo_input">
-        <div id="geo_map"></div>
+        <input type="text" class="form-control" name="location_long">
+        <p class="help-block"><strong>not required.</strong></p>
+        <input type="hidden" name="location_city">
+        <input type="hidden" name="location_state">
+        <input type="hidden" name="location_country">
+        <input type="hidden" name="location_lat">
+        <input type="hidden" name="location_lng">
       </div>
 
       <button type="submit" class="btn btn-primary">Create!</button>

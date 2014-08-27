@@ -14391,20 +14391,43 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
 (function($) {
 
+  var el;
+
   var make = {
-    selectLocation: function(event, result) {
-      $('#geo_input').data({
-        lat: result.geometry.location.lat(),
-        lng: result.geometry.location.lng()
+    selectLocation: function(e, result) {
+
+      var city = '',
+          state = '',
+          country = '';
+
+      $.each(result.address_components, function(i, v) {
+
+        if(v.types.indexOf('locality') !== -1) {
+          city = v.long_name;
+        } else if(v.types.indexOf('administrative_area_level_1') !== -1) {
+          state = v.long_name;
+        } else if(v.types.indexOf('country') !== -1) {
+          country = v.long_name;
+        }
+
       });
+
+      el.find('input[name=location_lat]').val(result.geometry.location.lat());
+      el.find('input[name=location_lng]').val(result.geometry.location.lng());
+      el.find('input[name=location_city]').val(city);
+      el.find('input[name=location_state]').val(state);
+      el.find('input[name=location_country]').val(country);
+
     }
   };
 
   $.fn.make = function() {
 
-    var el = $(this);
+    el = $(this);
 
-    $('#geo_input').geocomplete().bind('geocode:result', make.selectLocation);
+    el.find('input[name=location_long]')
+      .geocomplete()
+      .bind('geocode:result', make.selectLocation);
 
   };
 
