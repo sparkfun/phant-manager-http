@@ -11,10 +11,15 @@
     <div class="row stream">
       <div class="content">
         <p>
-        <span class="stream-title"><a href="/streams/{{publicKey}}">{{title}}</a></span>
-        <span class="small">last push: {{ago last_push}}</span>
-
-        {{> renderTags this}}</p>
+          <span class="stream-title"><a href="/streams/{{publicKey}}">{{title}}</a></span>
+          <span class="small pull-right text-right">
+            {{> renderLocation this}}
+            {{#if location.country}}<br>{{/if}}
+            last push: {{ago last_push}}
+          </span>
+          <br>
+          {{> renderTags this}}
+        </p>
 
       </div>
     </div>

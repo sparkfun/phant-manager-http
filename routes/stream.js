@@ -113,6 +113,18 @@ exports.tag = function(req, res, next) {
 
 };
 
+exports.city = function(req, res, next) {
+  listLocation.call(this, 'city', req, res, next);
+};
+
+exports.state = function(req, res, next) {
+  listLocation.call(this, 'state', req, res, next);
+};
+
+exports.country = function(req, res, next) {
+  listLocation.call(this, 'country', req, res, next);
+};
+
 exports.view = function(req, res, next) {
 
   var id = this.keychain.getIdFromPublicKey(req.param('publicKey')),
@@ -155,19 +167,31 @@ exports.create = function(req, res, next) {
     description: '',
     tags: [],
     fields: [],
-    hidden: false
+    hidden: false,
+    location: {}
   };
 
-  if (req.param('tags').trim()) {
+  if (req.param('tags') && req.param('tags').trim()) {
     stream.tags = req.param('tags').trim().split(',').map(function(tag) {
       return tag.trim();
     });
   }
 
-  if (req.param('fields').trim()) {
+  if (req.param('fields') && req.param('fields').trim()) {
     stream.fields = req.param('fields').trim().split(',').map(function(field) {
       return field.trim();
     });
+  }
+
+  if (req.param('location_country') && req.param('location_country').trim()) {
+    stream.location = {
+      long: req.param('location_long').trim(),
+      city: req.param('location_city').trim(),
+      state: req.param('location_state').trim(),
+      country: req.param('location_country').trim(),
+      lat: req.param('location_lat').trim(),
+      lng: req.param('location_lng').trim()
+    };
   }
 
   stream.title = req.param('title');
@@ -320,6 +344,57 @@ exports.remove = function(req, res, next) {
   });
 
 };
+
+function listLocation(type, req, res, next) {
+
+  var self = this,
+    page = parseInt(req.param('page')) || 1,
+    per_page = parseInt(req.param('per_page')) || 20,
+    tag = req.param(type),
+    error = Err.bind(this, next),
+    query = {
+      hidden: false,
+      flagged: false,
+      location: {}
+    },
+    sort = {
+      property: 'last_push',
+      direction: 'desc'
+    };
+
+  query.location[type] = tag;
+
+  this.metadata.list(function(err, streams) {
+
+    if (err) {
+      return error(500, 'Loading the stream list failed.');
+    }
+
+    streams = streams.map(function(stream) {
+      stream.publicKey = self.keychain.publicKey(stream.id);
+      return stream;
+    });
+
+    res.format({
+      html: function() {
+        res.render('streams/list', {
+          title: 'Streams Located In: ' + tag,
+          streams: streams,
+          page: page,
+          per_page: per_page
+        });
+      },
+      json: function() {
+        res.json({
+          success: true,
+          streams: streams
+        });
+      }
+    });
+
+  }, query, per_page * (page - 1), per_page, sort);
+
+}
 
 /* exported PassMessage */
 function PassMessage(req, res, next, status, message, path) {
