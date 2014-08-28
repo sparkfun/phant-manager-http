@@ -2,36 +2,48 @@
 
   <div class="row stream-metadata">
 
-    <div class="col-md-10">
-      <h1>
-        {{stream.title}}
-        <span class="small">{{stream.description}}</span>
-      </h1>
-    </div>
+    <div class="col-md-12">
 
-    <div class="col-md-2">
-      <div class="btn-group btn-group-xs pull-right">
-        <a class="btn btn-success" href="#" id="edit_stream" data-public="{{publicKey}}">Edit</a>
-        <a class="btn btn-info" href="/streams/clear">Clear</a>
-        <a class="btn btn-primary" href="/streams/delete">Delete</a>
-      </div>
-    </div>
+      <div class="row">
 
-    <div class="formats">
-      <div class="download-buttons btn-group btn-group-xs">
-        <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.json">JSON</a>
-        <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.csv">CSV</a>
-        <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.sql">MySQL</a>
-        <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.psql">PostgreSQL</a>
-        <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.atom">Atom</a>
-      </div>
-    </div>
+        <div class="title">
+          <h1>
+            {{stream.title}}
+            <span class="small">{{stream.description}}</span>
+          </h1>
+        </div>
 
-    <div class="tags">
-      <div>
-        <span class="little-label">Tags</span>
-        {{> renderTags stream}}
+        <div class="controls">
+          <div class="btn-group btn-group-xs">
+            <a class="btn btn-success" href="#" id="edit_stream" data-public="{{publicKey}}">Edit</a>
+            <a class="btn btn-info" href="/streams/clear">Clear</a>
+            <a class="btn btn-primary" href="/streams/delete">Delete</a>
+          </div>
+        </div>
+
       </div>
+
+      <div class="row">
+
+        <div class="formats">
+          <div class="download-buttons btn-group btn-group-xs">
+            <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.json">JSON</a>
+            <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.csv">CSV</a>
+            <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.sql">MySQL</a>
+            <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.psql">PostgreSQL</a>
+            <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.atom">Atom</a>
+          </div>
+        </div>
+
+        <div class="tags">
+          <div>
+            <span class="little-label">Tags</span>
+            {{> renderTags stream}}
+          </div>
+        </div>
+
+      </div>
+
     </div>
 
   </div>

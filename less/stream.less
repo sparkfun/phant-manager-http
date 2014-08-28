@@ -55,15 +55,39 @@ div.stream-metadata {
 
   div.formats {
     .make-md-column(3);
+    .make-sm-column(5);
+    .make-xs-column(12);
+  }
+
+  div.title {
+    .make-md-column(10);
+    .make-sm-column(9);
+    .make-xs-column(12);
+  }
+
+  div.controls {
+
+    .make-md-column(2);
     .make-sm-column(3);
     .make-xs-column(12);
+
+    @media (min-width: @screen-sm-min) {
+      div {
+        .pull-right;
+      }
+    }
+
+    @media (max-width: @screen-xs-max) {
+      margin: 5px 0 10px 0;
+    }
+
   }
 
   div.tags {
 
     .make-md-column(8);
     .make-md-column-offset(1);
-    .make-sm-column(8);
+    .make-sm-column(6);
     .make-sm-column-offset(1);
     .make-xs-column(12);
 

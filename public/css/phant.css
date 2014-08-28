@@ -5024,7 +5024,57 @@ div.stream-metadata div.formats {
 @media (min-width: 768px) {
   div.stream-metadata div.formats {
     float: left;
+    width: 41.66666667%;
+  }
+}
+div.stream-metadata div.title {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  div.stream-metadata div.title {
+    float: left;
+    width: 83.33333333%;
+  }
+}
+@media (min-width: 768px) {
+  div.stream-metadata div.title {
+    float: left;
+    width: 75%;
+  }
+}
+div.stream-metadata div.controls {
+  position: relative;
+  float: left;
+  width: 100%;
+  min-height: 1px;
+  padding-left: 15px;
+  padding-right: 15px;
+}
+@media (min-width: 992px) {
+  div.stream-metadata div.controls {
+    float: left;
+    width: 16.66666667%;
+  }
+}
+@media (min-width: 768px) {
+  div.stream-metadata div.controls {
+    float: left;
     width: 25%;
+  }
+}
+@media (min-width: 768px) {
+  div.stream-metadata div.controls div {
+    float: right !important;
+  }
+}
+@media (max-width: 767px) {
+  div.stream-metadata div.controls {
+    margin: 5px 0 10px 0;
   }
 }
 div.stream-metadata div.tags {
@@ -5049,7 +5099,7 @@ div.stream-metadata div.tags {
 @media (min-width: 768px) {
   div.stream-metadata div.tags {
     float: left;
-    width: 66.66666667%;
+    width: 50%;
   }
 }
 @media (min-width: 768px) {
@@ -5237,6 +5287,7 @@ nav.mobile-nav .navbar-link:hover {
   }
 }
 footer {
+  margin-top: 20px;
   width: 100%;
   height: 30px;
 }
