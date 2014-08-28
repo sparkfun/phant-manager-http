@@ -346,9 +346,16 @@ exports.update = function(req, res, next) {
   }
 
   if (req.param('fields') && req.param('fields').trim()) {
+
+    // clear stream if fields change
+    if (req.param('fields').trim() !== req.param('field_check').trim()) {
+      self.emit('clear', id);
+    }
+
     stream.fields = req.param('fields').trim().split(',').map(function(field) {
       return field.trim();
     });
+
   }
 
   if (req.param('location_country') && req.param('location_country').trim()) {
