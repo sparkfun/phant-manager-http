@@ -4,7 +4,7 @@
 
     <h1>Edit Stream</h1>
 
-    <form role="form" action="/streams/{{publicKey}}/update/{{privateKey}}" method="POST">
+    <form data-public="{{publicKey}}" data-private="{{privateKey}}" role="form" action="/streams/{{publicKey}}/update/{{privateKey}}" method="POST">
 
       <div class="form-group">
         <label>Title</label>
@@ -69,9 +69,49 @@
 
 <script>
   $(document).ready(function() {
+
     $('form').make();
+
     $('input[name=fields]').focus(function(e) {
       $('#field_warning').show();
     });
+
+    $('form').submit(function(e) {
+
+      var pub = $(this).data('public'),
+          prv = $(this).data('private'),
+          form = this;
+
+      e.preventDefault();
+
+      if($('input[name=fields]').val().trim() === $('input[name=field_check]').val().trim()) {
+        form.submit();
+        return;
+      }
+
+      bootbox.confirm(
+        'You have changed the field definitions, and must clear your stream data to save the new definition. Are you sure you want to continue?',
+        function(result) {
+
+          if(!result) {
+            return;
+          }
+
+          $.ajax({
+            url: '/input/' + pub + '/clear.json',
+            type: 'POST',
+            headers: {
+              'Phant-Private-Key': prv
+            },
+            success: function(response) {
+              form.submit();
+            }
+          });
+
+        }
+      );
+
+    });
+
   });
 </script>
