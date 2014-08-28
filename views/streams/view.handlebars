@@ -2,15 +2,24 @@
 
   <div class="row stream-metadata">
 
-    <div class="col-md-12">
+    <div class="col-md-10">
       <h1>
         {{stream.title}}
         <span class="small">{{stream.description}}</span>
       </h1>
     </div>
 
+    <div class="col-md-2">
+      <div class="btn-group btn-group-xs pull-right">
+        <a class="btn btn-success">Edit</a>
+        <a class="btn btn-info" href="/streams/clear">Clear</a>
+        <a class="btn btn-primary" href="/streams/delete">Delete</a>
+      </div>
+    </div>
+
+
     <div class="formats">
-      <div class="download-buttons btn-group btn-group-sm">
+      <div class="download-buttons btn-group btn-group-xs">
         <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.json">JSON</a>
         <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.csv">CSV</a>
         <a class="btn btn-xs btn-default" href="/output/{{publicKey}}.sql">MySQL</a>
