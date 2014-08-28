@@ -5,6 +5,71 @@ exports.make = function(req, res) {
   });
 };
 
+exports.edit = function(req, res, next) {
+
+  var pub = req.param('publicKey'),
+    prv = req.param('privateKey'),
+    error = Err.bind(this, next),
+    id;
+
+  // check for public key
+  if (!pub) {
+    return error(404, 'Stream not found.');
+  }
+
+  // check for private key
+  if (!prv) {
+    return error(403, 'Forbidden: missing private key');
+  }
+
+  // validate keys
+  if (!this.keychain.validate(pub, prv)) {
+    return error(401, 'Forbidden: invalid key');
+  }
+
+  // get the id
+  id = this.keychain.getIdFromPrivateKey(prv);
+
+  this.metadata.get(id, function(err, stream) {
+
+    var post = req.body;
+
+    if (!stream || err) {
+      return error(404, 'Stream not found.');
+    }
+
+    if (!post || Object.keys(post).length === 0) {
+
+      post = {
+        title: stream.title,
+        description: stream.description,
+        hidden: stream.hidden,
+        fields: stream.fields.join(', '),
+        tags: stream.tags.join(', ')
+      };
+
+      if (stream.location) {
+        post.location_long = stream.location.long;
+        post.location_city = stream.location.city;
+        post.location_state = stream.location.state;
+        post.location_country = stream.location.country;
+        post.location_lat = stream.location.lat;
+        post.location_lng = stream.location.lng;
+      }
+
+    }
+
+    res.render('streams/edit', {
+      title: 'Edit Stream',
+      publicKey: pub,
+      privateKey: prv,
+      post: post
+    });
+
+  });
+
+};
+
 exports.delete = function(req, res) {
   res.render('streams/delete', {
     title: 'Delete Stream'
@@ -231,6 +296,89 @@ exports.create = function(req, res, next) {
           });
         }
       });
+
+    });
+
+  });
+
+};
+
+exports.update = function(req, res, next) {
+
+  var self = this,
+    passMessage = PassMessage.bind(this, req, res, next),
+    pub = req.param('publicKey'),
+    prv = req.param('privateKey'),
+    error = Err.bind(this, next),
+    id;
+
+  // check for public key
+  if (!pub) {
+    return error(404, 'Stream not found.');
+  }
+
+  // check for private key
+  if (!prv) {
+    return error(403, 'Forbidden: missing private key');
+  }
+
+  // validate keys
+  if (!this.keychain.validate(pub, prv)) {
+    return error(401, 'Forbidden: invalid key');
+  }
+
+  // get the id
+  id = this.keychain.getIdFromPrivateKey(prv);
+
+  var stream = {
+    title: '',
+    description: '',
+    tags: [],
+    fields: [],
+    hidden: false,
+    location: {}
+  };
+
+  if (req.param('tags') && req.param('tags').trim()) {
+    stream.tags = req.param('tags').trim().split(',').map(function(tag) {
+      return tag.trim();
+    });
+  }
+
+  if (req.param('fields') && req.param('fields').trim()) {
+    stream.fields = req.param('fields').trim().split(',').map(function(field) {
+      return field.trim();
+    });
+  }
+
+  if (req.param('location_country') && req.param('location_country').trim()) {
+    stream.location = {
+      long: req.param('location_long').trim(),
+      city: req.param('location_city').trim(),
+      state: req.param('location_state').trim(),
+      country: req.param('location_country').trim(),
+      lat: req.param('location_lat').trim(),
+      lng: req.param('location_lng').trim()
+    };
+  }
+
+  stream.title = req.param('title');
+  stream.description = req.param('description');
+  stream.hidden = (req.param('hidden') === '1' ? true : false);
+
+  this.validator.create(stream, function(err) {
+
+    if (err) {
+      return passMessage(400, 'Updating stream failed - ' + err, '/streams/' + pub + '/edit/' + prv);
+    }
+
+    self.metadata.update(id, stream, function(err, stream) {
+
+      if (err) {
+        return passMessage(500, 'Saving the stream failed.', '/streams/' + pub);
+      }
+
+      passMessage(200, 'Stream saved.', '/streams/' + pub);
 
     });
 

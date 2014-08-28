@@ -2,11 +2,9 @@
 
   <div class="col-md-6 col-md-offset-3">
 
-    <h1>Create a Data Stream</h1>
+    <h1>Edit Stream</h1>
 
-    <p>If you need more info about creating a stream, check out the <a href="http://phant.io/docs/management/create">stream creation documentation</a>.
-
-    <form role="form" action="/streams" method="POST">
+    <form role="form" action="/streams/{{publicKey}}/update/{{privateKey}}" method="POST">
 
       <div class="form-group">
         <label>Title</label>
