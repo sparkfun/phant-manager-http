@@ -1,3 +1,5 @@
+var util = require('util');
+
 exports.make = function(req, res) {
   res.render('streams/make', {
     title: 'New Stream',
@@ -104,6 +106,7 @@ exports.list = function(req, res, next) {
     }
 
     streams = streams.map(function(stream) {
+      stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
       return stream;
     });
@@ -120,7 +123,13 @@ exports.list = function(req, res, next) {
       json: function() {
         res.json({
           success: true,
-          streams: streams
+          streams: streams.map(function(stream) {
+            stream = util._extend({}, stream);
+            delete stream.location;
+            delete stream.id;
+            delete stream._id;
+            return stream;
+          })
         });
       }
     });
@@ -153,7 +162,10 @@ exports.tag = function(req, res, next) {
     }
 
     streams = streams.map(function(stream) {
+      stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
+      delete stream.id;
+      delete stream._id;
       return stream;
     });
 
@@ -169,7 +181,11 @@ exports.tag = function(req, res, next) {
       json: function() {
         res.json({
           success: true,
-          streams: streams
+          streams: streams.map(function(stream) {
+            stream = util._extend({}, stream);
+            delete stream.location;
+            return stream;
+          })
         });
       }
     });
@@ -212,8 +228,14 @@ exports.view = function(req, res, next) {
       json: function() {
         res.json({
           success: true,
-          stream: stream,
-          publicKey: req.param('publicKey')
+          publicKey: req.param('publicKey'),
+          stream: function() {
+            var s = util._extend({}, stream);
+            delete s.id;
+            delete s._id;
+            delete s.location;
+            return s;
+          }
         });
       }
     });
@@ -289,7 +311,13 @@ exports.create = function(req, res, next) {
         json: function() {
           res.json({
             success: true,
-            stream: stream,
+            stream: function() {
+              var s = util._extend({}, stream);
+              delete s.id;
+              delete s._id;
+              delete s.location;
+              return s;
+            },
             publicKey: self.keychain.publicKey(stream.id),
             privateKey: self.keychain.privateKey(stream.id),
             deleteKey: self.keychain.deleteKey(stream.id)
@@ -476,7 +504,7 @@ exports.remove = function(req, res, next) {
 
   // check for private key
   if (!del) {
-    return error(403, 'Forbidden: missing del key');
+    return error(403, 'Forbidden: missing delete key');
   }
 
   // validate keys
@@ -489,7 +517,7 @@ exports.remove = function(req, res, next) {
   this.metadata.delete(id, function(err, success) {
 
     if (err) {
-      return error(500, 'Deleting stream failed');
+      return error(500, 'Deleting stream failed' + err);
     }
 
     self.emit('clear', id);
@@ -525,7 +553,10 @@ function listLocation(type, req, res, next) {
     }
 
     streams = streams.map(function(stream) {
+      stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
+      delete stream.id;
+      delete stream._id;
       return stream;
     });
 
@@ -541,7 +572,11 @@ function listLocation(type, req, res, next) {
       json: function() {
         res.json({
           success: true,
-          streams: streams
+          streams: streams.map(function(stream) {
+            stream = util._extend({}, stream);
+            delete stream.location;
+            return stream;
+          })
         });
       }
     });

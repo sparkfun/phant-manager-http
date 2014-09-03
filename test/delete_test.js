@@ -24,7 +24,7 @@ exports.start = function(test) {
 
 };
 
-exports.create = {
+exports.delete = {
 
   'html': function(test) {
 

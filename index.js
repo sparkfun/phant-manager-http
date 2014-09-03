@@ -97,7 +97,9 @@ app.expressInit = function() {
 
   exp.use(express.compress());
   exp.use(bodyParser.json());
-  exp.use(bodyParser.urlencoded());
+  exp.use(bodyParser.urlencoded({
+    extended: true
+  }));
   exp.use(this.responseType);
 
   exp.use(function(req, res, next) {

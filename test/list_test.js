@@ -63,7 +63,7 @@ exports.list = {
       test.ok(/^application\/json/.test(res.headers['content-type']), 'content type should be application/json');
       test.equal(res.statusCode, 200, 'status should be 200');
       test.ok(body.streams.length === 2, 'should return two rows');
-      test.equal(body.streams[1].id, '111aaa', 'should return stream with ID of 111aaa');
+      test.equal(body.streams[1].publicKey, 'Vo2okg', 'should return stream with public key of Vo2okg');
 
       test.done();
 
