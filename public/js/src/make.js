@@ -34,6 +34,22 @@
 
     el = $(this);
 
+    el.find('input[name=fields]').tagsinput({
+      maxTags: 30,
+      trimValue: true,
+      confirmKeys: [13, 44, 32]
+    });
+
+    el.find('input[name=tags]').tagsinput({
+      maxTags: 15,
+      trimValue: true,
+      confirmKeys: [13, 44, 32]
+    });
+
+    el.find('input[name=tags], input[name=fields]').on('beforeItemAdd', function(e) {
+      e.item = e.item.replace(/\W/g, '').toLowerCase();
+    });
+
     el.find('input[name=location_long]')
       .geocomplete()
       .bind('geocode:result', make.selectLocation);
