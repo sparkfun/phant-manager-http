@@ -8,19 +8,19 @@
 
     <form role="form" action="/streams" method="POST">
 
-      <div class="form-group">
-        <label>Title</label>
-        <input type="text" name="title" class="form-control" value="{{post.title}}" placeholder="My Data Stream" required>
+      <div class="form-group required">
+        <label class="control-label">Title</label>
+        <input type="text" name="title" class="form-control" value="{{post.title}}" placeholder="NIST Weather" required>
       </div>
 
-      <div class="form-group">
-        <label>Description</label>
+      <div class="form-group required">
+        <label class="control-label">Description</label>
         <textarea name="description" class="form-control" rows="6" placeholder="A SEN-08257 humidity and temp sensor located at NIST in Boulder, CO" required>{{post.description}}</textarea>
       </div>
 
-      <div class="form-group">
+      <div class="form-group required">
 
-        <label>Show in Public Stream List?</label>
+        <label class="control-label">Show in Public Stream List?</label>
 
         <div>
 
@@ -36,22 +36,19 @@
 
       </div>
 
-      <div class="form-group">
-        <label>Fields</label>
+      <div class="form-group required">
+        <label class="control-label">Fields</label>
         <input type="text" name="fields" value="{{post.fields}}" class="form-control" placeholder="humidity, temp" required>
-        <p class="help-block">comma separated.</p>
       </div>
 
       <div class="form-group">
-        <label>Tags</label>
-        <input type="text" name="tags" value="{{post.tags}}" class="form-control" placeholder="temp, boulder, nist">
-        <p class="help-block"><strong>not required.</strong>&nbsp; comma separated.</p>
+        <label class="control-label">Tags</label>
+        <input type="text" name="tags" value="{{post.tags}}" class="form-control" placeholder="nist, weather">
       </div>
 
       <div class="form-group">
-        <label>Location</label>
-        <input type="text" class="form-control" name="location_long" value="{{post.location_long}}">
-        <p class="help-block"><strong>not required.</strong></p>
+        <label class="control-label">Location</label>
+        <input type="text" class="form-control" name="location_long" value="{{post.location_long}}" placeholder="Boulder, CO">
         <input type="hidden" name="location_city" value="{{post.location_city}}">
         <input type="hidden" name="location_state" value="{{post.location_state}}">
         <input type="hidden" name="location_country" value="{{post.location_country}}">
