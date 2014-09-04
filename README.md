@@ -2,9 +2,6 @@
 
 express based manager module for phant
 
-## Getting Started
-Install the module with: `npm install phant-manager-http`
-
 ## Using phant-manager-http with phant
 This section outlines how to quickly get this package up and running with the **phant** module.
 
@@ -18,14 +15,14 @@ This section outlines how to quickly get this package up and running with the **
 
 ### Install
 
-* go to the package you downloaded: <code>cd phantconfig-custom</code>. Renaming this directory is cool.
-* do: <code>npm install</code>
+* go to the package you downloaded: `cd phantconfig-custom1.
+* do: `npm install`
 
-### Run 
+### Run
+This example assumes you configured the module to use port `8080`. If you have changed the HTTP port, replace `8080` with the port you chose.
 
-* do: <code>npm start</code>
+* do: `npm start`
 * open: http://localhost:8080/
-
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
