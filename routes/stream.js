@@ -504,13 +504,13 @@ exports.keys = function(req, res, next) {
 
   // optional response type - unknown ext default to json, could be better
   if (ext) {
-    res.type(ext)
+    res.type(ext);
   }
 
   id = this.keychain.getIdFromPrivateKey(prv);
 
   this.metadata.get(id, function(err, stream) {
-    var prefix = req.protocol + '://' + req.get('host')
+    var prefix = req.protocol + '://' + req.get('host');
     var keys = {
       title: stream.title,
       outputUrl: prefix + '/output/' + pub,
@@ -524,10 +524,10 @@ exports.keys = function(req, res, next) {
     res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + ( ext ? ext : 'json' ));
     res.format({
       json: function() {
-        res.json(keys)
+        res.json(keys);
       }
-    })
-  })
+    });
+  });
 };
 
 exports.notify = function(req, res, next) {
