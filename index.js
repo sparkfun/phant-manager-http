@@ -201,6 +201,8 @@ app.expressInit = function() {
   exp.get('/streams/:publicKey', stream.view.bind(this));
   exp.get('/streams.:ext', stream.list.bind(this));
   exp.get('/streams', stream.list.bind(this));
+  exp.get('/:alias.:ext', stream.alias.bind(this));
+  exp.get('/:alias', stream.alias.bind(this));
 
   return exp;
 

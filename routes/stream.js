@@ -108,6 +108,9 @@ exports.list = function(req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
+      delete stream.flagged;
+      delete stream.id;
+      delete stream._id;
       return stream;
     });
 
@@ -126,8 +129,6 @@ exports.list = function(req, res, next) {
           streams: streams.map(function(stream) {
             stream = util._extend({}, stream);
             delete stream.location;
-            delete stream.id;
-            delete stream._id;
             return stream;
           })
         });
@@ -164,6 +165,7 @@ exports.tag = function(req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
+      delete stream.flagged;
       delete stream.id;
       delete stream._id;
       return stream;
@@ -229,18 +231,64 @@ exports.view = function(req, res, next) {
         res.json({
           success: true,
           publicKey: req.param('publicKey'),
-          stream: function() {
+          stream: (function() {
             var s = util._extend({}, stream);
+            delete s.flagged;
             delete s.id;
             delete s._id;
             delete s.location;
             return s;
-          }
+          })()
         });
       }
     });
 
   });
+
+};
+
+exports.alias = function(req, res, next) {
+
+  var alias = req.param('alias'),
+    passMessage = PassMessage.bind(this, req, res, next),
+    self = this;
+
+  this.metadata.list(function(err, streams) {
+
+    if (!streams || err || streams.length !== 1) {
+      return passMessage(404, 'Stream not found.', '/streams');
+    }
+
+    var stream = streams[0],
+      pub = self.keychain.publicKey(stream.id);
+
+    res.format({
+      html: function() {
+        res.render('streams/view', {
+          title: 'Stream ' + pub,
+          publicKey: pub,
+          stream: stream
+        });
+      },
+      json: function() {
+        res.json({
+          success: true,
+          publicKey: pub,
+          stream: (function() {
+            var s = util._extend({}, stream);
+            delete s.flagged;
+            delete s.id;
+            delete s._id;
+            delete s.location;
+            return s;
+          })()
+        });
+      }
+    });
+
+  }, {
+    alias: alias
+  }, 0, 1);
 
 };
 
@@ -268,6 +316,10 @@ exports.create = function(req, res, next) {
     stream.fields = req.param('fields').trim().split(',').map(function(field) {
       return field.trim();
     });
+  }
+
+  if (req.param('alias') && req.param('alias').trim()) {
+    stream.alias = req.param('alias').replace(/\W/g, '').toLowerCase();
   }
 
   if (req.param('location_country') && req.param('location_country').trim()) {
@@ -311,13 +363,14 @@ exports.create = function(req, res, next) {
         json: function() {
           res.json({
             success: true,
-            stream: function() {
+            stream: (function() {
               var s = util._extend({}, stream);
+              delete s.flagged;
               delete s.id;
               delete s._id;
               delete s.location;
               return s;
-            },
+            })(),
             publicKey: self.keychain.publicKey(stream.id),
             privateKey: self.keychain.privateKey(stream.id),
             deleteKey: self.keychain.deleteKey(stream.id)
@@ -386,6 +439,10 @@ exports.update = function(req, res, next) {
 
   }
 
+  if (req.param('alias') && req.param('alias').trim()) {
+    stream.alias = req.param('alias').replace(/\W/g, '').toLowerCase();
+  }
+
   if (req.param('location_country') && req.param('location_country').trim()) {
     stream.location = {
       long: req.param('location_long').trim(),
@@ -401,7 +458,7 @@ exports.update = function(req, res, next) {
   stream.description = req.param('description');
   stream.hidden = (req.param('hidden') === '1' ? true : false);
 
-  this.validator.create(stream, function(err) {
+  this.validator.update(id, stream, function(err) {
 
     if (err) {
       return passMessage(400, 'Updating stream failed - ' + err, '/streams/' + pub + '/edit/' + prv);
@@ -555,6 +612,7 @@ function listLocation(type, req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
+      delete stream.flagged;
       delete stream.id;
       delete stream._id;
       return stream;

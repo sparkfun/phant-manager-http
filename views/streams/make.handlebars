@@ -42,6 +42,15 @@
       </div>
 
       <div class="form-group">
+        <label class="control-label">Stream Alias</label>
+        <input type="text" name="alias" class="form-control" value="{{post.alias}}" placeholder="nist_weather">
+        <p class="help-block">
+          This will be used as an alias for your stream when sharing.<br> 
+          <em>e.g. {{url.protocol}}://{{url.host}}/<span class="alias_example">nist_weather</span></em>
+        </p>     
+      </div>
+
+      <div class="form-group">
         <label class="control-label">Tags</label>
         <input type="text" name="tags" value="{{post.tags}}" class="form-control" placeholder="nist, weather">
       </div>
