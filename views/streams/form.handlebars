@@ -2,11 +2,14 @@
 
   <div class="col-md-6 col-md-offset-3">
 
-    <h1>Create a Data Stream</h1>
-
-    <p>If you need more info about creating a stream, check out the <a href="http://phant.io/docs/management/create">stream creation documentation</a>.
-
-    <form role="form" action="/streams" method="POST" novalidate>
+    {{#unless edit}}
+      <h1>Create a Data Stream</h1>
+      <p>If you need more info about creating a stream, check out the <a href="http://phant.io/docs/management/create">stream creation documentation</a>.
+      <form role="form" action="/streams" method="POST" novalidate>
+    {{else}}
+      <h1>Edit Stream</h1>
+      <form data-public="{{publicKey}}" data-private="{{privateKey}}" role="form" action="/streams/{{publicKey}}/update/{{privateKey}}" method="POST" novalidate>
+    {{/unless}}
 
       <div class="form-group required">
         <label class="control-label">Title</label>
@@ -39,6 +42,8 @@
       <div class="form-group required">
         <label class="control-label">Fields</label>
         <input type="text" name="fields" value="{{post.fields}}" class="form-control" placeholder="humidity, temp" required>
+        <input type="hidden" name="field_check" value="{{post.fields}}">
+        <div id="field_warning" class="alert alert-danger" style="display:none;" role="alert"><strong>Warning:</strong> If you change your field definitions, all of your existing stream data will be cleared.</div>
       </div>
 
       <div class="form-group has-feedback">
