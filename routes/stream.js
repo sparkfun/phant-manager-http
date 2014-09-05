@@ -1,24 +1,7 @@
 var util = require('util');
 
-exports.aliasExists = function(req, res, next) {
-
-  var alias = req.param('alias'),
-    pub = req.param('pub'),
-    id = pub ? this.keychain.getIdFromPublicKey(pub) : null;
-
-  this.validator.aliasExists(alias, id, function(err, exists) {
-
-    res.json({
-      err: err,
-      exists: exists
-    });
-
-  });
-
-};
-
 exports.make = function(req, res) {
-  res.render('streams/form', {
+  res.render('streams/make', {
     title: 'New Stream',
     post: req.body
   });
@@ -64,8 +47,7 @@ exports.edit = function(req, res, next) {
         description: stream.description,
         hidden: stream.hidden,
         fields: stream.fields.join(', '),
-        tags: stream.tags.join(', '),
-        alias: stream.alias
+        tags: stream.tags.join(', ')
       };
 
       if (stream.location) {
@@ -79,8 +61,7 @@ exports.edit = function(req, res, next) {
 
     }
 
-    res.render('streams/form', {
-      edit: true,
+    res.render('streams/edit', {
       title: 'Edit Stream',
       publicKey: pub,
       privateKey: prv,

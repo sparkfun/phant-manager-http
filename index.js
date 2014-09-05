@@ -106,7 +106,6 @@ app.expressInit = function() {
 
     res.header('X-Powered-By', 'phant');
 
-    res.locals.dev = (exp.get('env') === 'development');
     res.locals.url = url.parse(req.url);
     res.locals.url.protocol = req.protocol;
     res.locals.url.host = req.get('host');
@@ -194,7 +193,6 @@ app.expressInit = function() {
   exp.get('/streams/state/:state', stream.state.bind(this));
   exp.get('/streams/country/:country.:ext', stream.country.bind(this));
   exp.get('/streams/country/:country', stream.country.bind(this));
-  exp.get('/streams/check_alias', stream.aliasExists.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey.:ext', stream.remove.bind(this));
   exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.get('/streams/:publicKey/edit/:privateKey.:ext', stream.edit.bind(this));
