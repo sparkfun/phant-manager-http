@@ -90,7 +90,7 @@ module.exports = function(grunt) {
           'third_party/bootstrap-tagsinput/src/bootstrap-tagsinput.js',
           'third_party/bootbox/bootbox.js',
           'third_party/handlebars/handlebars.js',
-          'public/js/src/make.js',
+          'public/js/src/form.js',
           'public/js/src/stream.js'
         ],
         dest: 'public/js/phant-manager.js',

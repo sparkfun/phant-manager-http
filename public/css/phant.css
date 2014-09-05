@@ -5190,6 +5190,16 @@ div.stream-data div {
   display: block;
   width: 100%;
 }
+.has-feedback .taken,
+.has-feedback .free {
+  display: none;
+}
+.has-feedback.has-success .free {
+  display: block;
+}
+.has-feedback.has-error .taken {
+  display: block;
+}
 nav.desktop-nav {
   position: relative;
   min-height: 50px;

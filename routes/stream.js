@@ -7,6 +7,23 @@ exports.make = function(req, res) {
   });
 };
 
+exports.aliasExists = function(req, res, next) {
+
+  var alias = req.param('alias'),
+    pub = req.param('publicKey'),
+    id = pub ? this.keychain.getIdFromPublicKey(pub) : null;
+
+  this.validator.aliasExists(alias, id, function(err, exists) {
+
+    res.json({
+      err: err,
+      exists: exists
+    });
+
+  });
+
+};
+
 exports.edit = function(req, res, next) {
 
   var pub = req.param('publicKey'),
@@ -47,7 +64,8 @@ exports.edit = function(req, res, next) {
         description: stream.description,
         hidden: stream.hidden,
         fields: stream.fields.join(', '),
-        tags: stream.tags.join(', ')
+        tags: stream.tags.join(', '),
+        alias: stream.alias
       };
 
       if (stream.location) {
@@ -338,6 +356,8 @@ exports.create = function(req, res, next) {
   stream.hidden = (req.param('hidden') === '1' ? true : false);
 
   this.validator.create(stream, function(err) {
+
+    console.log(err);
 
     if (err) {
       return passMessage(400, 'Creating stream failed - ' + err, '/streams/make');

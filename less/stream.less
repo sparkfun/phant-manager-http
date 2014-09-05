@@ -140,3 +140,23 @@ div.stream-data {
   display: block;
   width: 100%;
 }
+
+.has-feedback {
+
+  .taken, .free {
+    display: none;
+  }
+
+  &.has-success {
+    .free {
+      display: block;
+    }
+  }
+
+  &.has-error {
+    .taken {
+      display: block;
+    }
+  }
+
+}

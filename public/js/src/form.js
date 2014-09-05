@@ -1,8 +1,9 @@
 (function($) {
 
-  var el;
+  var el,
+      alias_timer;
 
-  var make = {
+  var form = {
     selectLocation: function(e, result) {
 
       var city = '',
@@ -27,12 +28,50 @@
       el.find('input[name=location_state]').val(state);
       el.find('input[name=location_country]').val(country);
 
+    },
+    checkAlias: function(e) {
+
+      var group = $(this).closest('.form-group'),
+          val = $(this).val().replace(/\W/g, '').toLowerCase();
+
+      // replace with sanatized val
+      $(this).val(val);
+
+      group.find('.alias_example').html(val);
+
+      if(val.length < 1) {
+        return;
+      }
+
+      if(alias_timer) {
+        clearTimeout(alias_timer);
+      }
+
+      alias_timer = setTimeout(function(e) {
+
+        $.get('/streams/check_alias', { alias: val }, function(data) {
+
+          if(data.exists) {
+            group.addClass('has-error');
+            group.removeClass('has-success');
+            return;
+          }
+
+          group.addClass('has-success');
+          group.removeClass('has-error');
+
+        });
+
+      }, 350);
+
     }
   };
 
-  $.fn.make = function() {
+  $.fn.streamForm = function() {
 
     el = $(this);
+
+    el.on('keyup', 'input[name=alias]', form.checkAlias);
 
     el.find('input[name=fields]').tagsinput({
       maxTags: 30,
@@ -52,7 +91,7 @@
 
     el.find('input[name=location_long]')
       .geocomplete()
-      .bind('geocode:result', make.selectLocation);
+      .bind('geocode:result', form.selectLocation);
 
   };
 
