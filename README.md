@@ -15,7 +15,7 @@ This section outlines how to quickly get this package up and running with the **
 
 ### Install
 
-* go to the package you downloaded: `cd phantconfig-custom1.
+* go to the package you downloaded: `cd phantconfig-custom`.
 * do: `npm install`
 
 ### Run
