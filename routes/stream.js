@@ -540,7 +540,7 @@ exports.keys = function(req, res, next) {
       deleteKey: self.keychain.deleteKey(stream.id)
     };
 
-    res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + ( ext ? ext : 'json' ));
+    res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + (ext ? ext : 'json'));
     res.format({
       json: function() {
         res.json(keys);
