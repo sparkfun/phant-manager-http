@@ -478,6 +478,58 @@ exports.update = function(req, res, next) {
 
 };
 
+exports.keys = function(req, res, next) {
+
+  var self = this,
+    pub = req.param('publicKey'),
+    prv = req.param('privateKey'),
+    ext = req.param('ext'),
+    error = Err.bind(this, next),
+    id;
+
+  // check for public key
+  if (!pub) {
+    return error(404, 'Stream not found.');
+  }
+
+  // check for private key
+  if (!prv) {
+    return error(403, 'Forbidden: missing private key');
+  }
+
+  // validate keys
+  if (!this.keychain.validate(pub, prv)) {
+    return error(401, 'Forbidden: invalid key');
+  }
+
+  // optional response type - unknown ext default to json, could be better
+  if (ext) {
+    res.type(ext);
+  }
+
+  id = this.keychain.getIdFromPrivateKey(prv);
+
+  this.metadata.get(id, function(err, stream) {
+    var prefix = req.protocol + '://' + req.get('host');
+    var keys = {
+      title: stream.title,
+      outputUrl: prefix + '/output/' + pub,
+      inputUrl: prefix + '/input/' + pub,
+      manageUrl: prefix + '/streams/' + pub,
+      publicKey: pub,
+      privateKey: prv,
+      deleteKey: self.keychain.deleteKey(stream.id)
+    };
+
+    res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + ( ext ? ext : 'json' ));
+    res.format({
+      json: function() {
+        res.json(keys);
+      }
+    });
+  });
+};
+
 exports.notify = function(req, res, next) {
 
   var self = this,

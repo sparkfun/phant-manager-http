@@ -197,6 +197,8 @@ app.expressInit = function() {
   exp.get('/streams/:publicKey/delete/:deleteKey', stream.remove.bind(this));
   exp.get('/streams/:publicKey/edit/:privateKey.:ext', stream.edit.bind(this));
   exp.get('/streams/:publicKey/edit/:privateKey', stream.edit.bind(this));
+  exp.get('/streams/:publicKey/keys/:privateKey.:ext', stream.keys.bind(this));
+  exp.get('/streams/:publicKey/keys/:privateKey', stream.keys.bind(this));
   exp.get('/streams/:publicKey.:ext', stream.view.bind(this));
   exp.get('/streams/:publicKey', stream.view.bind(this));
   exp.get('/streams.:ext', stream.list.bind(this));
