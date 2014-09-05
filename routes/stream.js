@@ -1,16 +1,9 @@
 var util = require('util');
 
-exports.make = function(req, res) {
-  res.render('streams/make', {
-    title: 'New Stream',
-    post: req.body
-  });
-};
-
 exports.aliasExists = function(req, res, next) {
 
   var alias = req.param('alias'),
-    pub = req.param('publicKey'),
+    pub = req.param('pub'),
     id = pub ? this.keychain.getIdFromPublicKey(pub) : null;
 
   this.validator.aliasExists(alias, id, function(err, exists) {
@@ -22,6 +15,13 @@ exports.aliasExists = function(req, res, next) {
 
   });
 
+};
+
+exports.make = function(req, res) {
+  res.render('streams/form', {
+    title: 'New Stream',
+    post: req.body
+  });
 };
 
 exports.edit = function(req, res, next) {
@@ -79,7 +79,8 @@ exports.edit = function(req, res, next) {
 
     }
 
-    res.render('streams/edit', {
+    res.render('streams/form', {
+      edit: true,
       title: 'Edit Stream',
       publicKey: pub,
       privateKey: prv,
@@ -356,8 +357,6 @@ exports.create = function(req, res, next) {
   stream.hidden = (req.param('hidden') === '1' ? true : false);
 
   this.validator.create(stream, function(err) {
-
-    console.log(err);
 
     if (err) {
       return passMessage(400, 'Creating stream failed - ' + err, '/streams/make');

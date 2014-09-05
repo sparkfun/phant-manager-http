@@ -1,7 +1,8 @@
 (function($) {
 
   var el,
-      alias_timer;
+      alias_timer,
+      editing;
 
   var form = {
     selectLocation: function(e, result) {
@@ -49,7 +50,13 @@
 
       alias_timer = setTimeout(function(e) {
 
-        $.get('/streams/check_alias', { alias: val }, function(data) {
+        var data = { alias: val };
+
+        if(editing) {
+          data.pub = el.data('public');
+        }
+
+        $.get('/streams/check_alias', data, function(data) {
 
           if(data.exists) {
             group.addClass('has-error');
@@ -64,12 +71,63 @@
 
       }, 350);
 
+    },
+    edit: function() {
+
+      el.find('input[name=fields]').closest('.form-group').click(function(e) {
+        $('#field_warning').show();
+      });
+
+      el.submit(this.checkForChangedFields);
+
+    },
+    checkForChangedFields: function(e) {
+
+      var pub = $(this).data('public'),
+          prv = $(this).data('private'),
+          f = this;
+
+      e.preventDefault();
+
+      if(el.find('input[name=fields]').val().trim() === el.find('input[name=field_check]').val().trim()) {
+        f.submit();
+        return;
+      }
+
+      bootbox.confirm(
+        'You have changed the field definitions, and must clear your stream data to save the new definition. Are you sure you want to continue?',
+        form.clearStream.bind(this, pub, prv, f)
+      );
+
+    },
+    clearStream: function(pub, prv, f, result) {
+
+      if(!result) {
+        return;
+      }
+
+      $.ajax({
+        url: '/input/' + pub + '/clear.json',
+        type: 'POST',
+        headers: {
+          'Phant-Private-Key': prv
+        },
+        success: function(response) {
+          f.submit();
+        }
+      });
+
     }
   };
 
   $.fn.streamForm = function() {
 
     el = $(this);
+    editing = (el.data('public') ? true : false);
+
+    if(editing) {
+      form.edit();
+    }
 
     el.on('keyup', 'input[name=alias]', form.checkAlias);
 
