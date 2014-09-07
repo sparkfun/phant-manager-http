@@ -448,7 +448,7 @@ exports.update = function(req, res, next) {
   if (req.param('fields') && req.param('fields').trim()) {
 
     // clear stream if fields change
-    if (req.param('fields').trim() !== req.param('field_check').trim()) {
+    if (req.param('fields').trim() !== req.param('field_check', '').trim()) {
       self.emit('clear', id);
     }
 
@@ -473,10 +473,12 @@ exports.update = function(req, res, next) {
     };
   }
 
+  console.log("DPJ:1.5")
   stream.title = req.param('title');
   stream.description = req.param('description');
   stream.hidden = (req.param('hidden') === '1' ? true : false);
 
+  console.log("DPJ:1.6")
   this.validator.update(id, stream, function(err) {
 
     if (err) {
