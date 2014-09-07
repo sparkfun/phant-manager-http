@@ -473,12 +473,10 @@ exports.update = function(req, res, next) {
     };
   }
 
-  console.log("DPJ:1.5")
   stream.title = req.param('title');
   stream.description = req.param('description');
   stream.hidden = (req.param('hidden') === '1' ? true : false);
 
-  console.log("DPJ:1.6")
   this.validator.update(id, stream, function(err) {
 
     if (err) {
