@@ -448,7 +448,7 @@ exports.update = function(req, res, next) {
   if (req.param('fields') && req.param('fields').trim()) {
 
     // clear stream if fields change
-    if (req.param('fields').trim() !== req.param('field_check').trim()) {
+    if (req.param('fields').trim() !== req.param('field_check', '').trim()) {
       self.emit('clear', id);
     }
 
@@ -540,7 +540,7 @@ exports.keys = function(req, res, next) {
       deleteKey: self.keychain.deleteKey(stream.id)
     };
 
-    res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + ( ext ? ext : 'json' ));
+    res.setHeader('Content-Disposition', 'attachment; filename=keys_' + pub + '.' + (ext ? ext : 'json'));
     res.format({
       json: function() {
         res.json(keys);
