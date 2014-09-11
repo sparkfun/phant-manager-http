@@ -127,9 +127,6 @@ exports.list = function(req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
-      delete stream.flagged;
-      delete stream.id;
-      delete stream._id;
       return stream;
     });
 
@@ -147,6 +144,9 @@ exports.list = function(req, res, next) {
           success: true,
           streams: streams.map(function(stream) {
             stream = util._extend({}, stream);
+            delete stream.flagged;
+            delete stream.id;
+            delete stream._id;
             delete stream.location;
             return stream;
           })
@@ -184,9 +184,6 @@ exports.tag = function(req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
-      delete stream.flagged;
-      delete stream.id;
-      delete stream._id;
       return stream;
     });
 
@@ -204,6 +201,9 @@ exports.tag = function(req, res, next) {
           success: true,
           streams: streams.map(function(stream) {
             stream = util._extend({}, stream);
+            delete stream.flagged;
+            delete stream.id;
+            delete stream._id;
             delete stream.location;
             return stream;
           })
@@ -683,9 +683,6 @@ function listLocation(type, req, res, next) {
     streams = streams.map(function(stream) {
       stream = util._extend({}, stream);
       stream.publicKey = self.keychain.publicKey(stream.id);
-      delete stream.flagged;
-      delete stream.id;
-      delete stream._id;
       return stream;
     });
 
@@ -703,6 +700,9 @@ function listLocation(type, req, res, next) {
           success: true,
           streams: streams.map(function(stream) {
             stream = util._extend({}, stream);
+            delete stream.flagged;
+            delete stream.id;
+            delete stream._id;
             delete stream.location;
             return stream;
           })
