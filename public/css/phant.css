@@ -5114,7 +5114,7 @@ div.stream-metadata div.controls {
   }
 }
 @media (min-width: 768px) {
-  div.stream-metadata div.controls div {
+  div.stream-metadata div.controls a {
     float: right !important;
   }
 }
@@ -5238,6 +5238,9 @@ textarea.bootstrap-tagsinput {
 }
 .has-feedback.has-error .taken {
   display: block;
+}
+.edit-container {
+  display: none;
 }
 nav.desktop-nav {
   position: relative;

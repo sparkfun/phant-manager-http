@@ -15984,14 +15984,20 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
         $('#field_warning').show();
       });
 
+      $('#edit_stream').on('click', function(e) {
+        e.preventDefault();
+        $('.manage-controls').hide();
+        $('.edit-container').show();
+      });
+      $('#clear_stream').on('click', form.clearPrompt);
+      $('#delete_stream').on('click', form.deletePrompt);
+
       el.submit(this.checkForChangedFields);
 
     },
     checkForChangedFields: function(e) {
 
-      var pub = $(this).data('public'),
-          prv = $(this).data('private'),
-          f = this;
+      var f = this;
 
       e.preventDefault();
 
@@ -16000,30 +16006,69 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
         return;
       }
 
-      bootbox.confirm(
-        'You have changed the field definitions, and must clear your stream data to save the new definition. Are you sure you want to continue?',
-        form.clearStream.bind(this, pub, prv, f)
-      );
+      var cb = form.clearStream.bind(this, function(response) {
+        f.submit();
+      });
+
+      bootbox.confirm('You have changed the field definitions, and must clear your stream data to save the new definition. Are you sure you want to continue?', cb);
 
     },
-    clearStream: function(pub, prv, f, result) {
+
+    clearPrompt: function(e) {
+
+      e.preventDefault();
+
+      var button = $(this);
+
+      var cb = form.clearStream.bind(this, function(response) {
+
+        if(!response.success) {
+          button.html('Failed.');
+        }
+
+        window.location = '/streams/' + el.data('public');
+
+      });
+
+      bootbox.confirm('Are you sure you want to clear all data from this stream?', cb);
+
+    },
+
+    deletePrompt: function(e) {
+
+      e.preventDefault();
+
+      var cb = function(cb, result) {
+
+        if(!result) {
+          return;
+        }
+
+        window.location = '/streams/' + el.data('public') + '/delete/' + result;
+
+      };
+
+      bootbox.prompt('Please enter your delete key to delete this stream.', cb);
+
+    },
+
+    clearStream: function(cb, result) {
 
       if(!result) {
         return;
       }
 
       $.ajax({
-        url: '/input/' + pub + '/clear.json',
+        url: '/input/' + el.data('public') + '/clear.json',
         type: 'POST',
         headers: {
-          'Phant-Private-Key': prv
+          'Phant-Private-Key': el.data('private')
         },
-        success: function(response) {
-          f.submit();
-        }
+        success: cb
       });
 
     }
+
   };
 
   $.fn.streamForm = function() {

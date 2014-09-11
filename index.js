@@ -12,7 +12,7 @@ var express = require('express'),
   util = require('util'),
   url = require('url'),
   events = require('events'),
-  favicon = require('static-favicon'),
+  favicon = require('serve-favicon'),
   bodyParser = require('body-parser'),
   exphbs = require('express-handlebars');
 
