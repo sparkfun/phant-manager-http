@@ -105,11 +105,7 @@ exports.clear = function(req, res) {
 
 exports.list = function(req, res, next) {
 
-  var self = this,
-    per_page = parseInt(req.param('per_page')) || 20,
-    page = parseInt(req.param('page')) || 1,
-    error = Err.bind(this, next),
-    query = {
+  var query = {
       hidden: false,
       flagged: false
     },
@@ -118,53 +114,13 @@ exports.list = function(req, res, next) {
       direction: 'desc'
     };
 
-  this.metadata.list(function(err, streams) {
-
-    if (err) {
-      return error(500, 'Loading the stream list failed.');
-    }
-
-    streams = streams.map(function(stream) {
-      var s = util._extend({}, stream);
-      s.publicKey = self.keychain.publicKey(stream.id);
-      return s;
-    });
-
-    res.format({
-      html: function() {
-        res.render('streams/list', {
-          title: 'Public Streams',
-          streams: streams,
-          page: page,
-          per_page: per_page
-        });
-      },
-      json: function() {
-        res.json({
-          success: true,
-          streams: streams.map(function(stream) {
-            stream = util._extend({}, stream);
-            delete stream.flagged;
-            delete stream.id;
-            delete stream._id;
-            delete stream.location;
-            return stream;
-          })
-        });
-      }
-    });
-
-  }, query, per_page * (page - 1), per_page, sort);
+  list.call(this, query, sort, 'Public Streams', req, res, next);
 
 };
 
 exports.tag = function(req, res, next) {
 
-  var self = this,
-    page = parseInt(req.param('page')) || 1,
-    per_page = parseInt(req.param('per_page')) || 20,
-    tag = req.param('tag'),
-    error = Err.bind(this, next),
+  var tag = req.param('tag'),
     query = {
       hidden: false,
       flagged: false,
@@ -175,56 +131,62 @@ exports.tag = function(req, res, next) {
       direction: 'desc'
     };
 
-  this.metadata.list(function(err, streams) {
-
-    if (err) {
-      return error(500, 'Loading the stream list failed.');
-    }
-
-    streams = streams.map(function(stream) {
-      var s = util._extend({}, stream);
-      s.publicKey = self.keychain.publicKey(stream.id);
-      return s;
-    });
-
-    res.format({
-      html: function() {
-        res.render('streams/list', {
-          title: 'Streams Tagged: ' + tag,
-          streams: streams,
-          page: page,
-          per_page: per_page
-        });
-      },
-      json: function() {
-        res.json({
-          success: true,
-          streams: streams.map(function(stream) {
-            stream = util._extend({}, stream);
-            delete stream.flagged;
-            delete stream.id;
-            delete stream._id;
-            delete stream.location;
-            return stream;
-          })
-        });
-      }
-    });
-
-  }, query, per_page * (page - 1), per_page, sort);
+  list.call(this, query, sort, 'Streams Tagged:' + tag, req, res, next);
 
 };
 
 exports.city = function(req, res, next) {
-  listLocation.call(this, 'city', req, res, next);
+
+  var city = req.param('city'),
+    query = {
+      hidden: false,
+      flagged: false,
+      'location.city': city
+    },
+    sort = {
+      property: 'last_push',
+      direction: 'desc'
+    };
+
+
+  list.call(this, query, sort, 'Streams Located In: ' + city, req, res, next);
+
 };
 
 exports.state = function(req, res, next) {
-  listLocation.call(this, 'state', req, res, next);
+
+  var state = req.param('state'),
+    query = {
+      hidden: false,
+      flagged: false,
+      'location.state': state
+    },
+    sort = {
+      property: 'last_push',
+      direction: 'desc'
+    };
+
+
+  list.call(this, query, sort, 'Streams Located In: ' + state, req, res, next);
+
 };
 
 exports.country = function(req, res, next) {
-  listLocation.call(this, 'country', req, res, next);
+
+  var country = req.param('country'),
+    query = {
+      hidden: false,
+      flagged: false,
+      'location.country': country
+    },
+    sort = {
+      property: 'last_push',
+      direction: 'desc'
+    };
+
+
+  list.call(this, query, sort, 'Streams Located In: ' + country, req, res, next);
+
 };
 
 exports.view = function(req, res, next) {
@@ -656,23 +618,12 @@ exports.remove = function(req, res, next) {
 
 };
 
-function listLocation(type, req, res, next) {
+function list(query, sort, title, req, res, next) {
 
   var self = this,
     page = parseInt(req.param('page')) || 1,
     per_page = parseInt(req.param('per_page')) || 20,
-    tag = req.param(type),
-    error = Err.bind(this, next),
-    query = {
-      hidden: false,
-      flagged: false
-    },
-    sort = {
-      property: 'last_push',
-      direction: 'desc'
-    };
-
-  query['location.' + type] = tag;
+    error = Err.bind(this, next);
 
   this.metadata.list(function(err, streams) {
 
@@ -681,15 +632,21 @@ function listLocation(type, req, res, next) {
     }
 
     streams = streams.map(function(stream) {
+
+      if (stream.toObject) {
+        stream = stream.toObject();
+      }
+
       var s = util._extend({}, stream);
       s.publicKey = self.keychain.publicKey(stream.id);
       return s;
+
     });
 
     res.format({
       html: function() {
         res.render('streams/list', {
-          title: 'Streams Located In: ' + tag,
+          title: title,
           streams: streams,
           page: page,
           per_page: per_page
@@ -699,7 +656,6 @@ function listLocation(type, req, res, next) {
         res.json({
           success: true,
           streams: streams.map(function(stream) {
-            stream = util._extend({}, stream);
             delete stream.flagged;
             delete stream.id;
             delete stream._id;
