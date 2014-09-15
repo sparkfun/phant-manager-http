@@ -63,8 +63,8 @@ exports.edit = function(req, res, next) {
         title: stream.title,
         description: stream.description,
         hidden: stream.hidden,
-        fields: stream.fields.join(', '),
-        tags: stream.tags.join(', '),
+        fields: stream.fields.join(','),
+        tags: stream.tags.join(','),
         alias: stream.alias
       };
 
