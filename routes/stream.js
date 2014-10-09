@@ -631,6 +631,10 @@ function list(query, sort, title, req, res, next) {
       return error(500, 'Loading the stream list failed.');
     }
 
+    if (!streams) {
+      streams = [];
+    }
+
     streams = streams.map(function(stream) {
 
       if (stream.toObject) {
