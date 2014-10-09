@@ -132,7 +132,7 @@
 
       e.preventDefault();
 
-      var cb = function(cb, result) {
+      var cb = function(result) {
 
         if(!result) {
           return;
@@ -146,7 +146,7 @@
 
     },
 
-    clearStream: function(cb, result) {
+    clearStream: function(result) {
 
       if(!result) {
         return;
