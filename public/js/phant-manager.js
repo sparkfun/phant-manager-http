@@ -16038,7 +16038,7 @@ var __module0__ = (function(__dependency1__, __dependency2__, __dependency3__, _
 
       e.preventDefault();
 
-      var cb = function(cb, result) {
+      var cb = function(result) {
 
         if(!result) {
           return;

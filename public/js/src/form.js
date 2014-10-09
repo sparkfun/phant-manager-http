@@ -146,7 +146,7 @@
 
     },
 
-    clearStream: function(result) {
+    clearStream: function(cb, result) {
 
       if(!result) {
         return;
